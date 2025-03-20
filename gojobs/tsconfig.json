@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+, "utils/index.js", "app/LoginScreen.jsx", "app/candidat/(tabs)/home.jsx", "app/forgot-password.j", "app/candidat/(tabs)/publish.jsx", "components/Title.jsx", "app/index.jsx", "components/CategoriesPub.jssx", "components/Photos.jsx", "components/Description.jsx", "components/WorkingRightsExperience.jsx", "components/YourDetails.jsx", "components/ContractType.jsx", "components/Accomodation.jsx", "components/ContactOptions.jsx", "components/ContractSection.jsx", "components/NotationSection.jsx", "app/JobDetails.jsx"  ]
+}
