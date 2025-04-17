@@ -1,0 +1,423 @@
+Guide d'utilisation des URLs de l'API Django
+Voici un guide complet pour utiliser les différentes routes de votre API Django. Pour chaque route, je décris son URL, sa méthode HTTP, les paramètres nécessaires et une explication de son usage.
+🔐 Authentification
+Inscription (Register)
+URL: /api/auth/register/
+Méthode: POST
+Paramètres:
+  - email: adresse email (obligatoire)
+  - password: mot de passe (obligatoire)
+  - first_name: prénom (obligatoire)
+  - last_name: nom (obligatoire)
+  - role: rôle de l'utilisateur ('employer', 'candidate' ou 'admin') (obligatoire)
+Crée un nouvel utilisateur et retourne un token d'authentification.
+Connexion (Login)
+URL: /api/auth/login/
+Méthode: POST
+Paramètres:
+  - email: adresse email (obligatoire)
+  - password: mot de passe (obligatoire)
+Authentifie un utilisateur et retourne un token d'accès et un token de rafraîchissement.
+Déconnexion (Logout)
+URL: /api/auth/logout/
+Méthode: POST
+Paramètres:
+  - refresh: token de rafraîchissement (obligatoire)
+Headers:
+  - Authorization: Bearer {access_token}
+Déconnecte l'utilisateur en invalidant son token de rafraîchissement.
+Rafraîchir Token (Refresh Token)
+URL: /api/auth/refresh/
+Méthode: POST
+Paramètres:
+  - refresh: token de rafraîchissement (obligatoire)
+Génère un nouveau token d'accès à partir du token de rafraîchissement.
+👤 Utilisateurs (Users)
+Profil utilisateur
+URL: /api/users/profile/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les informations du profil de l'utilisateur connecté.
+Mise à jour du profil
+URL: /api/users/profile/
+Méthode: PUT
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres: (tous optionnels)
+  - first_name: prénom
+  - last_name: nom
+  - phone: téléphone
+  - profile_image: image de profil (fichier)
+  - bio: biographie
+Met à jour les informations de base du profil utilisateur.
+Mise à jour des détails du profil
+URL: /api/users/profile/details/
+Méthode: PUT
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres: (selon le type d'utilisateur)
+  Candidat:
+    - address: adresse
+    - city: ville
+    - is_handicapped: situation de handicap (boolean)
+    - has_driving_license: possession permis de conduire (boolean)
+    - has_vehicle: possession véhicule (boolean)
+    - skills: compétences (JSON)
+    - experience: expérience (JSON)
+    - education: formation (JSON)
+    - languages: langues (JSON)
+    - job_preferences: préférences d'emploi (JSON)
+  Employeur:
+    - company_name: nom de l'entreprise
+    - company_description: description de l'entreprise
+    - company_website: site web de l'entreprise
+    - company_size: taille de l'entreprise
+    - company_industry: secteur d'activité
+Met à jour les détails spécifiques du profil selon le rôle de l'utilisateur.
+💼 Offres d'emploi (Jobs)
+Liste des offres d'emploi
+URL: /api/jobs/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres optionnels (query string):
+  - ordering: champ pour le tri (ex: -created_at, salary_amount)
+  - search: recherche textuelle
+  - status: filtre par statut
+  - category: filtre par catégorie
+Récupère la liste des offres d'emploi avec possibilité de filtrage.
+Créer une offre d'emploi (employeur uniquement)
+URL: /api/jobs/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - title: titre de l'offre (obligatoire)
+  - description: description détaillée (obligatoire)
+  - category: catégorie (obligatoire)
+  - subcategory: sous-catégorie (optionnel)
+  - city: ville (obligatoire)
+  - address: adresse (optionnel)
+  - salary_type: type de salaire ('hourly' ou 'monthly') (obligatoire)
+  - salary_amount: montant du salaire (obligatoire)
+  - contract_type: type de contrat (obligatoire)
+  - is_entry_level: poste débutant (boolean)
+  - experience_years_required: années d'expérience requises
+  - requires_driving_license: permis de conduire requis (boolean)
+  Et autres champs selon le modèle Job
+Crée une nouvelle offre d'emploi. L'employeur est automatiquement associé à l'offre.
+Détails d'une offre d'emploi
+URL: /api/jobs/{id}/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les détails d'une offre d'emploi spécifique.
+Modifier une offre d'emploi (employeur uniquement)
+URL: /api/jobs/{id}/
+Méthode: PUT (ou PATCH pour modification partielle)
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres: (mêmes que pour la création, tous optionnels)
+Met à jour une offre d'emploi existante.
+Supprimer une offre d'emploi (employeur uniquement)
+URL: /api/jobs/{id}/
+Méthode: DELETE
+Headers:
+  - Authorization: Bearer {access_token}
+Supprime une offre d'emploi.
+Offres recommandées (candidat uniquement)
+URL: /api/jobs/recommended/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les offres d'emploi recommandées pour le candidat en fonction de son profil.
+Recherche d'offres d'emploi
+URL: /api/jobs/search/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres (query string):
+  - q: terme de recherche
+  - category: filtre par catégorie
+  - city: filtre par ville
+  - contract_type: filtre par type de contrat
+Recherche des offres d'emploi avec des filtres spécifiques.
+📝 Candidatures (Applications)
+Liste des candidatures
+URL: /api/applications/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Pour les candidats: liste de leurs candidatures
+Pour les employeurs: liste des candidatures reçues pour leurs offres
+Créer une candidature (candidat uniquement)
+URL: /api/applications/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - job_id: ID de l'offre d'emploi (obligatoire)
+  - cv_url: CV (fichier, optionnel)
+  - motivation_letter_url: lettre de motivation (fichier, optionnel)
+  - custom_answers: réponses personnalisées (JSON, optionnel)
+Soumet une candidature pour une offre d'emploi.
+Détails d'une candidature
+URL: /api/applications/{id}/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les détails d'une candidature spécifique.
+Modifier le statut d'une candidature (employeur uniquement)
+URL: /api/applications/{id}/status/
+Méthode: PUT
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - status: nouveau statut ('pending', 'accepted', 'rejected', 'on_hold') (obligatoire)
+Met à jour le statut d'une candidature.
+Supprimer une candidature
+URL: /api/applications/{id}/
+Méthode: DELETE
+Headers:
+  - Authorization: Bearer {access_token}
+Supprime une candidature.
+💬 Messages
+Liste des messages
+URL: /api/messages/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère tous les messages envoyés et reçus par l'utilisateur.
+Envoyer un message
+URL: /api/messages/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - receiver_id: ID du destinataire (obligatoire)
+  - content: contenu du message (obligatoire)
+  - job_id: ID de l'offre d'emploi associée (optionnel)
+Envoie un message à un autre utilisateur.
+Conversations
+URL: /api/messages/conversations/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère la liste des conversations de l'utilisateur avec le dernier message pour chacune.
+Détails d'un message
+URL: /api/messages/{id}/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les détails d'un message spécifique.
+💰 Abonnements (Subscriptions)
+Liste des abonnements
+URL: /api/subscriptions/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère l'abonnement actuel de l'utilisateur.
+Créer un abonnement
+URL: /api/subscriptions/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - plan_type: type d'abonnement ('basic_pro', 'standard_pro', 'premium_pro', 'apply_ai', 'apply_ai_pro') (obligatoire)
+  - amount: montant (obligatoire)
+  - billing_cycle: cycle de facturation ('weekly', 'monthly') (obligatoire)
+  - auto_renew: renouvellement automatique (boolean)
+Crée un nouvel abonnement pour l'utilisateur.
+Détails d'un abonnement
+URL: /api/subscriptions/{id}/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les détails d'un abonnement spécifique.
+Modifier un abonnement
+URL: /api/subscriptions/{id}/
+Méthode: PUT
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres: (tous optionnels)
+  - plan_type: type d'abonnement
+  - billing_cycle: cycle de facturation
+  - auto_renew: renouvellement automatique
+Met à jour les informations d'un abonnement.
+Supprimer un abonnement
+URL: /api/subscriptions/{id}/
+Méthode: DELETE
+Headers:
+  - Authorization: Bearer {access_token}
+Supprime un abonnement (annulation).
+💸 Paiements (Payments)
+Traiter un paiement
+URL: /api/payments/process/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - amount: montant (obligatoire)
+  - payment_method: méthode de paiement (obligatoire)
+  - subscription_id: ID de l'abonnement associé (optionnel)
+Traite un nouveau paiement.
+Historique des paiements
+URL: /api/payments/history/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère l'historique des paiements de l'utilisateur.
+⚡ Emplois flash (Flash Jobs)
+Liste des emplois flash
+URL: /api/flash-jobs/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère la liste des emplois flash disponibles.
+Créer un emploi flash (employeur uniquement)
+URL: /api/flash-jobs/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - job_id: ID de l'offre d'emploi associée (obligatoire)
+  - start_time: date et heure de début (obligatoire)
+  - confirmation_required: confirmation requise (boolean)
+Crée un nouvel emploi flash lié à une offre existante.
+Détails d'un emploi flash
+URL: /api/flash-jobs/{id}/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les détails d'un emploi flash spécifique.
+Postuler à un emploi flash (candidat uniquement)
+URL: /api/flash-jobs/{id}/apply/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - cv_url: CV (fichier, optionnel)
+  - motivation_letter_url: lettre de motivation (fichier, optionnel)
+  - custom_answers: réponses personnalisées (JSON, optionnel)
+Soumet une candidature pour un emploi flash.
+⭐ Favoris (Favorites)
+Liste des favoris
+URL: /api/favorites/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère la liste des offres d'emploi favorites de l'utilisateur.
+Ajouter/Retirer un favori
+URL: /api/favorites/toggle/{job_id}/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Ajoute l'offre aux favoris si elle n'y est pas, ou la retire si elle y est déjà.
+🔔 Notifications
+Liste des notifications
+URL: /api/notifications/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère la liste des notifications de l'utilisateur.
+Marquer une notification comme lue
+URL: /api/notifications/{id}/read/
+Méthode: PUT
+Headers:
+  - Authorization: Bearer {access_token}
+Marque une notification spécifique comme lue.
+Marquer toutes les notifications comme lues
+URL: /api/notifications/read-all/
+Méthode: PUT
+Headers:
+  - Authorization: Bearer {access_token}
+Marque toutes les notifications de l'utilisateur comme lues.
+📊 Statistiques (Statistics)
+Statistiques d'une offre d'emploi (employeur uniquement)
+URL: /api/statistics/job/{job_id}/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les statistiques d'une offre d'emploi spécifique.
+Tableau de bord des statistiques (employeur uniquement)
+URL: /api/statistics/dashboard/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les statistiques globales pour le tableau de bord de l'employeur.
+📑 Contrats (Contracts)
+Liste des contrats
+URL: /api/contracts/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère la liste des contrats de l'utilisateur.
+Créer un contrat (employeur uniquement)
+URL: /api/contracts/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - job_id: ID de l'offre d'emploi (obligatoire)
+  - candidate_id: ID du candidat (obligatoire)
+  - template_url: modèle de contrat (fichier, obligatoire)
+  - start_date: date de début (optionnel)
+  - end_date: date de fin (optionnel)
+  - bank_details: informations bancaires (JSON, optionnel)
+Crée un nouveau contrat.
+Détails d'un contrat
+URL: /api/contracts/{id}/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les détails d'un contrat spécifique.
+Signer un contrat (candidat uniquement)
+URL: /api/contracts/{id}/sign/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - signed_url: contrat signé (fichier, optionnel)
+Signe un contrat en tant que candidat.
+🤖 ApplyAI
+Paramètres ApplyAI (candidat uniquement)
+URL: /api/apply-ai/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les paramètres ApplyAI de l'utilisateur.
+Créer/Mettre à jour les paramètres ApplyAI (candidat uniquement)
+URL: /api/apply-ai/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Paramètres:
+  - categories: catégories d'intérêt (liste)
+  - salary_min: salaire minimum (optionnel)
+  - salary_max: salaire maximum (optionnel)
+  - excluded_companies: entreprises à exclure (liste, optionnel)
+  - filters: filtres supplémentaires (JSON, optionnel)
+  - notification_time: heure de notification (obligatoire)
+Crée ou met à jour les paramètres ApplyAI pour l'utilisateur.
+Suggestions d'emplois ApplyAI (candidat uniquement)
+URL: /api/apply-ai/suggestions/
+Méthode: GET
+Headers:
+  - Authorization: Bearer {access_token}
+Récupère les suggestions d'emplois basées sur les paramètres ApplyAI de l'utilisateur.
+Postuler automatiquement via ApplyAI (candidat uniquement)
+URL: /api/apply-ai/apply/{job_id}/
+Méthode: POST
+Headers:
+  - Authorization: Bearer {access_token}
+Postuler automatiquement à une offre d'emploi via ApplyAI.
+Notes importantes
+
+Toutes les URL commencent par la base de votre API Django (ex: http://localhost:8000/api/)
+Le token d'accès (access_token) doit être inclus dans l'en-tête Authorization pour toutes les routes authentifiées
+Pour les opérations de création/modification impliquant des fichiers, utilisez multipart/form-data comme type de contenu
+Les routes avec des restrictions de rôle renverront une erreur 403 si l'utilisateur n'a pas le rôle requis
+Les ID dans les URL doivent être remplacés par l'identifiant réel de la ressource (ex: /api/jobs/42/)
+
+Ce guide devrait vous aider à intégrer correctement l'API Django dans votre application frontend.

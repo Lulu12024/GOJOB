@@ -1,0 +1,352 @@
+INFO 2025-04-15 15:49:10,902 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 15:54:38,391 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 15:55:10,069 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 15:55:11,350 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 15:56:01,816 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 15:56:42,492 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 15:56:56,383 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-15 16:01:18,445 exception Invalid HTTP_HOST header: '10.0.2.2:8000'. You may need to add '10.0.2.2' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\http\request.py", line 186, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '10.0.2.2:8000'. You may need to add '10.0.2.2' to ALLOWED_HOSTS.
+WARNING 2025-04-15 16:01:18,653 log Bad Request: /api/auth/register
+WARNING 2025-04-15 16:01:18,654 basehttp "POST /api/auth/register HTTP/1.1" 400 19453
+INFO 2025-04-15 16:01:41,644 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:01:42,711 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-15 16:02:21,556 log Internal Server Error: /api/auth/register
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\middleware\common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 10.0.2.2:8000/api/auth/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2025-04-15 16:02:21,560 basehttp "POST /api/auth/register HTTP/1.1" 500 19965
+INFO 2025-04-15 16:03:00,953 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:03:06,523 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:03:07,635 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 16:04:22,339 log Not Found: /api/auth/register
+WARNING 2025-04-15 16:04:22,340 basehttp "POST /api/auth/register HTTP/1.1" 404 35530
+INFO 2025-04-15 16:04:40,303 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:04:41,357 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:05:01,396 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-15 16:05:02,381 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:05:04,904 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-15 16:05:05,873 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:05:08,366 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-15 16:05:09,458 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:05:16,124 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-15 16:05:17,131 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:06:09,084 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-15 16:06:10,011 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:06:11,463 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-15 16:06:12,488 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:06:44,913 basehttp "POST /api/auth/register HTTP/1.1" 201 944
+ERROR 2025-04-15 16:08:19,759 log Internal Server Error: /api/auth/login
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework_simplejwt\views.py", line 44, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 73, in validate
+    data = super().validate(attrs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 57, in validate
+    raise exceptions.AuthenticationFailed(
+    ...<2 lines>...
+    )
+rest_framework.exceptions.AuthenticationFailed: Aucun compte actif n'a été trouvé avec les identifiants fournis
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\settings.py", line 179, in import_from_string
+    return import_string(val)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\module_loading.py", line 30, in import_string
+    return cached_import(module_path, class_name)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\module_loading.py", line 15, in cached_import
+    module = import_module(module_path)
+  File "C:\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'api.utils'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    exception_handler = self.get_exception_handler()
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 304, in get_exception_handler
+    return self.settings.EXCEPTION_HANDLER
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\settings.py", line 227, in __getattr__
+    val = perform_import(val, attr)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\settings.py", line 168, in perform_import
+    return import_from_string(val, setting_name)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\settings.py", line 182, in import_from_string
+    raise ImportError(msg)
+ImportError: Could not import 'api.utils.custom_exception_handler' for API setting 'EXCEPTION_HANDLER'. ModuleNotFoundError: No module named 'api.utils'.
+ERROR 2025-04-15 16:08:19,770 basehttp "POST /api/auth/login HTTP/1.1" 500 23926
+INFO 2025-04-15 16:10:10,873 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:10:14,516 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 16:10:42,806 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:10:42,819 basehttp "POST /api/auth/login HTTP/1.1" 401 79
+INFO 2025-04-15 16:16:17,583 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:16:18,631 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:16:27,553 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:16:28,522 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:16:34,147 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:16:35,108 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:16:44,665 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:16:45,805 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:16:50,442 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-15 16:16:51,631 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:17:18,106 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:17:19,093 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:17:21,556 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:17:22,589 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 16:17:40,822 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:17:40,824 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:18:09,852 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:18:09,853 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+INFO 2025-04-15 16:22:12,839 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:22:15,629 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:22:26,475 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:22:27,648 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:23:31,103 basehttp "POST /api/auth/register HTTP/1.1" 201 971
+INFO 2025-04-15 16:23:46,740 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 301 0
+INFO 2025-04-15 16:23:46,877 basehttp "GET /api/flash-jobs/?page=1&per_page=20 HTTP/1.1" 200 52
+ERROR 2025-04-15 16:27:08,487 log Internal Server Error: /api/jobs
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\deprecation.py", line 122, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\middleware\common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 10.0.2.2:8000/api/jobs/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2025-04-15 16:27:08,492 basehttp "POST /api/jobs HTTP/1.1" 500 20253
+WARNING 2025-04-15 16:27:32,636 log Not Found: /api/logout
+WARNING 2025-04-15 16:27:32,639 basehttp "POST /api/logout HTTP/1.1" 404 35495
+INFO 2025-04-15 16:28:23,460 basehttp "POST /api/auth/register HTTP/1.1" 201 972
+INFO 2025-04-15 16:28:33,962 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 301 0
+INFO 2025-04-15 16:28:34,133 basehttp "GET /api/flash-jobs/?page=1&per_page=20 HTTP/1.1" 200 52
+WARNING 2025-04-15 16:29:26,370 log Not Found: /api/logout
+WARNING 2025-04-15 16:29:26,372 basehttp "POST /api/logout HTTP/1.1" 404 35495
+WARNING 2025-04-15 16:29:45,939 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:29:45,940 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:30:05,844 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:30:05,845 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:31:31,667 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:31:31,668 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:31:38,991 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:31:38,992 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:31:45,785 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:31:45,786 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+INFO 2025-04-15 16:32:33,548 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:32:34,558 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:32:37,028 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:32:37,944 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:36:24,542 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:36:26,988 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:39:39,789 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:39:40,623 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:39:46,003 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:39:47,306 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:40:37,227 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:40:38,219 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:40:57,644 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:41:58,636 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 16:43:04,956 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:43:04,956 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:43:12,890 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:43:12,891 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+INFO 2025-04-15 16:44:56,228 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:44:57,256 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 16:45:00,035 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:45:00,035 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:45:03,916 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:45:03,917 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:45:26,940 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:45:26,940 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:45:40,995 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:45:40,995 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+WARNING 2025-04-15 16:46:21,492 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:46:21,493 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+INFO 2025-04-15 16:46:58,287 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:46:59,257 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 16:47:02,813 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:47:02,814 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+INFO 2025-04-15 16:47:29,769 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:47:30,739 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:47:39,396 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-15 16:47:40,507 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 16:48:10,691 log Unauthorized: /api/auth/login
+WARNING 2025-04-15 16:48:10,692 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+INFO 2025-04-15 16:48:27,654 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:48:28,717 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:48:30,313 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:48:32,225 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:49:05,827 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:49:06,939 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:55:06,488 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:55:11,450 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:55:13,264 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:55:14,465 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:55:17,129 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:55:18,825 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:55:21,889 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:55:23,375 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:55:25,996 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:55:27,086 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-15 16:57:11,049 log Internal Server Error: /api/auth/register
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 34, in register_user
+    user = serializer.save()
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py", line 25, in create
+    print("Le mot de passeest"+ password)
+          ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+TypeError: can only concatenate str (not "NoneType") to str
+ERROR 2025-04-15 16:57:11,077 basehttp "POST /api/auth/register HTTP/1.1" 500 21465
+INFO 2025-04-15 16:57:29,543 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:57:30,742 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:57:32,193 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:57:33,377 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:58:38,077 basehttp "POST /api/auth/register HTTP/1.1" 201 972
+INFO 2025-04-15 16:59:14,506 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 16:59:15,480 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 16:59:58,173 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 16:59:59,093 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 17:00:06,753 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 17:00:07,803 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 17:00:11,436 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-15 17:00:12,467 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 17:01:34,566 log Not Found: /api/logout
+WARNING 2025-04-15 17:01:34,567 basehttp "POST /api/logout HTTP/1.1" 404 35495
+INFO 2025-04-15 17:02:46,190 basehttp "POST /api/auth/register HTTP/1.1" 201 972
+INFO 2025-04-15 17:05:32,029 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 17:05:33,082 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 17:05:34,491 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 17:05:35,510 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-15 17:06:04,204 log Not Found: /api/logout
+WARNING 2025-04-15 17:06:04,209 basehttp "POST /api/logout HTTP/1.1" 404 35495
+ERROR 2025-04-15 17:06:35,201 log Internal Server Error: /api/auth/register
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 32, in register_user
+    if serializer.is_valid():
+       ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 444, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 497, in to_internal_value
+    for field in fields:
+                 ^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 380, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ~~~~~~~~~~~~~~~^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ~~~~~~~~~~~~~~~~^
+        source, info, model, depth
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+    ...<2 lines>...
+    )
+django.core.exceptions.ImproperlyConfigured: Field name `passwordfirst_name` is not valid for model `User` in `api.serializers.UserSerializer`.
+ERROR 2025-04-15 17:06:35,218 basehttp "POST /api/auth/register HTTP/1.1" 500 23186
+INFO 2025-04-15 17:06:48,872 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-15 17:06:51,591 autoreload Watching for file changes with StatReloader

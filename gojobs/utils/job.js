@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import { apiUrl } from ".";
-// import { Platform } from 'react-native';
+import { Platform } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { setOffers } from "@/store/slices/appSlice";
 import { logout, logoutUser } from "@/store/slices/userSlice";
@@ -16,7 +16,7 @@ export const createJob = async (jobData, token, dispatch) => {
             if (file.uri && file.name && file.type) {
               // Si l'image est déjà un objet formaté
               formData.append(`${key}[]`, {
-                // uri: Platform.OS === 'ios' ? file.uri.replace('file://', '') : file.uri,
+                uri: Platform.OS === 'ios' ? file.uri.replace('file://', '') : file.uri,
                 name: file.name,
                 type: file.type
               });
@@ -27,7 +27,7 @@ export const createJob = async (jobData, token, dispatch) => {
               const type = match ? `image/${match[1]}` : 'image/jpeg';
 
               formData.append(`${key}[]`, {
-                // uri: Platform.OS === 'ios' ? file.replace('file://', '') : file,
+                uri: Platform.OS === 'ios' ? file.replace('file://', '') : file,
                 name: filename,
                 type
               });
