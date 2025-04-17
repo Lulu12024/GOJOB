@@ -24,13 +24,26 @@ from django.contrib.auth import authenticate
 
 User = get_user_model()
 
+def api_response(data, message=None, status_code=200):
+    """
+    Formate la réponse API selon le format attendu par le frontend React Native.
+    """
+    response = {
+        "status": "success" if status_code < 400 else "error",
+        "data": data
+    }
+    
+    if message:
+        response["message"] = message
+    
+    return Response(response, status=status_code)
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
     serializer = UserSerializer(data=request.data)
     
     if serializer.is_valid():
-        print(serializer)
         # Créer l'utilisateur
         user = serializer.save()
         
@@ -38,23 +51,17 @@ def register_user(request):
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
         
-        # Construire la réponse attendue par votre front-end
+        # Construire la réponse standardisée attendue par le frontend
         response_data = {
-            "status": "success",
-            "data": {
-                "token": access_token,
-                "user": serializer.data,
-                "refresh": str(refresh)  # Optionnel, selon si vous en avez besoin côté client
-            }
+            "token": access_token,
+            "user": serializer.data,
+            "refresh": str(refresh)
         }
         
-        return Response(response_data, status=status.HTTP_201_CREATED)
+        return api_response(response_data, "Compte créé avec succès", status_code=201)
     
     # En cas d'erreur de validation
-    return Response(
-        {"status": "error", "message": serializer.errors}, 
-        status=status.HTTP_400_BAD_REQUEST
-    )
+    return api_response(None, serializer.errors, status_code=400)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -63,19 +70,13 @@ def login_view(request):
     password = request.data.get('password')
 
     if not email or not password:
-        return Response(
-            {"message": "Veuillez fournir l'email et le mot de passe"}, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        return api_response(None, "Veuillez fournir l'email et le mot de passe", status_code=400)
 
     # Authentifier l'utilisateur
     user = authenticate(email=email, password=password)
 
     if not user:
-        return Response(
-            {"message": "Identifiants invalides"}, 
-            status=status.HTTP_401_UNAUTHORIZED
-        )
+        return api_response(None, "Identifiants invalides", status_code=401)
 
     # Générer les tokens
     refresh = RefreshToken.for_user(user)
@@ -84,17 +85,14 @@ def login_view(request):
     # Sérialiser les données utilisateur
     user_serializer = UserSerializer(user)
 
-    # Construire la réponse attendue par votre front-end
+    # Construire la réponse attendue par le frontend
     response_data = {
-        "status": "success",
-        "data": {
-            "token": access_token,  # Vous n'utilisez que le token d'accès dans votre front
-            "user": user_serializer.data,
-            "refresh": str(refresh)  # Optionnel, si vous voulez aussi le refresh token
-        }
+        "token": access_token,
+        "user": user_serializer.data,
+        "refresh": str(refresh)
     }
 
-    return Response(response_data, status=status.HTTP_200_OK)
+    return api_response(response_data, "Connexion réussie")
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -104,9 +102,9 @@ def logout_user(request):
         refresh_token = request.data.get('refresh')
         token = RefreshToken(refresh_token)
         token.blacklist()
-        return Response({"detail": "Déconnexion réussie"}, status=status.HTTP_200_OK)
+        return api_response(None, "Déconnexion réussie")
     except Exception as e:
-        return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return api_response(None, str(e), status_code=400)
     
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -135,7 +133,6 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -152,6 +149,53 @@ class JobViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(employer=self.request.user)
     
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            response = self.get_paginated_response(serializer.data)
+            # Adapter la structure pour correspondre à ce que le frontend attend
+            return api_response({
+                "data": serializer.data,
+                "meta": {
+                    "current_page": self.paginator.page.number,
+                    "last_page": self.paginator.page.paginator.num_pages,
+                    "per_page": self.paginator.page_size,
+                    "total": self.paginator.page.paginator.count
+                }
+            })
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return api_response(serializer.data)
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return api_response(serializer.data)
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return api_response(serializer.data, "Offre d'emploi créée avec succès", status_code=201)
+        return api_response(None, serializer.errors, status_code=400)
+    
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        if serializer.is_valid():
+            self.perform_update(serializer)
+            return api_response(serializer.data, "Offre d'emploi mise à jour avec succès")
+        return api_response(None, serializer.errors, status_code=400)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return api_response(None, "Offre d'emploi supprimée avec succès")
+    
     @action(detail=False, methods=['get'])
     def recommended(self, request):
         # Implémentez la logique pour récupérer les emplois recommandés
@@ -166,10 +210,9 @@ class JobViewSet(viewsets.ModelViewSet):
                     jobs = jobs.filter(category__in=categories)
             
             serializer = self.get_serializer(jobs, many=True)
-            return Response(serializer.data)
+            return api_response(serializer.data)
         
-        return Response({"detail": "Cette fonctionnalité est disponible uniquement pour les candidats"}, 
-                       status=status.HTTP_403_FORBIDDEN)
+        return api_response(None, "Cette fonctionnalité est disponible uniquement pour les candidats", status_code=403)
     
     @action(detail=False, methods=['get'])
     def search(self, request):
@@ -192,9 +235,24 @@ class JobViewSet(viewsets.ModelViewSet):
         if contract_type:
             jobs = jobs.filter(contract_type=contract_type)
         
+        # Pagination
+        page = self.paginate_queryset(jobs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            response = self.get_paginated_response(serializer.data)
+            # Adapter la structure pour correspondre à ce que le frontend attend
+            return api_response({
+                "data": serializer.data,
+                "meta": {
+                    "current_page": self.paginator.page.number,
+                    "last_page": self.paginator.page.paginator.num_pages,
+                    "per_page": self.paginator.page_size,
+                    "total": self.paginator.page.paginator.count
+                }
+            })
+        
         serializer = self.get_serializer(jobs, many=True)
-        return Response(serializer.data)
-
+        return api_response(serializer.data)
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
@@ -216,27 +274,63 @@ class ApplicationViewSet(viewsets.ModelViewSet):
             # Les candidats voient leurs propres candidatures
             return Application.objects.filter(candidate=user)
     
-    def perform_create(self, serializer):
-        job_id = self.request.data.get('job_id')
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return api_response(serializer.data)
+    
+    def create(self, request, *args, **kwargs):
+        job_id = request.data.get('job_id') or request.data.get('jobId')
         job = get_object_or_404(Job, id=job_id)
-        serializer.save(candidate=self.request.user, job=job)
+        
+        # Gérer le fichier CV et la lettre de motivation comme FormData
+        cv_file = request.FILES.get('cv')
+        lettre_file = request.FILES.get('lettre')
+        
+        # Créer l'objet Application avec les données de base
+        application_data = {
+            'job': job,
+            'candidate': request.user,
+            'status': 'pending'
+        }
+        
+        # Ajouter le CV et la lettre si présents
+        if cv_file:
+            application_data['cv_url'] = cv_file
+        if lettre_file:
+            application_data['motivation_letter_url'] = lettre_file
+        
+        # Ajouter les réponses aux questions si présentes
+        custom_answers = {}
+        for key, value in request.data.items():
+            if key.startswith('question_'):
+                custom_answers[key] = value
+        
+        if custom_answers:
+            application_data['custom_answers'] = custom_answers
+        
+        # Créer l'application
+        application = Application.objects.create(**application_data)
+        serializer = self.get_serializer(application)
+        
+        return api_response(serializer.data, "Candidature envoyée avec succès", status_code=201)
     
     @action(detail=True, methods=['put'], url_path='status')
     def update_status(self, request, pk=None):
         application = self.get_object()
         # Vérifier que l'offre appartient à l'employeur
         if application.job.employer != request.user:
-            return Response({"detail": "Vous n'êtes pas autorisé à modifier cette candidature"}, 
-                           status=status.HTTP_403_FORBIDDEN)
+            return api_response(None, "Vous n'êtes pas autorisé à modifier cette candidature", status_code=403)
         
         status_value = request.data.get('status')
         if status_value not in [s[0] for s in Application.STATUS_CHOICES]:
-            return Response({"detail": "Statut invalide"}, status=status.HTTP_400_BAD_REQUEST)
+            return api_response(None, "Statut invalide", status_code=400)
         
         application.status = status_value
         application.save()
         serializer = self.get_serializer(application)
-        return Response(serializer.data)
+        
+        return api_response(serializer.data, "Statut de la candidature mis à jour")
 
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
@@ -386,6 +480,7 @@ class FlashJobViewSet(viewsets.ModelViewSet):
             return Response(application_serializer.data, status=status.HTTP_201_CREATED)
         return Response(application_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class FavoriteViewSet(viewsets.ModelViewSet):
     serializer_class = FavoriteSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -393,18 +488,27 @@ class FavoriteViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Favorite.objects.filter(user=self.request.user)
     
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        # Extraire uniquement les jobs pour un format plus simple
+        jobs = [item['job'] for item in serializer.data]
+        return api_response(jobs)
+    
     @action(detail=False, methods=['post'], url_path='toggle/(?P<job_id>[^/.]+)')
     def toggle(self, request, job_id=None):
         job = get_object_or_404(Job, id=job_id)
-        favorite, created = Favorite.objects.get_or_create(user=request.user, job=job)
-        
-        if not created:
+        try:
+            favorite = Favorite.objects.get(user=request.user, job=job)
             # Si le favori existait déjà, on le supprime
             favorite.delete()
-            return Response({"detail": "Offre retirée des favoris"}, status=status.HTTP_200_OK)
+            return api_response({"isFavorite": False}, "Offre retirée des favoris")
+        except Favorite.DoesNotExist:
+            # Sinon, on le crée
+            favorite = Favorite.objects.create(user=request.user, job=job)
+            serializer = self.get_serializer(favorite)
+            return api_response({"isFavorite": True}, "Offre ajoutée aux favoris", status_code=201)
         
-        serializer = self.get_serializer(favorite)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer

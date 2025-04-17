@@ -1,57 +1,58 @@
-// Modifier GojobApp/src/api/jobsApi.ts
-
 import apiClient, { ApiResponse } from './apiClient';
+import { Utilisateur } from './authApi';
 
 // Types pour les offres d'emploi
 export interface Emploi {
   id: number;
+  employer: number | Utilisateur;
   title: string;
-  company: string;
-  location: string;
   description: string;
-  salary?: {
-    amount: number;
-    period: 'hour' | 'month';
-  };
-  contract_type?: 'CDI' | 'CDD' | 'alternance' | 'freelance';
-  accommodation?: boolean;
-  accommodation_details?: {
-    children_allowed?: boolean;
-    pets_allowed?: boolean;
-    accessible?: boolean;
-  };
-  photos?: string[];
-  requirements?: string[];
+  category: string;
+  subcategory: string | null;
+  city: string;
+  address: string | null;
+  salary_type: 'hourly' | 'monthly';
+  salary_amount: number | null;
+  contract_type: 'CDI' | 'CDD' | 'Freelance' | 'Alternance';
+  is_entry_level: boolean;
+  experience_years_required: number;
+  requires_driving_license: boolean;
+  accepts_working_visa: boolean;
+  accepts_holiday_visa: boolean;
+  accepts_student_visa: boolean;
+  has_accommodation: boolean;
+  accommodation_accepts_children: boolean;
+  accommodation_accepts_dogs: boolean;
+  accommodation_is_accessible: boolean;
+  job_accepts_handicapped: boolean;
+  has_company_car: boolean;
+  contact_name: string | null;
+  contact_phone: string | null;
+  contact_methods: string[];
+  website_url: string | null;
+  is_urgent: boolean;
+  is_new: boolean;
+  is_top: boolean;
+  status: 'active' | 'closed' | 'draft';
   created_at: string;
   updated_at: string;
-  expiry_date?: string;
-  tags?: string[];
-  is_urgent?: boolean;
-  is_new?: boolean;
-  is_top?: boolean;
-  views_count?: number;
-  applications_count?: number;
-  conversion_rate?: number;
-  user_id: number;
+  expires_at: string | null;
+  views_count: number;
+  applications_count: number;
+  conversion_rate: number;
+  photos: string[];
   
-  // Champs adaptés au frontend
-  titre?: string;
-  entreprise?: string;
-  typeContrat?: string;
-  salaire?: number;
-  typeSalaire?: 'horaire' | 'mensuel';
-  logo?: string;
-  createdAt?: string;
-  isUrgent?: boolean;
-  isNew?: boolean;
-  logement?: boolean;
-  vehicule?: boolean;
-  employeur?: {
-    id: number;
-    nom: string;
-    memberSince: number;
-    jobCount: number;
-  };
+  // Compatibilité frontend (aliases)
+  titre?: string;                // Alias pour title
+  entreprise?: string;           // Alias pour employer.company_name
+  location?: string;             // Alias pour city
+  typeContrat?: string;          // Alias pour contract_type
+  salaire?: number;              // Alias pour salary_amount
+  typeSalaire?: 'horaire' | 'mensuel'; // Alias pour salary_type
+  logement?: boolean;            // Alias pour has_accommodation
+  vehicule?: boolean;            // Alias pour has_company_car
+  isUrgent?: boolean;            // Alias pour is_urgent
+  isNew?: boolean;               // Alias pour is_new
 }
 
 export interface RechercheEmploiParams {
@@ -80,36 +81,33 @@ export interface RechercheEmploiParams {
 
 export interface PublicationEmploiPayload {
   title: string;
-  company: string;
-  location: string;
   description: string;
-  salary?: {
-    amount: number;
-    period: 'hour' | 'month';
-  };
-  contract_type?: 'CDI' | 'CDD' | 'alternance' | 'freelance';
-  accommodation?: boolean;
-  accommodation_details?: {
-    children_allowed?: boolean;
-    pets_allowed?: boolean;
-    accessible?: boolean;
-  };
-  photos?: string[];
-  requirements?: string[];
-  expiry_date?: string;
-  tags?: string[];
+  category: string;
+  subcategory?: string;
+  city: string;
+  address?: string;
+  salary_type: 'hourly' | 'monthly';
+  salary_amount?: number;
+  contract_type: 'CDI' | 'CDD' | 'Freelance' | 'Alternance';
+  is_entry_level?: boolean;
+  experience_years_required?: number;
+  requires_driving_license?: boolean;
+  accepts_working_visa?: boolean;
+  accepts_holiday_visa?: boolean;
+  accepts_student_visa?: boolean;
+  has_accommodation?: boolean;
+  accommodation_accepts_children?: boolean;
+  accommodation_accepts_dogs?: boolean;
+  accommodation_is_accessible?: boolean;
+  job_accepts_handicapped?: boolean;
+  has_company_car?: boolean;
+  contact_name?: string;
+  contact_phone?: string;
+  contact_methods: string[];
+  website_url?: string;
   is_urgent?: boolean;
-  contact_details: {
-    name: string;
-    phone?: string;
-    contact_methods: string[];
-  };
-  working_rights?: {
-    entry_level?: boolean;
-    working_visa?: boolean;
-    holiday_visa?: boolean;
-    student_visa?: boolean;
-  };
+  photos?: string[] | File[];
+  expires_at?: string;
 }
 
 export interface MetadonneesPagination {
@@ -131,13 +129,19 @@ const jobsApi = {
    */
   getEmplois: async (page = 1, perPage = 20): Promise<ReponsePaginee<Emploi>> => {
     try {
-      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('jobs', {
+      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('/jobs', {
         params: { page, per_page: perPage }
       });
-      return response.data.data;
+      
+      // Normalisation des données pour le frontend
+      const emplois = response.data.data.data.map(emploi => normalizeEmploi(emploi));
+      
+      return {
+        data: emplois,
+        meta: response.data.data.meta
+      };
     } catch (error) {
       console.error('Erreur lors de la récupération des emplois :', error);
-      // Retourner une structure vide en cas d'erreur pour éviter les crashes
       return { data: [], meta: { current_page: 1, last_page: 1, per_page: perPage, total: 0 } };
     }
   },
@@ -146,19 +150,13 @@ const jobsApi = {
    * Récupérer une offre d'emploi par son ID
    */
   getEmploi: async (id: number): Promise<Emploi> => {
-    const response = await apiClient.get<ApiResponse<Emploi>>(`jobs/${id}`);
-    
-    // Normaliser les données si nécessaire
-    const emploi = response.data.data;
-    if (!emploi.titre && emploi.title) emploi.titre = emploi.title;
-    if (!emploi.entreprise && emploi.company) emploi.entreprise = emploi.company;
-    if (!emploi.typeContrat && emploi.contract_type) emploi.typeContrat = emploi.contract_type;
-    if (!emploi.salaire && emploi.salary?.amount) emploi.salaire = emploi.salary.amount;
-    if (!emploi.typeSalaire) {
-      emploi.typeSalaire = emploi.salary?.period === 'hour' ? 'horaire' : 'mensuel';
+    try {
+      const response = await apiClient.get<ApiResponse<Emploi>>(`/jobs/${id}`);
+      return normalizeEmploi(response.data.data);
+    } catch (error) {
+      console.error(`Erreur lors de la récupération de l'emploi ${id} :`, error);
+      throw error;
     }
-    
-    return emploi;
   },
   
   /**
@@ -166,10 +164,42 @@ const jobsApi = {
    */
   rechercherEmplois: async (params: RechercheEmploiParams): Promise<ReponsePaginee<Emploi>> => {
     try {
-      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('jobs/search', {
-        params: params
+      // Adaptation des paramètres de recherche pour correspondre au backend
+      const apiParams = {
+        q: params.keyword,
+        location: params.location,
+        category: params.category,
+        contract_type: params.contract_type,
+        has_accommodation: params.accommodation,
+        salary_min: params.salary_min,
+        salary_max: params.salary_max,
+        salary_period: params.salary_period,
+        page: params.page,
+        per_page: params.per_page,
+        sort_by: params.sort_by,
+        sort_direction: params.sort_direction,
+        has_accommodation_children: params.has_accommodation_children,
+        has_accommodation_pets: params.has_accommodation_pets,
+        has_accommodation_accessible: params.has_accommodation_accessible,
+        has_company_car: params.has_company_car,
+        max_distance: params.max_distance,
+        distance_unit: params.distance_unit,
+        for_backpackers: params.for_backpackers,
+        visa_type: params.visa_type,
+        is_freelance: params.is_freelance
+      };
+      
+      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('/jobs/search', {
+        params: apiParams
       });
-      return response.data.data;
+      
+      // Normalisation des données pour le frontend
+      const emplois = response.data.data.data.map(emploi => normalizeEmploi(emploi));
+      
+      return {
+        data: emplois,
+        meta: response.data.data.meta
+      };
     } catch (error) {
       console.error('Erreur lors de la recherche d\'emplois :', error);
       return { data: [], meta: { current_page: 1, last_page: 1, per_page: 20, total: 0 } };
@@ -181,8 +211,8 @@ const jobsApi = {
    */
   getEmploisRecommandes: async (): Promise<Emploi[]> => {
     try {
-      const response = await apiClient.get<ApiResponse<Emploi[]>>('jobs/recommended');
-      return response.data.data;
+      const response = await apiClient.get<ApiResponse<Emploi[]>>('/jobs/recommended');
+      return response.data.data.map(emploi => normalizeEmploi(emploi));
     } catch (error) {
       console.error('Erreur lors de la récupération des emplois recommandés :', error);
       return [];
@@ -193,83 +223,129 @@ const jobsApi = {
    * Publier une nouvelle offre d'emploi (employeur uniquement)
    */
   publierEmploi: async (payload: PublicationEmploiPayload): Promise<Emploi> => {
-    const formData = new FormData();
-    
-    // Conversion des données en FormData pour pouvoir envoyer des fichiers
-    Object.entries(payload).forEach(([key, value]) => {
-      if (key === 'photos' && Array.isArray(value)) {
-        value.forEach((photo, index) => {
-          formData.append(`photos[${index}]`, photo);
-        });
-      } else if (typeof value === 'object' && value !== null) {
-        formData.append(key, JSON.stringify(value));
-      } else if (value !== undefined) {
-        formData.append(key, String(value));
-      }
-    });
-    
-    const response = await apiClient.post<ApiResponse<Emploi>>('jobs', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    
-    return response.data.data;
+    try {
+      const formData = new FormData();
+      
+      // Conversion des données en FormData pour pouvoir envoyer des fichiers
+      Object.entries(payload).forEach(([key, value]) => {
+        if (key === 'photos' && Array.isArray(value)) {
+          value.forEach((photo, index) => {
+            if (typeof photo === 'string') {
+              // C'est une URL
+              formData.append(`photos[${index}]`, photo);
+            } else if (photo instanceof File) {
+              // C'est un fichier
+              formData.append(`photos[${index}]`, photo);
+            } else if (photo && typeof photo === 'object' && 'uri' in photo) {
+              // C'est un objet avec uri (format React Native)
+              formData.append(`photos[${index}]`, {
+                uri: photo.uri,
+                type: photo.type || 'image/jpeg',
+                name: photo.name || `photo_${index}.jpg`
+              });
+            }
+          });
+        } else if (typeof value === 'object' && value !== null) {
+          formData.append(key, JSON.stringify(value));
+        } else if (value !== undefined) {
+          formData.append(key, String(value));
+        }
+      });
+      
+      const response = await apiClient.post<ApiResponse<Emploi>>('/jobs', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      return normalizeEmploi(response.data.data);
+    } catch (error) {
+      console.error('Erreur lors de la publication de l\'emploi :', error);
+      throw error;
+    }
   },
   
   /**
    * Mettre à jour une offre d'emploi (employeur uniquement)
    */
   updateEmploi: async (id: number, payload: Partial<PublicationEmploiPayload>): Promise<Emploi> => {
-    const formData = new FormData();
-    
-    // Conversion des données en FormData pour pouvoir envoyer des fichiers
-    Object.entries(payload).forEach(([key, value]) => {
-      if (key === 'photos' && Array.isArray(value)) {
-        value.forEach((photo, index) => {
-          formData.append(`photos[${index}]`, photo);
-        });
-      } else if (typeof value === 'object' && value !== null) {
-        formData.append(key, JSON.stringify(value));
-      } else if (value !== undefined) {
-        formData.append(key, String(value));
-      }
-    });
-    
-    const response = await apiClient.put<ApiResponse<Emploi>>(`jobs/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    
-    return response.data.data;
+    try {
+      const formData = new FormData();
+      
+      // Conversion des données en FormData pour pouvoir envoyer des fichiers
+      Object.entries(payload).forEach(([key, value]) => {
+        if (key === 'photos' && Array.isArray(value)) {
+          value.forEach((photo, index) => {
+            if (typeof photo === 'string') {
+              // C'est une URL
+              formData.append(`photos[${index}]`, photo);
+            } else if (photo instanceof File) {
+              // C'est un fichier
+              formData.append(`photos[${index}]`, photo);
+            } else if (photo && typeof photo === 'object' && 'uri' in photo) {
+              // C'est un objet avec uri (format React Native)
+              formData.append(`photos[${index}]`, {
+                uri: photo.uri,
+                type: photo.type || 'image/jpeg',
+                name: photo.name || `photo_${index}.jpg`
+              });
+            }
+          });
+        } else if (typeof value === 'object' && value !== null) {
+          formData.append(key, JSON.stringify(value));
+        } else if (value !== undefined) {
+          formData.append(key, String(value));
+        }
+      });
+      
+      const response = await apiClient.put<ApiResponse<Emploi>>(`/jobs/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      return normalizeEmploi(response.data.data);
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour de l'emploi ${id} :`, error);
+      throw error;
+    }
   },
   
   /**
    * Supprimer une offre d'emploi (employeur uniquement)
    */
   supprimerEmploi: async (id: number): Promise<void> => {
-    await apiClient.delete<ApiResponse<null>>(`jobs/${id}`);
+    try {
+      await apiClient.delete<ApiResponse<null>>(`/jobs/${id}`);
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de l'emploi ${id} :`, error);
+      throw error;
+    }
   },
   
   /**
    * Obtenir les statistiques d'une offre d'emploi (employeur uniquement)
    */
   getStatistiquesEmploi: async (id: number): Promise<any> => {
-    const response = await apiClient.get<ApiResponse<any>>(`statistics/job/${id}`);
-    return response.data.data;
+    try {
+      const response = await apiClient.get<ApiResponse<any>>(`/statistics/job/${id}`);
+      return response.data.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération des statistiques de l'emploi ${id} :`, error);
+      throw error;
+    }
   },
 
   /**
    * Marquer une offre d'emploi comme favorite ou retirer des favoris
    */
-  toggleFavori: async (id: number): Promise<{ is_favorite: boolean }> => {
+  toggleFavori: async (id: number): Promise<boolean> => {
     try {
-      const response = await apiClient.post<ApiResponse<{ isFavorite: boolean }>>(`favorites/toggle/${id}`);
-      return { is_favorite: response.data.data.isFavorite };
+      const response = await apiClient.post<ApiResponse<{ isFavorite: boolean }>>(`/favorites/toggle/${id}`);
+      return response.data.data.isFavorite;
     } catch (error) {
-      console.error('Erreur lors de la gestion des favoris :', error);
-      return { is_favorite: false };
+      console.error(`Erreur lors du toggle du favori pour l'emploi ${id} :`, error);
+      throw error;
     }
   },
 
@@ -278,8 +354,8 @@ const jobsApi = {
    */
   getFavoris: async (): Promise<Emploi[]> => {
     try {
-      const response = await apiClient.get<ApiResponse<Emploi[]>>('favorites');
-      return response.data.data;
+      const response = await apiClient.get<ApiResponse<Emploi[]>>('/favorites');
+      return response.data.data.map(emploi => normalizeEmploi(emploi));
     } catch (error) {
       console.error('Erreur lors de la récupération des favoris :', error);
       return [];
@@ -291,8 +367,8 @@ const jobsApi = {
    */
   getEmployerJobs: async (): Promise<Emploi[]> => {
     try {
-      const response = await apiClient.get<ApiResponse<Emploi[]>>('jobs/employer');
-      return response.data.data;
+      const response = await apiClient.get<ApiResponse<Emploi[]>>('/jobs/employer');
+      return response.data.data.map(emploi => normalizeEmploi(emploi));
     } catch (error) {
       console.error('Erreur lors de la récupération des emplois de l\'employeur :', error);
       return [];
@@ -304,7 +380,44 @@ const jobsApi = {
    */
   deleteJob: async (id: number): Promise<void> => {
     return jobsApi.supprimerEmploi(id);
+  },
+  
+  /**
+   * Consulter une offre d'emploi (incrémenter le compteur de vues)
+   */
+  viewJob: async (id: number): Promise<void> => {
+    try {
+      await apiClient.post<ApiResponse<null>>(`/jobs/${id}/view`);
+    } catch (error) {
+      console.error(`Erreur lors de l'enregistrement de la vue pour l'emploi ${id} :`, error);
+      // On n'arrête pas l'exécution pour une simple vue non enregistrée
+    }
   }
+};
+
+/**
+ * Fonction utilitaire pour normaliser les données d'emploi provenant de l'API
+ * pour les adapter au format attendu par le frontend
+ */
+function normalizeEmploi(emploi: any): Emploi {
+  // Créer des alias pour assurer la compatibilité avec le frontend
+  const normalizedEmploi: Emploi = {
+    ...emploi,
+    titre: emploi.title,
+    entreprise: typeof emploi.employer === 'object' ? 
+      emploi.employer.company_name : 
+      emploi.company || 'Entreprise',
+    location: emploi.city,
+    typeContrat: emploi.contract_type,
+    salaire: emploi.salary_amount,
+    typeSalaire: emploi.salary_type === 'hourly' ? 'horaire' : 'mensuel',
+    logement: emploi.has_accommodation,
+    vehicule: emploi.has_company_car,
+    isUrgent: emploi.is_urgent,
+    isNew: emploi.is_new
+  };
+  
+  return normalizedEmploi;
 }
 
 export default jobsApi;

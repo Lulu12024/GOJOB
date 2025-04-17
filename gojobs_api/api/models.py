@@ -99,6 +99,17 @@ class User(AbstractUser):
         """Vérifie si l'utilisateur est un candidat."""
         return self.role == 'candidate'
 
+    def has_subscription(self, subscription_type):
+        """
+        Vérifie si l'utilisateur a un abonnement particulier actif.
+        """
+        try:
+            sub = self.subscription
+            return sub.is_active and sub.plan_type == subscription_type
+        except Subscription.DoesNotExist:
+            return False
+        except AttributeError:
+            return False
 
 class Job(models.Model):
     """Modèle pour les offres d'emploi."""

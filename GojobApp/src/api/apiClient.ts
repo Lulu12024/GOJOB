@@ -1,15 +1,14 @@
-// Modifier GojobApp/src/api/apiClient.ts
-
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Définissez votre URL API directement
+// URL de l'API backend
 const API_URL = 'http://10.0.2.2:8000/api'; // Pour Android Emulator
 // const API_URL = 'http://localhost:8000/api'; // Pour iOS Simulator
 
 // Clés de stockage
 const AUTH_TOKEN_KEY = 'auth_token';
 const USER_DATA_KEY = 'user_data';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 
 // Interface pour les réponses API standard
 export interface ApiResponse<T> {
@@ -64,8 +63,37 @@ apiClient.interceptors.response.use(
   async (error: AxiosError) => {
     // Gestion des erreurs 401 (Non autorisé)
     if (error.response?.status === 401) {
-      await handleLogout();
-      // Si vous avez un système de navigation global, vous pourriez rediriger ici
+      try {
+        // Tentative de rafraîchissement du token
+        const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
+        if (refreshToken) {
+          try {
+            const refreshResponse = await axios.post(`${API_URL}/auth/refresh/`, {
+              refresh: refreshToken
+            });
+            
+            if (refreshResponse.data && refreshResponse.data.token) {
+              // Sauvegarde du nouveau token
+              await AsyncStorage.setItem(AUTH_TOKEN_KEY, refreshResponse.data.token);
+              
+              // Recréer la requête originale avec le nouveau token
+              const originalRequest = error.config;
+              if (originalRequest && originalRequest.headers) {
+                originalRequest.headers.Authorization = `Bearer ${refreshResponse.data.token}`;
+                return axios(originalRequest);
+              }
+            }
+          } catch (refreshError) {
+            // Si le rafraîchissement échoue, déconnexion
+            await handleLogout();
+          }
+        } else {
+          // Pas de refresh token, déconnexion
+          await handleLogout();
+        }
+      } catch (logoutError) {
+        console.error('Erreur lors de la gestion d\'authentification:', logoutError);
+      }
     }
     
     // Formater la réponse d'erreur dans un format standardisé
@@ -91,9 +119,24 @@ apiClient.interceptors.response.use(
 // Fonction pour gérer la déconnexion
 export const handleLogout = async () => {
   try {
+    // Essai d'appel au backend pour déconnexion
+    const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
+    if (refreshToken) {
+      try {
+        await apiClient.post('/auth/logout/', { refresh: refreshToken });
+      } catch (error) {
+        // Ignorer les erreurs d'API lors de la déconnexion
+        console.warn('Erreur API lors de la déconnexion:', error);
+      }
+    }
+    
+    // Supprimer les données locales
     await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
     await AsyncStorage.removeItem(USER_DATA_KEY);
-    // Vous pouvez ajouter ici d'autres actions comme rediriger vers l'écran de connexion
+    await AsyncStorage.removeItem(REFRESH_TOKEN_KEY);
+    
+    // Publier un événement pour informer l'application de la déconnexion
+    // Ceci pourrait être fait avec un gestionnaire d'événements ou Redux
   } catch (error) {
     console.error('Erreur lors de la déconnexion :', error);
   }

@@ -2,41 +2,45 @@ import apiClient, { ApiResponse } from './apiClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Types pour l'authentification
+// Harmonisation de l'interface Utilisateur pour correspondre au modèle Django User
 export interface Utilisateur {
   id: number;
   email: string;
-  first_name?: string;
-  last_name?: string;
-  nom?: string;        // Alias pour compatibilité frontend
-  prenom?: string;     // Alias pour compatibilité frontend
+  first_name: string;
+  last_name: string;
   role: 'employer' | 'candidate' | 'admin';
-  phone?: string;
-  telephone?: string;  // Alias pour compatibilité frontend
-  profile_image?: string;
-  bio?: string;
-  address?: string;
-  city?: string;
-  is_handicapped?: boolean;
-  has_driving_license?: boolean;
-  has_vehicle?: boolean;
-  member_since?: number;
-  skills?: string[];
-  experience?: any;
-  education?: any;
-  languages?: any;
-  job_preferences?: any;
-  company_name?: string;
-  company_description?: string;
-  company_website?: string;
-  company_size?: string;
-  company_industry?: string;
-  created_at: string;
-  updated_at: string;
+  phone: string | null;
+  profile_image: string | null;
+  bio: string | null;
+  address: string | null;
+  city: string | null;
+  is_handicapped: boolean;
+  has_driving_license: boolean;
+  has_vehicle: boolean;
+  member_since: number | null;
+  
+  // Champs spécifiques aux candidats
+  skills: any[] | null;
+  experience: any | null;
+  education: any | null;
+  languages: any | null;
+  job_preferences: any | null;
+  
+  // Champs spécifiques aux employeurs
+  company_name: string | null;
+  company_description: string | null;
+  company_website: string | null;
+  company_size: string | null;
+  company_industry: string | null;
+  
+  // Compatibilité frontend (aliases)
+  nom?: string;        // Alias pour last_name
+  prenom?: string;     // Alias pour first_name
+  telephone?: string;  // Alias pour phone
   
   // Méthodes utilitaires
   hasSubscription?: (type: string) => boolean;
 }
-
 export interface ConnexionPayload {
   email: string;
   password: string;

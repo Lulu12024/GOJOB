@@ -350,3 +350,51 @@ django.core.exceptions.ImproperlyConfigured: Field name `passwordfirst_name` is 
 ERROR 2025-04-15 17:06:35,218 basehttp "POST /api/auth/register HTTP/1.1" 500 23186
 INFO 2025-04-15 17:06:48,872 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
 INFO 2025-04-15 17:06:51,591 autoreload Watching for file changes with StatReloader
+INFO 2025-04-15 17:08:36,211 basehttp "POST /api/auth/register HTTP/1.1" 201 972
+WARNING 2025-04-15 17:08:57,447 log Not Found: /api/logout
+WARNING 2025-04-15 17:08:57,448 basehttp "POST /api/logout HTTP/1.1" 404 35495
+INFO 2025-04-15 17:09:16,471 basehttp "POST /api/auth/login HTTP/1.1" 200 972
+WARNING 2025-04-15 17:09:23,878 log Not Found: /api/logout
+WARNING 2025-04-15 17:09:23,879 basehttp "POST /api/logout HTTP/1.1" 404 35495
+INFO 2025-04-15 17:10:18,049 basehttp "POST /api/auth/register HTTP/1.1" 201 971
+INFO 2025-04-17 18:20:55,219 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 18:23:34,625 basehttp "POST /api/auth/register HTTP/1.1" 201 974
+WARNING 2025-04-17 18:23:49,979 log Unauthorized: /api/auth/login
+WARNING 2025-04-17 18:23:49,980 basehttp "POST /api/auth/login HTTP/1.1" 401 36
+INFO 2025-04-17 18:27:34,841 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 301 0
+WARNING 2025-04-17 18:27:34,882 log Unauthorized: /api/flash-jobs/
+WARNING 2025-04-17 18:27:34,882 basehttp "GET /api/flash-jobs/?page=1&per_page=20 HTTP/1.1" 401 172
+INFO 2025-04-17 20:45:12,344 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:45:16,024 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:50:25,818 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-17 20:50:26,746 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:50:40,671 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-17 20:50:41,811 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:50:57,689 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-17 20:50:58,573 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:51:19,798 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-17 20:51:20,887 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:51:26,634 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-17 20:51:27,519 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:51:40,325 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-17 20:51:41,224 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:52:05,617 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:52:06,513 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:52:20,293 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:52:21,328 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:52:37,526 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:52:38,607 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:53:19,826 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:53:20,956 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:53:46,135 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:53:47,139 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:54:16,834 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:54:17,943 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:54:45,283 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:54:46,319 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:54:58,122 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:54:59,000 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:55:00,375 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-17 20:55:01,304 autoreload Watching for file changes with StatReloader
+INFO 2025-04-17 20:55:21,533 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\models.py changed, reloading.
+INFO 2025-04-17 20:55:22,648 autoreload Watching for file changes with StatReloader
