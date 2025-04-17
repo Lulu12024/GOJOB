@@ -1,16 +1,22 @@
-// src/api/applicationsApi.ts
-import apiClient from './apiClient';
+import apiClient, { ApiResponse } from './apiClient';
+import { Emploi } from './jobsApi';
+import { Utilisateur } from './authApi';
 
-// Définition des types
-export interface Application {
+// Types pour les candidatures
+export interface Candidature {
   id: number;
-  job_id: number;
-  user_id: number;
+  job: Emploi;
+  candidate: Utilisateur;
+  cv_url?: string;
+  motivation_letter_url?: string;
+  custom_answers?: Record<string, string>;
   status: 'pending' | 'accepted' | 'rejected' | 'interview';
-  cover_letter?: string;
+  is_read: boolean;
   created_at: string;
   updated_at: string;
-  // Propriétés nécessaires pour l'affichage
+  
+  // Champs adaptés au frontend
+  date?: string;
   candidat?: {
     id: number;
     nom: string;
@@ -18,58 +24,145 @@ export interface Application {
     email?: string;
     phone?: string;
   };
-  date?: string; // Format lisible de created_at
-  cv?: string; // URL du CV
-  resume?: string; // URL du résumé
-  // Autres propriétés selon votre modèle de données
+  cv?: string;
+  resume?: string;
 }
 
-// Interface pour la réponse API
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
+export interface CandidaturePayload {
+  jobId: number;
+  coverLetter?: string;
+  cv?: any; // FormData file
+  lettre?: any; // FormData file
+  custom_answers?: Record<string, string>;
 }
 
-// Les méthodes d'API pour les candidatures
-export const applicationsApi = {
+// API pour les candidatures
+const applicationsApi = {
   // Récupérer toutes les candidatures
-  getApplications: () => {
-    return apiClient.get<ApiResponse<Application[]>>('/applications');
+  getCandidatures: async (): Promise<Candidature[]> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Candidature[]>>('/applications');
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des candidatures :', error);
+      return [];
+    }
   },
   
   // Récupérer une candidature spécifique
-  getApplication: (id: number) => {
-    return apiClient.get<ApiResponse<Application>>(`/applications/${id}`);
+  getCandidature: async (id: number): Promise<Candidature | null> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Candidature>>(`/applications/${id}`);
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la candidature :', error);
+      return null;
+    }
   },
   
   // Postuler à une offre d'emploi
-  postuler: (jobId: number, coverLetter?: string) => {
-    return apiClient.post<ApiResponse<Application>>('/applications', {
-      job_id: jobId,
-      cover_letter: coverLetter
-    });
+  postuler: async (jobId: number, coverLetter?: string, cvFile?: any, lettreFile?: any): Promise<boolean> => {
+    try {
+      const formData = new FormData();
+      formData.append('job_id', jobId.toString());
+      
+      if (coverLetter) {
+        formData.append('cover_letter', coverLetter);
+      }
+      
+      if (cvFile) {
+        formData.append('cv', {
+          uri: cvFile.uri,
+          type: cvFile.type || 'application/pdf',
+          name: cvFile.name || 'cv.pdf'
+        });
+      }
+      
+      if (lettreFile) {
+        formData.append('lettre', {
+          uri: lettreFile.uri,
+          type: lettreFile.type || 'application/pdf',
+          name: lettreFile.name || 'lettre.pdf'
+        });
+      }
+      
+      await apiClient.post<ApiResponse<Candidature>>('/applications', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la candidature :', error);
+      return false;
+    }
   },
   
   // Méthode alternative pour créer une candidature (pour compatibilité)
-  createApplication: (applicationData: { jobId: number; coverLetter?: string }) => {
-    return applicationsApi.postuler(applicationData.jobId, applicationData.coverLetter);
+  createApplication: async (data: CandidaturePayload): Promise<boolean> => {
+    return applicationsApi.postuler(data.jobId, data.coverLetter, data.cv, data.lettre);
   },
   
   // Mettre à jour le statut d'une candidature (pour les employeurs)
-  updateStatus: (applicationId: number, status: 'pending' | 'accepted' | 'rejected' | 'interview') => {
-    return apiClient.put<ApiResponse<Application>>(`/applications/${applicationId}/status`, { status });
+  updateStatus: async (applicationId: number, status: 'pending' | 'accepted' | 'rejected' | 'interview'): Promise<boolean> => {
+    try {
+      await apiClient.put<ApiResponse<Candidature>>(`/applications/${applicationId}/status`, { status });
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut :', error);
+      return false;
+    }
   },
   
   // Méthode alternative pour mettre à jour le statut (pour compatibilité)
-  updateApplicationStatus: (id: number, status: string) => {
+  updateApplicationStatus: async (id: number, status: string): Promise<boolean> => {
     return applicationsApi.updateStatus(id, status as 'pending' | 'accepted' | 'rejected' | 'interview');
   },
   
   // Supprimer une candidature
-  deleteApplication: (id: number) => {
-    return apiClient.delete<ApiResponse<null>>(`/applications/${id}`);
+  deleteApplication: async (id: number): Promise<boolean> => {
+    try {
+      await apiClient.delete<ApiResponse<null>>(`/applications/${id}`);
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la candidature :', error);
+      return false;
+    }
   },
+  
+  // Marquer une candidature comme lue (pour les employeurs)
+  markAsRead: async (id: number): Promise<boolean> => {
+    try {
+      await apiClient.put<ApiResponse<Candidature>>(`/applications/${id}/read`, { is_read: true });
+      return true;
+    } catch (error) {
+      console.error('Erreur lors du marquage de la candidature comme lue :', error);
+      return false;
+    }
+  },
+  
+  // Récupérer les candidatures pour une offre spécifique (pour les employeurs)
+  getApplicationsForJob: async (jobId: number): Promise<Candidature[]> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Candidature[]>>(`/jobs/${jobId}/applications`);
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des candidatures pour l\'offre :', error);
+      return [];
+    }
+  },
+  
+  // Récupérer les candidatures de l'utilisateur (pour les candidats)
+  getUserApplications: async (): Promise<Candidature[]> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Candidature[]>>('/applications/user');
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des candidatures de l\'utilisateur :', error);
+      return [];
+    }
+  }
 };
 
 export default applicationsApi;

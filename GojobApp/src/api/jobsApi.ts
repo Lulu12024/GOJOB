@@ -1,3 +1,5 @@
+// Modifier GojobApp/src/api/jobsApi.ts
+
 import apiClient, { ApiResponse } from './apiClient';
 
 // Types pour les offres d'emploi
@@ -31,6 +33,25 @@ export interface Emploi {
   applications_count?: number;
   conversion_rate?: number;
   user_id: number;
+  
+  // Champs adaptés au frontend
+  titre?: string;
+  entreprise?: string;
+  typeContrat?: string;
+  salaire?: number;
+  typeSalaire?: 'horaire' | 'mensuel';
+  logo?: string;
+  createdAt?: string;
+  isUrgent?: boolean;
+  isNew?: boolean;
+  logement?: boolean;
+  vehicule?: boolean;
+  employeur?: {
+    id: number;
+    nom: string;
+    memberSince: number;
+    jobCount: number;
+  };
 }
 
 export interface RechercheEmploiParams {
@@ -109,10 +130,16 @@ const jobsApi = {
    * Récupérer toutes les offres d'emploi avec pagination
    */
   getEmplois: async (page = 1, perPage = 20): Promise<ReponsePaginee<Emploi>> => {
-    const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('jobs', {
-      params: { page, per_page: perPage }
-    });
-    return response.data.data;
+    try {
+      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('jobs', {
+        params: { page, per_page: perPage }
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des emplois :', error);
+      // Retourner une structure vide en cas d'erreur pour éviter les crashes
+      return { data: [], meta: { current_page: 1, last_page: 1, per_page: perPage, total: 0 } };
+    }
   },
   
   /**
@@ -120,25 +147,46 @@ const jobsApi = {
    */
   getEmploi: async (id: number): Promise<Emploi> => {
     const response = await apiClient.get<ApiResponse<Emploi>>(`jobs/${id}`);
-    return response.data.data;
+    
+    // Normaliser les données si nécessaire
+    const emploi = response.data.data;
+    if (!emploi.titre && emploi.title) emploi.titre = emploi.title;
+    if (!emploi.entreprise && emploi.company) emploi.entreprise = emploi.company;
+    if (!emploi.typeContrat && emploi.contract_type) emploi.typeContrat = emploi.contract_type;
+    if (!emploi.salaire && emploi.salary?.amount) emploi.salaire = emploi.salary.amount;
+    if (!emploi.typeSalaire) {
+      emploi.typeSalaire = emploi.salary?.period === 'hour' ? 'horaire' : 'mensuel';
+    }
+    
+    return emploi;
   },
   
   /**
    * Rechercher des offres d'emploi
    */
   rechercherEmplois: async (params: RechercheEmploiParams): Promise<ReponsePaginee<Emploi>> => {
-    const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('jobs/search', {
-      params: params
-    });
-    return response.data.data;
+    try {
+      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('jobs/search', {
+        params: params
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la recherche d\'emplois :', error);
+      return { data: [], meta: { current_page: 1, last_page: 1, per_page: 20, total: 0 } };
+    }
   },
   
   /**
    * Récupérer les offres d'emploi recommandées
    */
   getEmploisRecommandes: async (): Promise<Emploi[]> => {
-    const response = await apiClient.get<ApiResponse<Emploi[]>>('jobs/recommended');
-    return response.data.data;
+    try {
+      const response = await apiClient.get<ApiResponse<Emploi[]>>('jobs/recommended');
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des emplois recommandés :', error);
+      return [];
+    }
   },
   
   /**
@@ -216,24 +264,39 @@ const jobsApi = {
    * Marquer une offre d'emploi comme favorite ou retirer des favoris
    */
   toggleFavori: async (id: number): Promise<{ is_favorite: boolean }> => {
-    const response = await apiClient.post<ApiResponse<{ is_favorite: boolean }>>(`favorites/toggle/${id}`);
-    return response.data.data;
+    try {
+      const response = await apiClient.post<ApiResponse<{ isFavorite: boolean }>>(`favorites/toggle/${id}`);
+      return { is_favorite: response.data.data.isFavorite };
+    } catch (error) {
+      console.error('Erreur lors de la gestion des favoris :', error);
+      return { is_favorite: false };
+    }
   },
 
   /**
    * Obtenir les offres d'emploi favorites de l'utilisateur
    */
   getFavoris: async (): Promise<Emploi[]> => {
-    const response = await apiClient.get<ApiResponse<Emploi[]>>('favorites');
-    return response.data.data;
+    try {
+      const response = await apiClient.get<ApiResponse<Emploi[]>>('favorites');
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des favoris :', error);
+      return [];
+    }
   },
   
   /**
    * Récupérer les offres d'emploi publiées par l'employeur connecté
    */
   getEmployerJobs: async (): Promise<Emploi[]> => {
-    const response = await apiClient.get<ApiResponse<Emploi[]>>('jobs/employer');
-    return response.data.data;
+    try {
+      const response = await apiClient.get<ApiResponse<Emploi[]>>('jobs/employer');
+      return response.data.data;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des emplois de l\'employeur :', error);
+      return [];
+    }
   },
   
   /**
