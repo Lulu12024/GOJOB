@@ -100,9 +100,11 @@ apiClient.interceptors.response.use(
     if (error.response && error.response.data) {
       // Si l'erreur n'est pas déjà au format standardisé
       if (!error.response.data.hasOwnProperty('status')) {
-        const errorMessage = typeof error.response.data === 'string' 
-          ? error.response.data 
-          : (error.response.data.message || error.response.data.detail || 'Une erreur est survenue');
+        // Utiliser un type plus précis pour error.response.data
+        const errorData = error.response.data as any;
+        const errorMessage = typeof errorData === 'string' 
+          ? errorData 
+          : (errorData.message || errorData.detail || 'Une erreur est survenue');
         
         error.response.data = {
           status: 'error',

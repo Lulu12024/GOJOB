@@ -71,19 +71,12 @@ const applicationsApi = {
       }
       
       if (cvFile) {
-        formData.append('cv', {
-          uri: cvFile.uri,
-          type: cvFile.type || 'application/pdf',
-          name: cvFile.name || 'cv.pdf'
-        });
+        
+        formData.append('cv', cvFile as any);
       }
       
       if (lettreFile) {
-        formData.append('lettre', {
-          uri: lettreFile.uri,
-          type: lettreFile.type || 'application/pdf',
-          name: lettreFile.name || 'lettre.pdf'
-        });
+        formData.append('lettre', lettreFile as any);
       }
       
       await apiClient.post<ApiResponse<Candidature>>('/applications', formData, {

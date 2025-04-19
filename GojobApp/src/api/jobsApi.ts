@@ -1,6 +1,13 @@
 import apiClient, { ApiResponse } from './apiClient';
 import { Utilisateur } from './authApi';
 
+// Define a type for React Native file objects
+interface ReactNativeFile {
+  uri: string;
+  type?: string;
+  name?: string;
+}
+
 // Types pour les offres d'emploi
 export interface Emploi {
   id: number;
@@ -106,7 +113,7 @@ export interface PublicationEmploiPayload {
   contact_methods: string[];
   website_url?: string;
   is_urgent?: boolean;
-  photos?: string[] | File[];
+  photos?: Array<string | ReactNativeFile | File>;
   expires_at?: string;
 }
 
@@ -120,6 +127,11 @@ export interface MetadonneesPagination {
 export interface ReponsePaginee<T> {
   data: T[];
   meta: MetadonneesPagination;
+}
+
+// Helper function to check if a value is a React Native file
+function isReactNativeFile(value: any): value is ReactNativeFile {
+  return value && typeof value === 'object' && 'uri' in value;
 }
 
 // Service API pour les offres d'emploi
@@ -234,15 +246,16 @@ const jobsApi = {
               // C'est une URL
               formData.append(`photos[${index}]`, photo);
             } else if (photo instanceof File) {
-              // C'est un fichier
+              // C'est un fichier File standard
               formData.append(`photos[${index}]`, photo);
-            } else if (photo && typeof photo === 'object' && 'uri' in photo) {
+            } else if (isReactNativeFile(photo)) {
               // C'est un objet avec uri (format React Native)
+              // Using type assertion to handle React Native file format
               formData.append(`photos[${index}]`, {
                 uri: photo.uri,
                 type: photo.type || 'image/jpeg',
                 name: photo.name || `photo_${index}.jpg`
-              });
+              } as unknown as Blob);
             }
           });
         } else if (typeof value === 'object' && value !== null) {
@@ -280,15 +293,16 @@ const jobsApi = {
               // C'est une URL
               formData.append(`photos[${index}]`, photo);
             } else if (photo instanceof File) {
-              // C'est un fichier
+              // C'est un fichier File standard
               formData.append(`photos[${index}]`, photo);
-            } else if (photo && typeof photo === 'object' && 'uri' in photo) {
+            } else if (isReactNativeFile(photo)) {
               // C'est un objet avec uri (format React Native)
+              // Using type assertion to handle React Native file format
               formData.append(`photos[${index}]`, {
                 uri: photo.uri,
                 type: photo.type || 'image/jpeg',
                 name: photo.name || `photo_${index}.jpg`
-              });
+              } as unknown as Blob);
             }
           });
         } else if (typeof value === 'object' && value !== null) {

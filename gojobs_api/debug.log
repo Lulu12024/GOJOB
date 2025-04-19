@@ -398,3 +398,134 @@ INFO 2025-04-17 20:55:00,375 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojo
 INFO 2025-04-17 20:55:01,304 autoreload Watching for file changes with StatReloader
 INFO 2025-04-17 20:55:21,533 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\models.py changed, reloading.
 INFO 2025-04-17 20:55:22,648 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-18 08:05:17,273 log Unauthorized: /api/auth/login
+WARNING 2025-04-18 08:05:17,276 basehttp "POST /api/auth/login HTTP/1.1" 401 65
+WARNING 2025-04-18 08:23:01,813 log Unauthorized: /api/auth/login
+WARNING 2025-04-18 08:23:01,814 basehttp "POST /api/auth/login HTTP/1.1" 401 65
+WARNING 2025-04-18 08:24:12,347 log Unauthorized: /api/auth/login
+WARNING 2025-04-18 08:24:12,348 basehttp "POST /api/auth/login HTTP/1.1" 401 65
+INFO 2025-04-18 08:24:20,130 basehttp "POST /api/auth/login HTTP/1.1" 200 1044
+INFO 2025-04-18 08:24:43,188 basehttp "POST /api/auth/login HTTP/1.1" 200 1044
+INFO 2025-04-18 08:24:49,903 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 301 0
+INFO 2025-04-18 08:24:50,033 basehttp "GET /api/flash-jobs/?page=1&per_page=20 HTTP/1.1" 200 52
+INFO 2025-04-18 09:14:25,557 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 301 0
+INFO 2025-04-18 09:14:25,775 basehttp "GET /api/flash-jobs/?page=1&per_page=20 HTTP/1.1" 200 52
+WARNING 2025-04-18 12:36:31,784 log Not Found: /
+WARNING 2025-04-18 12:36:31,793 log Not Found: /struts2-showcase/struts/utils.js
+WARNING 2025-04-18 12:36:31,800 log Not Found: /
+WARNING 2025-04-18 12:36:31,807 log Not Found: /
+WARNING 2025-04-18 12:36:31,812 log Not Found: /
+INFO 2025-04-18 12:36:31,815 basehttp - Broken pipe from ('127.0.0.1', 50175)
+INFO 2025-04-18 12:36:31,816 basehttp - Broken pipe from ('127.0.0.1', 50176)
+INFO 2025-04-18 12:36:31,817 basehttp - Broken pipe from ('127.0.0.1', 50177)
+INFO 2025-04-18 12:36:31,817 basehttp - Broken pipe from ('127.0.0.1', 50173)
+INFO 2025-04-18 12:36:31,818 basehttp - Broken pipe from ('127.0.0.1', 50174)
+WARNING 2025-04-18 12:36:32,943 log Not Found: /js/
+INFO 2025-04-18 12:36:32,944 basehttp - Broken pipe from ('127.0.0.1', 50202)
+WARNING 2025-04-18 12:36:33,444 log Not Found: /:undefined
+INFO 2025-04-18 12:36:33,447 basehttp - Broken pipe from ('127.0.0.1', 50223)
+WARNING 2025-04-18 12:36:33,452 log Not Found: /:undefined
+WARNING 2025-04-18 12:36:33,458 log Not Found: /:undefined
+WARNING 2025-04-18 12:36:33,464 log Not Found: /:undefined
+INFO 2025-04-18 12:36:33,468 basehttp - Broken pipe from ('127.0.0.1', 50224)
+WARNING 2025-04-18 12:36:33,474 log Not Found: /struts2-showcase/struts/tooltip.gif
+INFO 2025-04-18 12:36:33,474 basehttp - Broken pipe from ('127.0.0.1', 50221)
+INFO 2025-04-18 12:36:33,476 basehttp - Broken pipe from ('127.0.0.1', 50222)
+INFO 2025-04-18 12:36:33,478 basehttp - Broken pipe from ('127.0.0.1', 50225)
+WARNING 2025-04-18 12:36:33,487 log Not Found: /
+INFO 2025-04-18 12:36:33,490 basehttp - Broken pipe from ('127.0.0.1', 50234)
+WARNING 2025-04-18 12:36:33,555 log Not Found: /
+WARNING 2025-04-18 12:36:33,566 log Not Found: /
+INFO 2025-04-18 12:36:33,568 basehttp - Broken pipe from ('127.0.0.1', 50243)
+INFO 2025-04-18 12:36:33,569 basehttp - Broken pipe from ('127.0.0.1', 50244)
+WARNING 2025-04-18 12:36:33,577 log Not Found: /struts2-showcase/struts/domtt.css
+WARNING 2025-04-18 12:36:33,584 log Not Found: /:undefined
+WARNING 2025-04-18 12:36:33,592 log Not Found: /
+INFO 2025-04-18 12:36:33,595 basehttp - Broken pipe from ('127.0.0.1', 50245)
+WARNING 2025-04-18 12:36:33,601 log Not Found: /:undefined
+INFO 2025-04-18 12:36:33,601 basehttp - Broken pipe from ('127.0.0.1', 50253)
+INFO 2025-04-18 12:36:33,604 basehttp - Broken pipe from ('127.0.0.1', 50246)
+WARNING 2025-04-18 12:36:33,608 log Not Found: /:undefined
+INFO 2025-04-18 12:36:33,610 basehttp - Broken pipe from ('127.0.0.1', 50262)
+WARNING 2025-04-18 12:36:33,622 log Not Found: /:undefined
+INFO 2025-04-18 12:36:33,624 basehttp - Broken pipe from ('127.0.0.1', 50264)
+WARNING 2025-04-18 12:36:33,628 log Not Found: /struts2-showcase/struts/domTT.js
+INFO 2025-04-18 12:36:33,631 basehttp - Broken pipe from ('127.0.0.1', 50265)
+INFO 2025-04-18 12:36:33,637 basehttp - Broken pipe from ('127.0.0.1', 50266)
+WARNING 2025-04-18 12:36:33,638 log Not Found: /
+WARNING 2025-04-18 12:36:33,647 log Not Found: /
+WARNING 2025-04-18 12:36:33,654 log Not Found: /struts2-showcase/struts/inputtransfersselect.js
+WARNING 2025-04-18 12:36:33,662 log Not Found: /
+INFO 2025-04-18 12:36:33,663 basehttp - Broken pipe from ('127.0.0.1', 50273)
+INFO 2025-04-18 12:36:33,663 basehttp - Broken pipe from ('127.0.0.1', 50283)
+INFO 2025-04-18 12:36:33,665 basehttp - Broken pipe from ('127.0.0.1', 50284)
+WARNING 2025-04-18 12:36:33,671 log Not Found: /
+INFO 2025-04-18 12:36:33,672 basehttp - Broken pipe from ('127.0.0.1', 50285)
+INFO 2025-04-18 12:36:33,674 basehttp - Broken pipe from ('127.0.0.1', 50286)
+WARNING 2025-04-18 12:36:34,207 log Not Found: /api/v2/${jndi:dns://MDEDiscoverye37a1cd565SeenInTheWildGet-8000}
+INFO 2025-04-18 12:36:34,208 basehttp - Broken pipe from ('127.0.0.1', 50502)
+WARNING 2025-04-18 12:36:34,234 log Unauthorized: /api/
+INFO 2025-04-18 12:36:34,247 basehttp - Broken pipe from ('127.0.0.1', 50530)
+WARNING 2025-04-18 12:36:34,312 log Not Found: /index.html
+WARNING 2025-04-18 12:36:34,324 log Not Found: /login
+INFO 2025-04-18 12:36:34,326 basehttp - Broken pipe from ('127.0.0.1', 50570)
+INFO 2025-04-18 12:36:34,327 basehttp - Broken pipe from ('127.0.0.1', 50553)
+WARNING 2025-04-18 12:36:34,379 log Not Found: /
+INFO 2025-04-18 12:36:34,380 basehttp - Broken pipe from ('127.0.0.1', 50599)
+WARNING 2025-04-18 12:36:34,414 log Not Found: /:undefined
+INFO 2025-04-18 12:36:34,417 basehttp - Broken pipe from ('127.0.0.1', 50629)
+WARNING 2025-04-18 12:36:34,450 log Not Found: /
+INFO 2025-04-18 12:36:34,455 basehttp - Broken pipe from ('127.0.0.1', 50658)
+WARNING 2025-04-18 12:36:34,488 log Not Found: /:undefined
+INFO 2025-04-18 12:36:34,489 basehttp - Broken pipe from ('127.0.0.1', 50690)
+WARNING 2025-04-18 12:36:34,518 log Not Found: /login
+INFO 2025-04-18 12:36:34,520 basehttp - Broken pipe from ('127.0.0.1', 50719)
+WARNING 2025-04-18 12:36:34,543 log Not Found: /
+INFO 2025-04-18 12:36:34,548 basehttp - Broken pipe from ('127.0.0.1', 50746)
+WARNING 2025-04-18 12:36:34,572 log Not Found: /:undefined
+INFO 2025-04-18 12:36:34,575 basehttp - Broken pipe from ('127.0.0.1', 50773)
+WARNING 2025-04-18 12:36:34,608 log Not Found: /
+INFO 2025-04-18 12:36:34,611 basehttp - Broken pipe from ('127.0.0.1', 50800)
+WARNING 2025-04-18 12:36:34,637 log Not Found: /:undefined
+INFO 2025-04-18 12:36:34,639 basehttp - Broken pipe from ('127.0.0.1', 50829)
+WARNING 2025-04-18 12:36:34,665 log Not Found: /
+INFO 2025-04-18 12:36:34,667 basehttp - Broken pipe from ('127.0.0.1', 50851)
+WARNING 2025-04-18 12:36:34,691 log Not Found: /:undefined
+INFO 2025-04-18 12:36:34,692 basehttp - Broken pipe from ('127.0.0.1', 50857)
+WARNING 2025-04-18 12:36:34,733 log Not Found: /
+INFO 2025-04-18 12:36:34,735 basehttp - Broken pipe from ('127.0.0.1', 50861)
+WARNING 2025-04-18 12:36:34,783 log Not Found: /cgi-bin/
+INFO 2025-04-18 12:36:34,784 basehttp - Broken pipe from ('127.0.0.1', 50865)
+WARNING 2025-04-18 12:36:34,830 log Not Found: /
+INFO 2025-04-18 12:36:34,832 basehttp - Broken pipe from ('127.0.0.1', 50869)
+WARNING 2025-04-18 12:36:34,860 log Not Found: /:undefined
+INFO 2025-04-18 12:36:34,862 basehttp - Broken pipe from ('127.0.0.1', 50873)
+WARNING 2025-04-18 12:36:34,897 log Not Found: /
+INFO 2025-04-18 12:36:34,898 basehttp - Broken pipe from ('127.0.0.1', 50877)
+WARNING 2025-04-18 12:36:34,924 log Not Found: /:undefined
+INFO 2025-04-18 12:36:34,927 basehttp - Broken pipe from ('127.0.0.1', 50886)
+WARNING 2025-04-18 12:36:34,956 log Not Found: /
+WARNING 2025-04-18 12:36:34,959 basehttp "GET / HTTP/1.1" 404 2652
+INFO 2025-04-18 12:36:34,961 basehttp - Broken pipe from ('127.0.0.1', 50897)
+WARNING 2025-04-18 12:36:35,005 log Not Found: /:undefined
+INFO 2025-04-18 12:36:35,007 basehttp - Broken pipe from ('127.0.0.1', 50906)
+WARNING 2025-04-18 12:36:35,033 log Not Found: /
+INFO 2025-04-18 12:36:35,036 basehttp - Broken pipe from ('127.0.0.1', 50910)
+WARNING 2025-04-18 12:36:35,067 log Not Found: /:undefined
+INFO 2025-04-18 12:36:35,069 basehttp - Broken pipe from ('127.0.0.1', 50914)
+WARNING 2025-04-18 12:36:35,093 log Not Found: /
+INFO 2025-04-18 12:36:35,095 basehttp - Broken pipe from ('127.0.0.1', 50918)
+WARNING 2025-04-18 12:36:35,123 log Not Found: /:undefined
+INFO 2025-04-18 12:36:35,126 basehttp - Broken pipe from ('127.0.0.1', 50922)
+WARNING 2025-04-18 12:36:35,155 log Not Found: /
+INFO 2025-04-18 12:36:35,157 basehttp - Broken pipe from ('127.0.0.1', 50926)
+WARNING 2025-04-18 12:36:35,185 log Not Found: /:undefined
+INFO 2025-04-18 12:36:35,188 basehttp - Broken pipe from ('127.0.0.1', 50931)
+WARNING 2025-04-18 12:36:35,216 log Not Found: /
+INFO 2025-04-18 12:36:35,218 basehttp - Broken pipe from ('127.0.0.1', 50935)
+WARNING 2025-04-18 12:36:35,247 log Not Found: /:undefined
+INFO 2025-04-18 12:36:35,249 basehttp - Broken pipe from ('127.0.0.1', 50939)
+WARNING 2025-04-18 12:36:35,285 log Not Found: /
+INFO 2025-04-18 12:36:35,286 basehttp - Broken pipe from ('127.0.0.1', 50943)
+WARNING 2025-04-18 12:36:35,326 log Not Found: /cgi-bin/
+INFO 2025-04-18 12:36:35,328 basehttp - Broken pipe from ('127.0.0.1', 50947)
