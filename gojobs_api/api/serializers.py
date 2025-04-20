@@ -1,9 +1,6 @@
 from rest_framework import serializers
-from .models import (
-    User, Job, JobPhoto, Application, Contract, Message, 
-    Notification, Payment, Subscription, Statistic, 
-    FlashJob, Favorite, ApplyAiSetting
-)
+from .models import *
+
 class UserSerializer(serializers.ModelSerializer):
     # Ajout de champs pour correspondre aux attentes du frontend
     nom = serializers.SerializerMethodField()
@@ -113,6 +110,32 @@ class JobSerializer(serializers.ModelSerializer):
             'memberSince': obj.employer.member_since or 2023,
             'jobCount': Job.objects.filter(employer=obj.employer).count()
         }
+    
+    def validate(self, data):
+        """
+        Validation personnalisée pour les offres d'emploi
+        """
+        # Valider la cohérence entre contract_type et experience_years_required
+        if data.get('is_entry_level') and data.get('experience_years_required', 0) > 0:
+            raise serializers.ValidationError(
+                "Une offre marquée 'débutant accepté' ne devrait pas exiger d'années d'expérience."
+            )
+        
+        # Valider la date d'expiration
+        if 'expires_at' in data and data['expires_at'] < timezone.now():
+            raise serializers.ValidationError(
+                "La date d'expiration doit être future."
+            )
+        
+        # Valider la cohérence du salaire
+        if 'salary_amount' in data and data['salary_amount'] is not None:
+            if data['salary_amount'] <= 0:
+                raise serializers.ValidationError(
+                    "Le montant du salaire doit être positif."
+                )
+        
+        return data
+
 class ApplicationSerializer(serializers.ModelSerializer):
     job = JobSerializer(read_only=True)
     candidate = UserSerializer(read_only=True)
@@ -151,6 +174,21 @@ class ApplicationSerializer(serializers.ModelSerializer):
     def get_resume(self, obj):
         return obj.motivation_letter_url.url if obj.motivation_letter_url else None
     
+    def validate(self, data):
+        """
+        Validation personnalisée pour les candidatures
+        """
+        # Vérifier qu'un utilisateur ne postule pas plusieurs fois à la même offre
+        job = data.get('job')
+        candidate = self.context['request'].user
+        
+        if Application.objects.filter(job=job, candidate=candidate).exists():
+            raise serializers.ValidationError(
+                "Vous avez déjà postulé à cette offre d'emploi."
+            )
+        
+        return data
+
 class ContractSerializer(serializers.ModelSerializer):
     job = JobSerializer(read_only=True)
     employer = UserSerializer(read_only=True)
@@ -196,16 +234,54 @@ class PaymentSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['payment_date', 'updated_at', 'refunded_at']
 
-class SubscriptionSerializer(serializers.ModelSerializer):
+class SubscriptionPlanSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subscription
+        model = SubscriptionPlan
         fields = [
-            'id', 'user', 'plan_type', 'amount', 'billing_cycle',
-            'starts_at', 'expires_at', 'is_active', 'auto_renew',
-            'created_at', 'updated_at'
+            'id', 'name', 'description', 'type', 'price', 'billing_cycle',
+            'features', 'is_active', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
 
+class SubscriptionSerializer(serializers.ModelSerializer):
+    plan = SubscriptionPlanSerializer(read_only=True)
+    plan_id = serializers.PrimaryKeyRelatedField(
+        queryset=SubscriptionPlan.objects.all(), 
+        write_only=True,
+        source='plan'
+    )
+    is_valid = serializers.ReadOnlyField()
+    days_remaining = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Subscription
+        fields = [
+            'id', 'user', 'plan', 'plan_id', 'status', 'amount', 'billing_cycle',
+            'starts_at', 'expires_at', 'auto_renew', 'next_billing_date',
+            'cancelled_at', 'payment_method', 'created_at', 'updated_at',
+            'is_valid', 'days_remaining'
+        ]
+        read_only_fields = ['created_at', 'updated_at']
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = [
+            'id', 'user', 'subscription', 'amount', 'payment_method',
+            'transaction_id', 'status', 'payment_date', 'updated_at',
+            'refund_reason', 'refund_requested_at', 'refunded_at',
+            'payment_details', 'invoice_url'
+        ]
+        read_only_fields = ['payment_date', 'updated_at', 'refunded_at']
+
+class JobBoostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobBoost
+        fields = [
+            'id', 'job', 'type', 'amount', 'starts_at', 'expires_at',
+            'is_active', 'payment', 'created_at'
+        ]
+        read_only_fields = ['created_at']
 class StatisticSerializer(serializers.ModelSerializer):
     class Meta:
         model = Statistic
@@ -214,17 +290,43 @@ class StatisticSerializer(serializers.ModelSerializer):
             'conversion_rate', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at', 'conversion_rate']
-
 class FlashJobSerializer(serializers.ModelSerializer):
     job = JobSerializer(read_only=True)
+    job_id = serializers.PrimaryKeyRelatedField(queryset=Job.objects.all(), write_only=True)
+    time_until_start = serializers.ReadOnlyField()
+    is_expired = serializers.ReadOnlyField()
     
     class Meta:
         model = FlashJob
         fields = [
-            'id', 'job', 'start_time', 'confirmation_required',
-            'is_confirmed', 'created_at', 'updated_at'
+            'id', 'job', 'job_id', 'start_time', 'end_time', 'confirmation_required',
+            'is_confirmed', 'max_applicants', 'current_applicants', 'status',
+            'is_immediate', 'salary_per_hour', 'salary_total', 'created_at', 'updated_at',
+            'time_until_start', 'is_expired'
         ]
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at', 'current_applicants']
+    
+    def create(self, validated_data):
+        job = validated_data.pop('job_id')
+        flash_job = FlashJob.objects.create(job=job, **validated_data)
+        return flash_job
+
+class JobShareSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobShare
+        fields = ['id', 'user', 'job', 'share_method', 'share_to', 'created_at']
+        read_only_fields = ['user', 'created_at']
+
+
+class UserConnectionSerializer(serializers.ModelSerializer):
+    connected_to_user = UserSerializer(source='connected_to', read_only=True)
+    user_details = UserSerializer(source='user', read_only=True)
+    
+    class Meta:
+        model = UserConnection
+        fields = ['id', 'user', 'user_details', 'connected_to', 'connected_to_user', 
+                 'status', 'created_at', 'updated_at']
+        read_only_fields = ['user', 'created_at', 'updated_at']
 
 class FavoriteSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -239,8 +341,19 @@ class ApplyAiSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = ApplyAiSetting
         fields = [
-            'id', 'user', 'categories', 'salary_min', 'salary_max',
-            'excluded_companies', 'filters', 'notification_time',
-            'is_active', 'created_at', 'updated_at'
+            'id', 'user', 'categories', 'salary_range', 'filters',
+            'excluded_companies', 'notification_time', 'is_active',
+            'auto_apply', 'created_at', 'updated_at'
         ]
         read_only_fields = ['created_at', 'updated_at']
+
+class ApplyAiSuggestionSerializer(serializers.ModelSerializer):
+    job = JobSerializer(read_only=True)
+    
+    class Meta:
+        model = ApplyAiSuggestion
+        fields = [
+            'id', 'user', 'job', 'match_percentage', 'match_reasons',
+            'status', 'applied_date', 'is_viewed', 'created_at'
+        ]
+        read_only_fields = ['created_at']

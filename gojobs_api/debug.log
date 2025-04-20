@@ -529,3 +529,9 @@ WARNING 2025-04-18 12:36:35,285 log Not Found: /
 INFO 2025-04-18 12:36:35,286 basehttp - Broken pipe from ('127.0.0.1', 50943)
 WARNING 2025-04-18 12:36:35,326 log Not Found: /cgi-bin/
 INFO 2025-04-18 12:36:35,328 basehttp - Broken pipe from ('127.0.0.1', 50947)
+INFO 2025-04-19 13:50:01,381 autoreload Watching for file changes with StatReloader
+INFO 2025-04-20 01:39:23,508 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-20 01:39:26,586 autoreload Watching for file changes with StatReloader
+INFO 2025-04-20 09:28:12,114 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-20 09:28:15,364 autoreload Watching for file changes with StatReloader
+INFO 2025-04-20 09:31:22,298 autoreload Watching for file changes with StatReloader

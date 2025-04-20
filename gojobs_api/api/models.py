@@ -1,8 +1,10 @@
+import re
 from django.db import models
 
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from datetime import timedelta
@@ -111,6 +113,27 @@ class User(AbstractUser):
         except AttributeError:
             return False
 
+    def clean(self):
+        """
+        Validation supplémentaire pour le modèle User
+        """
+        super().clean()
+        
+        # Validation des champs spécifiques à chaque rôle
+        if self.role == 'employer':
+            if not self.company_name:
+                raise ValidationError(_('Le nom de l\'entreprise est obligatoire pour un employeur.'))
+        elif self.role == 'candidate':
+            # Validation optionnelle pour les candidats
+            pass
+        
+        # Validation du format du numéro de téléphone
+        if self.phone:
+            # Format de base : chiffres, espaces, tirets, parenthèses
+            phone_pattern = r'^[\d\s\-\(\)]+$'
+            if not re.match(phone_pattern, self.phone):
+                raise ValidationError(_('Format de numéro de téléphone invalide.'))
+        
 class Job(models.Model):
     """Modèle pour les offres d'emploi."""
     
@@ -369,6 +392,107 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification {self.type} pour {self.user.email}"
 
+class SubscriptionPlan(models.Model):
+    """Modèle pour les plans d'abonnement disponibles."""
+    
+    TYPE_CHOICES = (
+        ('basic_pro', 'Basique Pro'),
+        ('standard_pro', 'Standard Pro'),
+        ('premium_pro', 'Premium Pro'),
+        ('apply_ai', 'ApplyAI'),
+        ('apply_ai_pro', 'ApplyAI Pro'),
+    )
+    
+    BILLING_CYCLE_CHOICES = (
+        ('weekly', 'Hebdomadaire'),
+        ('monthly', 'Mensuel'),
+        ('yearly', 'Annuel'),
+    )
+    
+    name = models.CharField(_('nom'), max_length=50)
+    description = models.TextField(_('description'))
+    type = models.CharField(_('type'), max_length=20, choices=TYPE_CHOICES)
+    price = models.DecimalField(_('prix'), max_digits=10, decimal_places=2)
+    billing_cycle = models.CharField(_('cycle de facturation'), max_length=10, choices=BILLING_CYCLE_CHOICES)
+    features = models.JSONField(_('fonctionnalités'), default=list)
+    is_active = models.BooleanField(_('actif'), default=True)
+    created_at = models.DateTimeField(_('créé le'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('mis à jour le'), auto_now=True)
+    
+    class Meta:
+        verbose_name = _('plan d\'abonnement')
+        verbose_name_plural = _('plans d\'abonnement')
+        ordering = ['price']
+    
+    def __str__(self):
+        return f"{self.name} ({self.get_billing_cycle_display()}: {self.price}€)"
+
+
+
+class Subscription(models.Model):
+    """Modèle pour les abonnements des utilisateurs."""
+    
+    STATUS_CHOICES = (
+        ('active', 'Actif'),
+        ('pending', 'En attente'),
+        ('cancelled', 'Annulé'),
+        ('expired', 'Expiré'),
+        ('trial', 'Période d\'essai'),
+    )
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriptions')
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True, related_name='subscriptions')
+    status = models.CharField(_('statut'), max_length=20, choices=STATUS_CHOICES, default='pending')
+    amount = models.DecimalField(_('montant'), max_digits=10, decimal_places=2)
+    billing_cycle = models.CharField(_('cycle de facturation'), max_length=10, choices=SubscriptionPlan.BILLING_CYCLE_CHOICES)
+    starts_at = models.DateTimeField(_('commence le'), default=timezone.now)
+    expires_at = models.DateTimeField(_('expire le'))
+    auto_renew = models.BooleanField(_('renouvellement automatique'), default=True)
+    next_billing_date = models.DateTimeField(_('prochaine facturation'), blank=True, null=True)
+    cancelled_at = models.DateTimeField(_('annulé le'), blank=True, null=True)
+    payment_method = models.CharField(_('méthode de paiement'), max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(_('créé le'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('mis à jour le'), auto_now=True)
+    
+    class Meta:
+        verbose_name = _('abonnement')
+        verbose_name_plural = _('abonnements')
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Abonnement {self.plan.name} de {self.user.email}"
+    
+    def save(self, *args, **kwargs):
+        # Calcul de la date d'expiration si elle n'est pas déjà définie
+        if not self.expires_at:
+            if self.billing_cycle == 'weekly':
+                self.expires_at = self.starts_at + timedelta(days=7)
+            elif self.billing_cycle == 'monthly':
+                self.expires_at = self.starts_at + timedelta(days=30)
+            elif self.billing_cycle == 'yearly':
+                self.expires_at = self.starts_at + timedelta(days=365)
+                
+        # Calcul de la prochaine date de facturation si elle n'est pas déjà définie
+        if self.auto_renew and not self.next_billing_date:
+            self.next_billing_date = self.expires_at
+            
+        super().save(*args, **kwargs)
+    
+    @property
+    def is_valid(self):
+        """Vérifie si l'abonnement est valide."""
+        return self.status == 'active' and self.expires_at > timezone.now()
+    
+    @property
+    def days_remaining(self):
+        """Calcule le nombre de jours restants avant expiration."""
+        if not self.expires_at:
+            return 0
+            
+        days = (self.expires_at - timezone.now()).days
+        return max(0, days)
+
+
 
 class Payment(models.Model):
     """Modèle pour les paiements des utilisateurs."""
@@ -382,7 +506,7 @@ class Payment(models.Model):
     )
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
-    subscription = models.ForeignKey('Subscription', on_delete=models.SET_NULL, related_name='payments', null=True, blank=True)
+    subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, related_name='payments', null=True, blank=True)
     amount = models.DecimalField(_('montant'), max_digits=10, decimal_places=2)
     payment_method = models.CharField(_('méthode de paiement'), max_length=50)
     transaction_id = models.CharField(_('ID de transaction'), max_length=255, unique=True)
@@ -392,6 +516,8 @@ class Payment(models.Model):
     refund_reason = models.TextField(_('raison du remboursement'), blank=True, null=True)
     refund_requested_at = models.DateTimeField(_('remboursement demandé le'), blank=True, null=True)
     refunded_at = models.DateTimeField(_('remboursé le'), blank=True, null=True)
+    payment_details = models.JSONField(_('détails du paiement'), blank=True, null=True)
+    invoice_url = models.URLField(_('lien vers la facture'), blank=True, null=True)
     
     class Meta:
         verbose_name = _('paiement')
@@ -402,42 +528,96 @@ class Payment(models.Model):
         subscription_info = f" pour {self.subscription}" if self.subscription else ""
         return f"Paiement de {self.amount}€ par {self.user.email}{subscription_info}"
 
-
-class Subscription(models.Model):
-    """Modèle pour les abonnements des utilisateurs."""
+class JobBoost(models.Model):
+    """Modèle pour les boosts d'annonces."""
     
-    PLAN_TYPE_CHOICES = (
-        ('basic_pro', 'Basique Pro'),
-        ('standard_pro', 'Standard Pro'),
-        ('premium_pro', 'Premium Pro'),
-        ('apply_ai', 'ApplyAI'),
-        ('apply_ai_pro', 'ApplyAI Pro'),
+    TYPE_CHOICES = (
+        ('urgent', 'Urgent'),
+        ('new', 'Nouveau'),
+        ('top', 'Premium'),
     )
     
-    BILLING_CYCLE_CHOICES = (
-        ('weekly', 'Hebdomadaire'),
-        ('monthly', 'Mensuel'),
-    )
-    
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscription')
-    plan_type = models.CharField(_('type d\'abonnement'), max_length=20, choices=PLAN_TYPE_CHOICES)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='boosts')
+    type = models.CharField(_('type'), max_length=10, choices=TYPE_CHOICES)
     amount = models.DecimalField(_('montant'), max_digits=10, decimal_places=2)
-    billing_cycle = models.CharField(_('cycle de facturation'), max_length=10, choices=BILLING_CYCLE_CHOICES)
     starts_at = models.DateTimeField(_('commence le'), default=timezone.now)
     expires_at = models.DateTimeField(_('expire le'))
     is_active = models.BooleanField(_('actif'), default=True)
-    auto_renew = models.BooleanField(_('renouvellement automatique'), default=True)
+    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, related_name='job_boosts', null=True, blank=True)
     created_at = models.DateTimeField(_('créé le'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('mis à jour le'), auto_now=True)
     
     class Meta:
-        verbose_name = _('abonnement')
-        verbose_name_plural = _('abonnements')
+        verbose_name = _('boost d\'annonce')
+        verbose_name_plural = _('boosts d\'annonces')
+        ordering = ['-created_at']
     
     def __str__(self):
-        return f"Abonnement {self.plan_type} de {self.user.email}"
+        return f"Boost {self.get_type_display()} pour {self.job.title}"
+    
+    def save(self, *args, **kwargs):
+        # Mettre à jour le statut du job en fonction du type de boost
+        if self.type == 'urgent':
+            self.job.is_urgent = True
+        elif self.type == 'new':
+            self.job.is_new = True
+        elif self.type == 'top':
+            self.job.is_top = True
+            
+        self.job.save()
+        super().save(*args, **kwargs)
+
+class JobShare(models.Model):
+    """Modèle pour suivre les partages d'offres d'emploi."""
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shares')
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='shares')
+    share_method = models.CharField(_('méthode de partage'), max_length=20, 
+                                   choices=(
+                                       ('email', 'Email'),
+                                       ('sms', 'SMS'),
+                                       ('whatsapp', 'WhatsApp'),
+                                       ('facebook', 'Facebook'),
+                                       ('twitter', 'Twitter'),
+                                       ('linkedin', 'LinkedIn'),
+                                       ('copy', 'Copier le lien'),
+                                       ('other', 'Autre')
+                                   ))
+    share_to = models.EmailField(_('partagé à'), blank=True, null=True)
+    created_at = models.DateTimeField(_('partagé le'), auto_now_add=True)
+    
+    class Meta:
+        verbose_name = _('partage d\'emploi')
+        verbose_name_plural = _('partages d\'emplois')
+        ordering = ['-created_at']
+        
+    def __str__(self):
+        return f"Partage de {self.job.title} par {self.user.email} via {self.get_share_method_display()}"
 
 
+class UserConnection(models.Model):
+    """Modèle pour les connexions entre utilisateurs (réseau professionnel)."""
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='connections')
+    connected_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='connected_from')
+    status = models.CharField(_('statut'), max_length=20, 
+                             choices=(
+                                 ('pending', 'En attente'),
+                                 ('accepted', 'Acceptée'),
+                                 ('rejected', 'Refusée')
+                             ),
+                             default='pending')
+    created_at = models.DateTimeField(_('créée le'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('mise à jour le'), auto_now=True)
+    
+    class Meta:
+        verbose_name = _('connexion utilisateur')
+        verbose_name_plural = _('connexions utilisateurs')
+        ordering = ['-created_at']
+        unique_together = [['user', 'connected_to']]
+        
+    def __str__(self):
+        return f"Connexion de {self.user.email} à {self.connected_to.email} ({self.get_status_display()})"
+      
 class Statistic(models.Model):
     """Modèle pour les statistiques journalières des offres d'emploi."""
     
@@ -468,14 +648,28 @@ class Statistic(models.Model):
         
         super().save(*args, **kwargs)
 
-
 class FlashJob(models.Model):
     """Modèle pour les emplois flash (urgent et à court terme)."""
     
+    STATUS_CHOICES = (
+        ('pending', 'En attente'),
+        ('active', 'Actif'),
+        ('filled', 'Pourvu'),
+        ('cancelled', 'Annulé'),
+        ('expired', 'Expiré'),
+    )
+    
     job = models.OneToOneField(Job, on_delete=models.CASCADE, related_name='flash_job')
     start_time = models.DateTimeField(_('heure de début'))
+    end_time = models.DateTimeField(_('heure de fin'))
     confirmation_required = models.BooleanField(_('confirmation requise'), default=True)
     is_confirmed = models.BooleanField(_('confirmé'), default=False)
+    max_applicants = models.IntegerField(_('nombre maximum de candidats'), blank=True, null=True)
+    current_applicants = models.IntegerField(_('nombre actuel de candidats'), default=0)
+    status = models.CharField(_('statut'), max_length=20, choices=STATUS_CHOICES, default='pending')
+    is_immediate = models.BooleanField(_('démarrage immédiat'), default=False)
+    salary_per_hour = models.DecimalField(_('salaire horaire'), max_digits=10, decimal_places=2, blank=True, null=True)
+    salary_total = models.DecimalField(_('salaire total'), max_digits=10, decimal_places=2, blank=True, null=True)
     created_at = models.DateTimeField(_('créé le'), auto_now_add=True)
     updated_at = models.DateTimeField(_('mis à jour le'), auto_now=True)
     
@@ -486,7 +680,44 @@ class FlashJob(models.Model):
     
     def __str__(self):
         return f"Emploi flash: {self.job.title} à {self.start_time}"
-
+    
+    def save(self, *args, **kwargs):
+        # Marquer l'offre comme urgente automatiquement
+        if not self.job.is_urgent:
+            self.job.is_urgent = True
+            self.job.save()
+        
+        # Vérifier l'expiration
+        if self.end_time < timezone.now() and self.status not in ['expired', 'cancelled']:
+            self.status = 'expired'
+            
+        # Si le nombre max de candidats est atteint, marquer comme pourvu
+        if self.max_applicants and self.current_applicants >= self.max_applicants and self.status != 'filled':
+            self.status = 'filled'
+        
+        super().save(*args, **kwargs)
+        
+    @property
+    def is_expired(self):
+        """Vérifie si l'emploi flash est expiré."""
+        return self.end_time < timezone.now()
+    
+    @property
+    def time_until_start(self):
+        """Retourne le temps restant avant le début."""
+        if self.start_time < timezone.now():
+            return "Maintenant"
+            
+        delta = self.start_time - timezone.now()
+        hours, remainder = divmod(delta.seconds, 3600)
+        minutes, _ = divmod(remainder, 60)
+        
+        if delta.days > 0:
+            return f"{delta.days}j {hours}h"
+        elif hours > 0:
+            return f"{hours}h {minutes}min"
+        else:
+            return f"{minutes}min"
 
 class Favorite(models.Model):
     """Modèle pour les offres d'emploi favorites des utilisateurs."""
@@ -513,12 +744,13 @@ class ApplyAiSetting(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='apply_ai_settings')
     categories = models.JSONField(_('catégories'), default=list)
-    salary_min = models.DecimalField(_('salaire minimum'), max_digits=10, decimal_places=2, blank=True, null=True)
-    salary_max = models.DecimalField(_('salaire maximum'), max_digits=10, decimal_places=2, blank=True, null=True)
-    excluded_companies = models.JSONField(_('entreprises exclues'), blank=True, null=True)
+    salary_range = models.JSONField(_('fourchette de salaire'), default=dict)
     filters = models.JSONField(_('filtres'), blank=True, null=True)
+    excluded_companies = models.JSONField(_('entreprises exclues'), blank=True, null=True)
     notification_time = models.TimeField(_('heure de notification'))
     is_active = models.BooleanField(_('actif'), default=True)
+    auto_apply = models.BooleanField(_('candidature automatique'), default=False)
+    cv_file = models.FileField(upload_to='apply_ai/cv/', blank=True, null=True)
     created_at = models.DateTimeField(_('créé le'), auto_now_add=True)
     updated_at = models.DateTimeField(_('mis à jour le'), auto_now=True)
     
@@ -528,3 +760,34 @@ class ApplyAiSetting(models.Model):
     
     def __str__(self):
         return f"Paramètres ApplyAI de {self.user.email}"
+
+class ApplyAiSuggestion(models.Model):
+    """Modèle pour les suggestions d'emplois générées par ApplyAI."""
+    
+    STATUS_CHOICES = (
+        ('pending', 'En attente'),
+        ('applied', 'Candidature envoyée'),
+        ('rejected', 'Rejeté'),
+        ('saved', 'Sauvegardé'),
+    )
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ai_suggestions')
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='ai_suggestions')
+    match_percentage = models.DecimalField(_('pourcentage de correspondance'), max_digits=5, decimal_places=2)
+    match_reasons = models.JSONField(_('raisons de correspondance'), default=list)
+    status = models.CharField(_('statut'), max_length=20, choices=STATUS_CHOICES, default='pending')
+    applied_date = models.DateTimeField(_('date de candidature'), blank=True, null=True)
+    is_viewed = models.BooleanField(_('vu'), default=False)
+    created_at = models.DateTimeField(_('créé le'), auto_now_add=True)
+    
+    class Meta:
+        verbose_name = _('suggestion ApplyAI')
+        verbose_name_plural = _('suggestions ApplyAI')
+        ordering = ['-match_percentage']
+        # Un emploi ne peut être suggéré qu'une fois par utilisateur
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'job'], name='unique_suggestion')
+        ]
+    
+    def __str__(self):
+        return f"Suggestion pour {self.user.email}: {self.job.title} ({self.match_percentage}%)"
