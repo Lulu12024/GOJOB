@@ -1,5 +1,8 @@
 from api.models import Job, Application
 from django.utils import timezone
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import exception_handler
 
 def get_job_recommendations(user, limit=20):
     """

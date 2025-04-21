@@ -139,15 +139,11 @@ class UserViewSet(viewsets.ModelViewSet):
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title', 'description', 'city']
     ordering_fields = ['created_at', 'updated_at', 'salary_amount']
     
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            self.permission_classes = [permissions.IsAuthenticated, IsEmployer]
-        return super().get_permissions()
     
     def perform_create(self, serializer):
         serializer.save(employer=self.request.user)
@@ -183,6 +179,7 @@ class JobViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             self.perform_create(serializer)
             return api_response(serializer.data, "Offre d'emploi créée avec succès", status_code=201)
+        print(serializer.errors)
         return api_response(None, serializer.errors, status_code=400)
     
     def update(self, request, *args, **kwargs):
@@ -890,6 +887,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
         payments = self.get_queryset().order_by('-payment_date')
         serializer = self.get_serializer(payments, many=True)
         return Response(serializer.data)
+    
 class FlashJobViewSet(viewsets.ModelViewSet):
     queryset = FlashJob.objects.all()
     serializer_class = FlashJobSerializer

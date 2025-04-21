@@ -85,11 +85,17 @@ WSGI_APPLICATION = 'gojobs_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gojobs_api',
-        'USER': 'postgres',
-        'PASSWORD': '#!@dm1n!#',
-        'HOST': 'localhost',
+        'NAME': 'gojob_db',
+        'USER': 'gojob_user',
+        'PASSWORD': 'wNS0xNfSpZaJSlP7FqJxLZYYlvNBcS9l',
+        'HOST': 'dpg-d034vc6uk2gs73f26cf0-a.oregon-postgres.render.com',
         'PORT': '5432',
+
+        # 'NAME': 'gojobs_api',
+        # 'USER': 'postgres',
+        # 'PASSWORD': '#!@dm1n!#',
+        # 'HOST': 'localhost',
+        # 'PORT': '5432',
     }
 }
 
@@ -139,10 +145,13 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',  # Pour permettre l'accès aux endpoints d'authentification
     ],
-    'EXCEPTION_HANDLER': 'core.utils.custom_exception_handler',
+    # 'EXCEPTION_HANDLER': 'gojobs_api.utils.custom_exception_handler', 
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
@@ -183,7 +192,11 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Gardez ceci comme fallback
 ]
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # En développement, on autorise toutes les origines
+APPEND_SLASH=False
+CORS_ALLOW_ALL_ORIGINS = True  # En développement, on autorise toutes les origines
+# CORS_ALLOWED_ORIGINS = [
+    
+# ]
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 
