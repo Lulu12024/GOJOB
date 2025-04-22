@@ -32,6 +32,10 @@ urlpatterns = [
     path('', include(router.urls)),
     
     # User profile routes
-    path('users/profile/', views.UserViewSet.as_view({'get': 'profile', 'put': 'profile'}), name='user-profile'),
-    path('users/profile/details/', views.UserViewSet.as_view({'put': 'update_profile'}), name='user-profile-details'),
+    path('users/profile', views.UserViewSet.as_view({'get': 'profile', 'put': 'profile'}), name='user-profile'),
+    path('users/profile/details', views.UserViewSet.as_view({'put': 'update_profile'}), name='user-profile-details'),
+
+    path('messages/user/<int:user_id>/conversations/', views.MessageViewSet.as_view({'get': 'user_conversations'})),
+    path('messages/conversation/<int:conversation_id>/', views.MessageViewSet.as_view({'get': 'conversation_messages'})),
+    path('messages/send/', views.MessageViewSet.as_view({'post': 'send_message'})),
 ]

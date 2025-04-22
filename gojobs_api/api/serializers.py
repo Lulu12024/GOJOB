@@ -57,11 +57,11 @@ class JobSerializer(serializers.ModelSerializer):
     is_expired = serializers.ReadOnlyField()
     
     # Ajouter les champs personnalisés pour le frontend
-    titre = serializers.CharField(source='title')
+    title = serializers.CharField()
     description = serializers.CharField()
     entreprise = serializers.CharField(source='employer.company_name', read_only=True)
-    location = serializers.CharField(source='city')
-    typeContrat = serializers.CharField(source='contract_type')
+    location = serializers.CharField()
+    contract_type = serializers.CharField()
     salaire = serializers.SerializerMethodField()
     typeSalaire = serializers.SerializerMethodField()
     logo = serializers.SerializerMethodField()
@@ -76,17 +76,17 @@ class JobSerializer(serializers.ModelSerializer):
         model = Job
         fields = [
             'id', 'employer', 'title', 'description', 'category', 'subcategory',
-            'city', 'address', 'salary_type', 'salary_amount', 'contract_type',
+             'address', 'salary_type', 'salary_amount', 'contract_type',
             'is_entry_level', 'experience_years_required', 'requires_driving_license',
             'accepts_working_visa', 'accepts_holiday_visa', 'accepts_student_visa',
             'has_accommodation', 'accommodation_accepts_children', 'accommodation_accepts_dogs',
             'accommodation_is_accessible', 'job_accepts_handicapped', 'has_company_car',
             'contact_name', 'contact_phone', 'contact_methods', 'website_url',
-            'is_urgent', 'is_new', 'is_top', 'status', 'created_at', 'updated_at',
+            'is_urgent', 'is_new', 'is_top', 'status',
             'expires_at', 'views_count', 'applications_count', 'conversion_rate',
-            'photos', 'days_until_expiry', 'is_expired',
+            'photos', 'days_until_expiry', 'is_expired','user_id',
             # Champs personnalisés pour le frontend
-            'titre', 'entreprise', 'location', 'typeContrat', 'salaire', 'typeSalaire',
+             'entreprise', 'location', 'salaire', 'typeSalaire',
             'logo', 'createdAt', 'isUrgent', 'isNew', 'logement', 'vehicule', 'employeur'
         ]
         read_only_fields = ['created_at', 'updated_at', 'views_count', 'applications_count', 'conversion_rate']

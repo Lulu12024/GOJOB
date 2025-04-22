@@ -6,7 +6,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
+from django.utils import timezone 
 from datetime import timedelta
 
 
@@ -157,10 +157,10 @@ class Job(models.Model):
     
     # Informations de base
     employer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='jobs')
-    title = models.CharField(_('titre'), max_length=255)
-    description = models.TextField(_('description'))
-    category = models.CharField(_('catégorie'), max_length=100)
-    subcategory = models.CharField(_('sous-catégorie'), max_length=100, blank=True, null=True)
+    title = models.CharField( max_length=255)
+    description = models.TextField()
+    category = models.CharField(max_length=100)
+    subcategory = models.CharField(max_length=100, blank=True, null=True)
     
     # Localisation
     city = models.CharField(_('ville'), max_length=100)
@@ -198,8 +198,8 @@ class Job(models.Model):
     is_new = models.BooleanField(_('nouveau'), default=True)
     is_top = models.BooleanField(_('premium'), default=False)
     status = models.CharField(_('statut'), max_length=10, choices=STATUS_CHOICES, default='active')
-    created_at = models.DateTimeField(_('créé le'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('mis à jour le'), auto_now=True)
+    created_at = models.DateTimeField(timezone.now)
+    updated_at = models.DateTimeField(timezone.now)
     expires_at = models.DateTimeField(_('expire le'), blank=True, null=True)
     
     # Statistiques

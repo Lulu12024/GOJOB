@@ -146,7 +146,20 @@ class JobViewSet(viewsets.ModelViewSet):
     
     
     def perform_create(self, serializer):
-        serializer.save(employer=self.request.user)
+        # Extraire l'ID utilisateur depuis les données de la requête
+        user_id = self.request.data.get('user_id')
+        if user_id:
+            try:
+                employer = User.objects.get(id=user_id)
+                serializer.save(employer=employer)
+            except User.DoesNotExist:
+                raise serializers.ValidationError({"user_id": "Utilisateur non trouvé"})
+        else:
+            # Comportement par défaut si aucun user_id n'est fourni
+            if self.request.user.is_authenticated:
+                serializer.save(employer=self.request.user)
+            else:
+                raise serializers.ValidationError({"user_id": "ID utilisateur requis"})
     
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -498,55 +511,112 @@ class ApplicationViewSet(viewsets.ModelViewSet):
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     
     def get_queryset(self):
         user = self.request.user
-        # Récupérer tous les messages envoyés ou reçus par l'utilisateur
         return Message.objects.filter(sender=user) | Message.objects.filter(receiver=user)
     
-    def perform_create(self, serializer):
-        receiver_id = self.request.data.get('receiver_id')
-        job_id = self.request.data.get('job_id', None)
-        
-        receiver = get_object_or_404(User, id=receiver_id)
-        job = None
-        if job_id:
-            job = get_object_or_404(Job, id=job_id)
-        
-        serializer.save(sender=self.request.user, receiver=receiver, job=job)
+    # Nouvelle méthode pour la liste des conversations basée sur l'ID utilisateur
+    @action(detail=False, methods=['get'], url_path='user/(?P<user_id>[^/.]+)/conversations')
+    def user_conversations(self, request, user_id=None):
+        try:
+            user = User.objects.get(id=user_id)
+            
+            # Obtenir tous les utilisateurs avec qui l'utilisateur a échangé des messages
+            sent_to = Message.objects.filter(sender=user).values_list('receiver', flat=True).distinct()
+            received_from = Message.objects.filter(receiver=user).values_list('sender', flat=True).distinct()
+            
+            conversation_users_ids = set(list(sent_to) + list(received_from))
+            conversation_users = User.objects.filter(id__in=conversation_users_ids)
+            
+            # Créer un dictionnaire avec les derniers messages pour chaque conversation
+            conversations = []
+            for other_user in conversation_users:
+                # Obtenir le dernier message échangé avec cet utilisateur
+                last_message = Message.objects.filter(
+                    (Q(sender=user) & Q(receiver=other_user)) | 
+                    (Q(sender=other_user) & Q(receiver=user))
+                ).order_by('-created_at').first()
+                
+                if last_message:
+                    conversations.append({
+                        'id': other_user.id,  # Utiliser l'ID de l'autre utilisateur comme ID de conversation
+                        'user': UserSerializer(other_user).data,
+                        'last_message': MessageSerializer(last_message).data,
+                        'unread_count': Message.objects.filter(sender=other_user, receiver=user, is_read=False).count()
+                    })
+            
+            # Trier les conversations par date du dernier message
+            conversations.sort(key=lambda x: x['last_message']['created_at'], reverse=True)
+            
+            return Response(conversations)
+        except User.DoesNotExist:
+            return Response({"error": "Utilisateur non trouvé"}, status=status.HTTP_404_NOT_FOUND)
     
-    @action(detail=False, methods=['get'])
-    def conversations(self, request):
-        user = request.user
-        
-        # Obtenir tous les utilisateurs avec qui l'utilisateur actuel a échangé des messages
-        sent_to = Message.objects.filter(sender=user).values_list('receiver', flat=True).distinct()
-        received_from = Message.objects.filter(receiver=user).values_list('sender', flat=True).distinct()
-        
-        conversation_users_ids = set(list(sent_to) + list(received_from))
-        conversation_users = User.objects.filter(id__in=conversation_users_ids)
-        
-        # Créer un dictionnaire avec les derniers messages pour chaque conversation
-        conversations = []
-        for other_user in conversation_users:
-            # Obtenir le dernier message échangé avec cet utilisateur
-            last_message = Message.objects.filter(
+    # Méthode pour obtenir les messages d'une conversation spécifique
+    @action(detail=False, methods=['get'], url_path='conversation/(?P<conversation_id>[^/.]+)')
+    def conversation_messages(self, request, conversation_id=None):
+        try:
+            # Ici, conversation_id est en fait l'ID de l'autre utilisateur
+            user = request.user
+            other_user = User.objects.get(id=conversation_id)
+            
+            # Obtenir tous les messages entre ces deux utilisateurs
+            messages = Message.objects.filter(
                 (Q(sender=user) & Q(receiver=other_user)) | 
                 (Q(sender=other_user) & Q(receiver=user))
-            ).order_by('-created_at').first()
+            ).order_by('-created_at')
             
-            if last_message:
-                conversations.append({
-                    'user': UserSerializer(other_user).data,
-                    'last_message': MessageSerializer(last_message).data,
-                    'unread_count': Message.objects.filter(sender=other_user, receiver=user, is_read=False).count()
-                })
+            # Marquer les messages comme lus
+            unread_messages = messages.filter(receiver=user, is_read=False)
+            unread_messages.update(is_read=True)
+            
+            conversation = {
+                'id': other_user.id,
+                'participants': [
+                    UserSerializer(user).data,
+                    UserSerializer(other_user).data
+                ]
+            }
+            
+            return Response({
+                'conversation': conversation,
+                'messages': MessageSerializer(messages, many=True).data
+            })
+        except User.DoesNotExist:
+            return Response({"error": "Utilisateur non trouvé"}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Méthode pour envoyer un message
+    @action(detail=False, methods=['post'])
+    def send_message(self, request):
+        sender = request.user
+        receiver_id = request.data.get('receiver_id')
+        text = request.data.get('text')
+        job_id = request.data.get('job_id', None)
         
-        # Trier les conversations par date du dernier message
-        conversations.sort(key=lambda x: x['last_message']['created_at'], reverse=True)
+        if not receiver_id or not text:
+            return Response({"error": "receiver_id et text sont requis"}, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(conversations)
+        try:
+            receiver = User.objects.get(id=receiver_id)
+            
+            job = None
+            if job_id:
+                job = Job.objects.get(id=job_id)
+            
+            message = Message.objects.create(
+                sender=sender,
+                receiver=receiver,
+                content=text,
+                job=job
+            )
+            
+            return Response(MessageSerializer(message).data)
+        except User.DoesNotExist:
+            return Response({"error": "Destinataire non trouvé"}, status=status.HTTP_404_NOT_FOUND)
+        except Job.DoesNotExist:
+            return Response({"error": "Offre d'emploi non trouvée"}, status=status.HTTP_404_NOT_FOUND)
 
 class SubscriptionPlanViewSet(viewsets.ReadOnlyModelViewSet):
     """ViewSet pour les plans d'abonnement (read-only)."""

@@ -90,12 +90,12 @@ DATABASES = {
         'PASSWORD': 'wNS0xNfSpZaJSlP7FqJxLZYYlvNBcS9l',
         'HOST': 'dpg-d034vc6uk2gs73f26cf0-a.oregon-postgres.render.com',
         'PORT': '5432',
-
         # 'NAME': 'gojobs_api',
         # 'USER': 'postgres',
         # 'PASSWORD': '#!@dm1n!#',
         # 'HOST': 'localhost',
         # 'PORT': '5432',
+
     }
 }
 
@@ -194,9 +194,10 @@ AUTHENTICATION_BACKENDS = [
 # CORS settings
 APPEND_SLASH=False
 CORS_ALLOW_ALL_ORIGINS = True  # En développement, on autorise toutes les origines
-# CORS_ALLOWED_ORIGINS = [
-    
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://10.0.2.2:8000",
+]
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 
