@@ -1,46 +1,43 @@
+// src/redux/slices/messagesSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import messagesApi from '../../api/messagesApi'; // Correction de l'import
+import messagesApi from '../../api/messagesApi';
 
-// Types
+// Types adaptés au nouvel API
 interface Message {
   id: number;
-  conversationId: number;
-  senderId: number;
-  text: string;
-  time: string;
-  read: boolean;
+  sender: any; // Utilisateur ou ID
+  receiver: any; // Utilisateur ou ID
+  content: string;
+  is_read: boolean;
+  created_at: string;
+  job?: any;
 }
 
 interface Conversation {
   id: number;
-  participants: {
-    id: number;
-    name: string;
-    avatar?: string;
-  }[];
-  lastMessage?: {
-    text: string;
-    time: string;
-    senderId: number;
-  };
-  unreadCount: number;
+  user: any; // L'autre utilisateur
+  last_message: Message;
+  unread_count: number;
 }
 
 interface ConversationDetails {
-  conversation: Conversation;
+  conversation: {
+    id: number;
+    participants: any[];
+  };
   messages: Message[];
 }
 
-interface MessageData {
-  conversationId: number;
+interface SendMessagePayload {
+  receiver_id: number;
   text: string;
-  senderId: number;
+  job_id?: number;
 }
 
 interface MessagesState {
   conversations: Conversation[];
   messages: Message[];
-  currentConversation: Conversation | null;
+  currentConversation: any | null;
   loading: boolean;
   error: string | null;
 }
@@ -53,15 +50,16 @@ const initialState: MessagesState = {
   error: null
 };
 
-export const fetchConversations = createAsyncThunk<
-  Conversation[],
-  void,
+// Thunks adaptés
+export const fetchConversations = createAsyncThunk
+  <Conversation[],
+  number, // User ID
   { rejectValue: string }
 >(
   'messages/fetchConversations',
-  async (_, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
-      const response = await messagesApi.getConversations();
+      const response = await messagesApi.getConversations(userId);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la récupération des conversations');
@@ -69,13 +67,13 @@ export const fetchConversations = createAsyncThunk<
   }
 );
 
-export const fetchMessages = createAsyncThunk<
-  ConversationDetails,
-  number,
+export const fetchMessages = createAsyncThunk
+  <ConversationDetails,
+  number, // Conversation ID (autre utilisateur ID)
   { rejectValue: string }
 >(
   'messages/fetchMessages',
-  async (conversationId: number, { rejectWithValue }) => {
+  async (conversationId, { rejectWithValue }) => {
     try {
       const response = await messagesApi.getMessages(conversationId);
       return response.data;
@@ -85,15 +83,15 @@ export const fetchMessages = createAsyncThunk<
   }
 );
 
-export const sendMessage = createAsyncThunk<
-  Message,
-  MessageData,
+export const sendMessage = createAsyncThunk
+  <Message,
+  SendMessagePayload,
   { rejectValue: string }
 >(
   'messages/sendMessage',
-  async (messageData: MessageData, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
-      const response = await messagesApi.sendMessage(messageData);
+      const response = await messagesApi.sendMessage(payload);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Erreur lors de l\'envoi du message');

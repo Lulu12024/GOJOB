@@ -40,18 +40,21 @@ type CandidaturesProps = {
 export const Candidatures: React.FC<CandidaturesProps> = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
-  const { applications, loading, error } = useSelector((state: any) => state.applications);
+  const { applications = [], loading = false, error = null } = useSelector((state: any) => state.applications || {});
+  
+  // const { applications, loading, error } = useSelector((state: any) => state.applications);
   const [activeTab, setActiveTab] = useState<UITabStatus>('new');
 
   useEffect(() => {
     dispatch(fetchApplications());
   }, [dispatch]);
 
-  const filteredApplications = applications.filter((app: any) => {
+  const filteredApplications = applications ? applications.filter((app: any) => {
+    if (!app || !app.status) return false;
     // Mapper le statut API vers le statut UI pour la comparaison
     const uiStatus = mapAPIStatusToUIStatus(app.status as ApplicationStatus);
     return uiStatus === activeTab;
-  });
+  }) : [];
 
   const handleStatusUpdate = (id: number, newStatus: UITabStatus) => {
     // Convertir le statut UI en statut API avant de l'envoyer

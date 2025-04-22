@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AccueilNavigatorParamList } from '../types/navigation';
 import { useTheme } from '../hooks/useTheme';
-
+import { MonProfil } from '../écrans/profil/MonProfil';
 // Importation des écrans
 import EcranListeEmplois from '../écrans/accueil/ListeEmplois';
 import EcranDetailEmploi from '../écrans/accueil/DetailEmploi';
@@ -61,6 +61,15 @@ const AccueilNavigator: React.FC = () => {
           title: 'Résultats',
         }}
       />
+      <Stack.Screen
+        name="MonProfil"
+        component={MonProfil}
+        options={{
+          title: 'Profil',
+          
+        }}
+      />
+      
     </Stack.Navigator>
   );
 };

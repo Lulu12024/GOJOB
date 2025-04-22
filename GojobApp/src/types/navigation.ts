@@ -1,3 +1,5 @@
+
+
 // Types pour la navigation
 import { Emploi } from '../api/jobsApi';
 import { EmploiFlash } from '../api/flashJobsApi';
@@ -10,6 +12,7 @@ export type AuthNavigatorParamList = {
   Connexion: undefined;
   Inscription: undefined;
   MotDePasseOublie: undefined;
+  Main: undefined; 
 };
 
 // Types pour la navigation d'accueil
@@ -24,6 +27,7 @@ export type AccueilNavigatorParamList = {
     onApply: (nouveauxFiltres: any) => void;
   };
   PublierEmploi: undefined;
+  MonProfil: undefined;
 };
 
 // Types pour la navigation des candidatures
@@ -31,6 +35,20 @@ export type CandidaturesNavigatorParamList = {
   MesCandidatures: undefined;
   DetailCandidature: { id: number };
   NouvellesCandidatures: undefined; // Pour les employeurs
+};
+
+
+// Types pour la navigation des messages
+export type MessagesNavigatorParamList = {
+  ListeConversations: undefined;
+  Conversation: { 
+    conversationId?: number; 
+    newConversation?: boolean;
+    receiver?: {
+      id: number;
+      nom: string;
+    }
+  };
 };
 
 // Types pour la navigation de messagerie
@@ -93,6 +111,7 @@ export type MainNavigatorParamList = {
   DetailFlashJob: { id: number } | { emploi: EmploiFlash };
   Recherche: { keyword?: string; location?: string };
   PublierEmploi: undefined;
+  MonProfil: undefined;
   PublierFlashJob: undefined;
   FiltrageRecherche: { filtres?: any; onApply: (filtres: any) => void };
   EditerEmploi: { id: number };

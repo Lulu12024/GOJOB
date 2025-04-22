@@ -102,14 +102,16 @@ const authApi = {
   connexion: async (payload: ConnexionPayload): Promise<AuthResponse> => {
     try {
       const response = await apiClient.post<ApiResponse<AuthResponse>>('auth/login', payload);
-      
+      console.log('Réponse de connexion reçue:', JSON.stringify(response.data, null, 2));
       // Stockage des tokens et données utilisateur
       if (response.data.data.token) {
+        console.log("Le token est:" + response.data.data.token)
         await AsyncStorage.setItem(AUTH_TOKEN_KEY, response.data.data.token);
         await AsyncStorage.setItem(USER_DATA_KEY, JSON.stringify(response.data.data.user));
         if (response.data.data.refresh) {
           await AsyncStorage.setItem(REFRESH_TOKEN_KEY, response.data.data.refresh);
         }
+        console.log("J'ai fini")
       }
       
       // Ajouter la méthode utilitaire hasSubscription à l'objet utilisateur
@@ -124,7 +126,13 @@ const authApi = {
       return response.data.data;
     } catch (error: any) {
       console.error('Erreur lors de la connexion:', error);
-      throw error.response?.data?.message || 'Identifiants invalides';
+      // Extraire le message d'erreur de la réponse de l'API
+      if (error.response && error.response.data) {
+        if (error.response.data.status === 'error' && error.response.data.message) {
+          throw error.response.data.message;
+        }
+      }
+      throw 'Identifiants invalides';
     }
   },
   

@@ -93,11 +93,12 @@ const Inscription: React.FC<InscriptionProps> = ({ navigation }) => {
     setChargement(true);
     try {
       await dispatch(inscription({
-        name: `${prenom} ${nom}`,
         email,
         password,
         password_confirmation: passwordConfirm,
         role,
+        first_name: prenom,  // Remplacez name par first_name et last_name
+        last_name: nom,
         phone: telephone
       })).unwrap();
       setChargement(false);

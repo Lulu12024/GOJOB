@@ -34,15 +34,19 @@ const Connexion: React.FC<ConnexionProps> = ({ navigation }) => {
       Alert.alert('Erreur', 'Veuillez remplir tous les champs');
       return;
     }
+    
     setChargement(true);
+    
     try {
       await dispatch(connexion({ email, password })).unwrap();
       setChargement(false);
-      // Navigation vers l'écran principal après connexion réussie
-      // À adapter selon votre flux de navigation
+      
+      // La navigation sera gérée dans un effect du composant App.tsx ou un middleware Redux
       // navigation.navigate('Main'); 
+      // Pour vérifier quelle route afficher selon le rôle de l'utilisateur
     } catch (error: any) {
       setChargement(false);
+      // Afficher le message d'erreur provenant de l'API si disponible
       Alert.alert('Erreur', error || 'Impossible de se connecter');
     }
   };

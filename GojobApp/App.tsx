@@ -1,44 +1,38 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View } from 'react-native';
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.tsx to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
-
-
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { useEffect } from 'react';
+import { Provider, useDispatch } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { store } from './src/redux/store';
 import { Navigation } from './src/navigation/Navigation';
 import { LogBox } from 'react-native';
 import { enableScreens } from 'react-native-screens';
+import { chargerUtilisateur } from './src/redux/slices/authSlice';
+import { AppDispatch } from './src/redux/store';
 
 enableScreens(false);
+
 // Ignorer les avertissements spécifiques
 LogBox.ignoreLogs([
   'ViewPropTypes will be removed',
   'ColorPropType will be removed',
 ]);
 
+// Composant qui se charge de vérifier l'authentification
+const AuthCheck = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  
+  useEffect(() => {
+    dispatch(chargerUtilisateur());
+  }, [dispatch]);
+  
+  return null;
+};
+
 const App = () => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
+        {/* Ajouter le composant AuthCheck à l'intérieur du Provider pour avoir accès au dispatch */}
+        <AuthCheck />
         <Navigation />
       </SafeAreaProvider>
     </Provider>

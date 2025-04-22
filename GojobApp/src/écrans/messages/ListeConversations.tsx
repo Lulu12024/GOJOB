@@ -12,13 +12,16 @@ type ListeConversationsProps = {
 };
 
 export const ListeConversations: React.FC<ListeConversationsProps> = ({ navigation }) => {
-  const theme = useTheme(); // Correction ici
-  const dispatch = useDispatch<AppDispatch>(); // Typage du dispatch
-  const { conversations, loading, error } = useSelector((state: any) => state.messages);
+  const theme = useTheme();
+  const dispatch = useDispatch<AppDispatch>();
+  const { conversations = [], loading = false, error = null } = useSelector((state: any) => state.messages || {});
+  const { utilisateur } = useSelector((state: any) => state.auth || {});
 
   useEffect(() => {
-    dispatch(fetchConversations());
-  }, [dispatch]);
+    if (utilisateur?.id) {
+      dispatch(fetchConversations(utilisateur.id));
+    }
+  }, [dispatch, utilisateur]);
 
   if (loading) {
     return (

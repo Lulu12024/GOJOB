@@ -1,204 +1,173 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import authApi, { 
-  Utilisateur, 
-  ConnexionPayload, 
-  InscriptionPayload 
-} from '../../api/authApi';
+// authSlice.ts
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import authApi from '../../api/authApi';
+import { ConnexionPayload, InscriptionPayload, Utilisateur } from '../../api/authApi';
 
-interface EtatAuth {
-  estAuthentifie: boolean;
+// État initial
+interface AuthState {
   utilisateur: Utilisateur | null;
   token: string | null;
   chargement: boolean;
   erreur: string | null;
+  authenticated: boolean;
 }
 
-const initialState: EtatAuth = {
-  estAuthentifie: false,
+const initialState: AuthState = {
   utilisateur: null,
   token: null,
   chargement: false,
   erreur: null,
+  authenticated: false
 };
 
-// Action de connexion
-export const connexion = createAsyncThunk<
-  Utilisateur, 
-  ConnexionPayload, 
-  { rejectValue: string }
->(
-  'auth/connexion',
-  async (payload, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await authApi.connexion(payload);
-      
-      // Dispatch des actions pour mettre à jour l'état
-      dispatch(setToken(response.token));
-      dispatch(setUtilisateur(response.user));
-      dispatch(setAuthentifie(true));
-      
-      return response.user;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Impossible de se connecter'
-      );
-    }
-  }
-);
-
-// Action d'inscription
-export const inscription = createAsyncThunk<
-  Utilisateur, 
-  InscriptionPayload, 
-  { rejectValue: string }
->(
-  'auth/inscription',
-  async (payload, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await authApi.inscription(payload);
-      
-      // Dispatch des actions pour mettre à jour l'état
-      dispatch(setToken(response.token));
-      dispatch(setUtilisateur(response.user));
-      dispatch(setAuthentifie(true));
-      
-      return response.user;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Impossible de créer le compte'
-      );
-    }
-  }
-);
-
-// Vérification de l'authentification
 export const verifierAuthentification = createAsyncThunk(
   'auth/verifierAuthentification',
-  async (_, { dispatch }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const utilisateurJSON = await AsyncStorage.getItem('user_data');
-      const token = await AsyncStorage.getItem('auth_token');
-      
-      if (utilisateurJSON && token) {
-        const utilisateur = JSON.parse(utilisateurJSON);
-        
-        // Mettre à jour explicitement l'état d'authentification
-        dispatch(setAuthentifie(true));
-        dispatch(setToken(token));
-        dispatch(setUtilisateur(utilisateur));
-        
-        return utilisateur;
-      }
-      
-      return null;
+      const utilisateur = await authApi.verifierAuthentification();
+      return utilisateur;
     } catch (error) {
-      console.error('Erreur lors de la vérification de l\'authentification :', error);
-      return null;
+      return rejectWithValue(error);
     }
   }
 );
 
-// Action de déconnexion
+// Actions asynchrones
+export const connexion = createAsyncThunk(
+  'auth/connexion',
+  async (payload: ConnexionPayload, { rejectWithValue }) => {
+    try {
+      const response = await authApi.connexion(payload);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const inscription = createAsyncThunk(
+  'auth/inscription',
+  async (payload: InscriptionPayload, { rejectWithValue }) => {
+    try {
+      const response = await authApi.inscription(payload);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const chargerUtilisateur = createAsyncThunk(
+  'auth/chargerUtilisateur',
+  async (_, { rejectWithValue }) => {
+    try {
+      const user = await authApi.getStoredUser();
+      if (!user) {
+        throw new Error('Aucun utilisateur trouvé');
+      }
+      return user;
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'Erreur lors du chargement du profil');
+    }
+  }
+);
+
 export const deconnexion = createAsyncThunk(
   'auth/deconnexion',
-  async (_, { dispatch }) => {
-    try {
-      await authApi.deconnexion();
-    } catch (error) {
-      console.error('Erreur lors de la déconnexion :', error);
-    } finally {
-      dispatch(reinitialiser());
-    }
+  async () => {
+    await authApi.deconnexion();
+    return null;
   }
 );
 
+// Slice
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setChargement: (state, action: PayloadAction<boolean>) => {
-      state.chargement = action.payload;
-    },
-    setAuthentifie: (state, action: PayloadAction<boolean>) => {
-      state.estAuthentifie = action.payload;
-    },
-    setUtilisateur: (state, action: PayloadAction<Utilisateur>) => {
-      state.utilisateur = action.payload;
-    },
-    setToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
-    },
-    setErreur: (state, action: PayloadAction<string | null>) => {
-      state.erreur = action.payload;
-    },
     reinitialiser: (state) => {
-      Object.assign(state, initialState);
+      state.utilisateur = null;
+      state.token = null;
+      state.chargement = false;
+      state.erreur = null;
+      state.authenticated = false;
     },
+    setAuthenticated: (state, action) => {
+      state.authenticated = action.payload;
+    }
   },
   extraReducers: (builder) => {
-    // Gestion de la vérification d'authentification
-    builder
-      .addCase(verifierAuthentification.pending, (state) => {
-        state.chargement = true;
-        state.erreur = null;
-      })
-      .addCase(verifierAuthentification.fulfilled, (state, action) => {
-        state.chargement = false;
-        if (action.payload) {
-          state.utilisateur = action.payload;
-          state.estAuthentifie = true;
-        } else {
-          state.estAuthentifie = false;
-        }
-      })
-      .addCase(verifierAuthentification.rejected, (state, action) => {
-        state.chargement = false;
-        state.erreur = action.error.message || 'Erreur lors de la vérification de l\'authentification';
-        state.estAuthentifie = false;
-      })
-      
-      // Gestion de la connexion
-      .addCase(connexion.pending, (state) => {
-        state.chargement = true;
-        state.erreur = null;
-      })
-      .addCase(connexion.fulfilled, (state, action) => {
-        state.chargement = false;
-        state.utilisateur = action.payload;
-        state.estAuthentifie = true;
-      })
-      .addCase(connexion.rejected, (state, action) => {
-        state.chargement = false;
-        state.erreur = action.payload || 'Erreur de connexion';
-        state.estAuthentifie = false;
-      })
-      
-      // Gestion de l'inscription
-      .addCase(inscription.pending, (state) => {
-        state.chargement = true;
-        state.erreur = null;
-      })
-      .addCase(inscription.fulfilled, (state, action) => {
-        state.chargement = false;
-        state.utilisateur = action.payload;
-        state.estAuthentifie = true;
-      })
-      .addCase(inscription.rejected, (state, action) => {
-        state.chargement = false;
-        state.erreur = action.payload || 'Erreur d\'inscription';
-        state.estAuthentifie = false;
-      });
+    // Connexion
+    // Gérer l'action verifierAuthentification
+    builder.addCase(verifierAuthentification.pending, (state) => {
+      state.chargement = true;
+      state.erreur = null;
+    })
+    builder.addCase(verifierAuthentification.fulfilled, (state, action) => {
+      state.chargement = false;
+      state.utilisateur = action.payload;
+      state.authenticated = !!action.payload;
+    })
+    builder.addCase(verifierAuthentification.rejected, (state, action) => {
+      state.chargement = false;
+      // state.erreur = action.payload;
+    });
+
+    builder.addCase(connexion.pending, (state) => {
+      state.chargement = true;
+      state.erreur = null;
+    });
+    builder.addCase(connexion.fulfilled, (state, action) => {
+      state.chargement = false;
+      state.utilisateur = action.payload.user;
+      state.token = action.payload.token;
+      state.authenticated = true;
+    });
+    builder.addCase(connexion.rejected, (state, action) => {
+      state.chargement = false;
+      state.erreur = action.payload as string;
+      state.authenticated = false;
+    });
+    
+    // Inscription
+    builder.addCase(inscription.pending, (state) => {
+      state.chargement = true;
+      state.erreur = null;
+    });
+    builder.addCase(inscription.fulfilled, (state, action) => {
+      state.chargement = false;
+      // Nous ne connectons pas automatiquement l'utilisateur après l'inscription
+      // Il doit se connecter avec ses identifiants
+    });
+    builder.addCase(inscription.rejected, (state, action) => {
+      state.chargement = false;
+      state.erreur = action.payload as string;
+    });
+    
+    // Chargement de l'utilisateur
+    builder.addCase(chargerUtilisateur.pending, (state) => {
+      state.chargement = true;
+      state.erreur = null;
+    });
+    builder.addCase(chargerUtilisateur.fulfilled, (state, action) => {
+      state.chargement = false;
+      state.utilisateur = action.payload;
+      state.authenticated = true;
+    });
+    builder.addCase(chargerUtilisateur.rejected, (state, action) => {
+      state.chargement = false;
+      state.erreur = action.payload as string;
+      state.authenticated = false;
+    });
+    
+    // Déconnexion
+    builder.addCase(deconnexion.fulfilled, (state) => {
+      state.utilisateur = null;
+      state.token = null;
+      state.authenticated = false;
+    });
   }
 });
 
-export const {
-  setChargement,
-  setAuthentifie,
-  setUtilisateur,
-  setToken,
-  setErreur,
-  reinitialiser,
-} = authSlice.actions;
-
+export const { reinitialiser, setAuthenticated } = authSlice.actions;
 export default authSlice.reducer;

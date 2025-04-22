@@ -1,170 +1,183 @@
-import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  ScrollView, 
-  TouchableOpacity, 
-  TextInput 
+// src/écrans/accueil/Accueil.tsx
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+  FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AccueilNavigatorParamList } from '../../types/navigation';
 import { useTheme } from '../../hooks/useTheme';
-import { MainNavigationProp } from '../../types/navigation';
+import Header from '../../components/communs/Header';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// Composants
-import Bouton from '../../components/communs/Bouton';
+// API
+import jobsApi from '../../api/jobsApi';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setEmplois, setChargement } from '../../redux/slices/emploisSlice';
+import { CarteOffre } from '../../components/CarteOffre';
 
-interface JobOffer {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  time: string;
-  image: any;
-}
+type NavigationProp = NativeStackNavigationProp<AccueilNavigatorParamList>;
 
-const AccueilScreen: React.FC = () => {
+const Accueil: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   const theme = useTheme();
-  const navigation = useNavigation<MainNavigationProp<'Tabs'>>();
+  const dispatch = useAppDispatch();
+  
+  // States
+  const [keywordSearch, setKeywordSearch] = useState('');
+  const [locationSearch, setLocationSearch] = useState('');
+  
+  // Redux state
+  const { emplois, chargement } = useAppSelector(state => state.emplois);
+  
+  // Charger les emplois recommandés au chargement
+  useEffect(() => {
+    const fetchRecommendedJobs = async () => {
+      try {
+        dispatch(setChargement(true));
+        const response = await jobsApi.getEmplois(1, 5);
+        dispatch(setEmplois(response.data));
+      } catch (error) {
+        console.error('Erreur lors du chargement des emplois recommandés:', error);
+      } finally {
+        dispatch(setChargement(false));
+      }
+    };
+    
+    fetchRecommendedJobs();
+  }, [dispatch]);
+  
+  // Effectuer une recherche
+  const handleSearch = () => {
+    navigation.navigate('ResultatsRecherche', {
+      params: {
+        keyword: keywordSearch,
+        location: locationSearch
+      }
+    });
+  };
 
-  // États pour gérer les différentes sections
-  const [searchQuery, setSearchQuery] = useState('');
+  // Naviguer vers l'écran de recherche
+  const navigateToSearch = () => {
+    navigation.navigate('Recherche', {
+      keyword: keywordSearch,
+      location: locationSearch
+    });
+  };
+  
+  // Naviguer vers les filtres
+  const navigateToFilters = () => {
+    navigation.navigate('FiltrageRecherche', {
+      filtres: {},
+      onApply: (nouveauxFiltres) => {
+        console.log('Nouveaux filtres:', nouveauxFiltres);
+      }
+    });
+  };
 
-  // Exemples de données (à remplacer par des données dynamiques)
-  const recommendedJobs: JobOffer[] = [
-    {
-      id: '1',
-      title: 'Paysagiste',
-      company: 'Amazon',
-      location: 'Rennes',
-      time: '3m',
-      image: require('../../assets/images/paysagiste.jpg')
-    },
-  ];
-
-  const flashJobs: JobOffer[] = [
-    {
-      id: '2',
-      title: 'Remplacement urgent - Paysagiste',
-      company: 'Amazon',
-      location: 'Rennes',
-      time: '3m',
-      image: require('../../assets/images/paysagiste.jpg')
-    },
-  ];
-
-//   const navigateToDetailEmploi = (jobId: string) => {
-//     navigation.navigate('DetailEmploi', { jobId });
-//   };
-
-//   const navigateToDetailFlashJob = (jobId: string) => {
-//     navigation.navigate('DetailFlashJob', { jobId });
-//   };
-
-//   const navigateToFiltrageRecherche = () => {
-//     navigation.navigate('FiltrageRecherche', { 
-//       fromScreen: 'Tabs',
-//       onApply: (filtres) => {
-//         // Logique de traitement des filtres
-//         console.log('Filtres appliqués:', filtres);
-//       }
-//     });
-//   };
-
+  // Rendu de la carte d'emploi
+  const renderEmploiItem = ({ item }: any) => (
+    <CarteOffre
+      titre={item.title || item.titre}
+      entreprise={item.company || item.entreprise}
+      location={item.city || item.location}
+      logo={item.logo || "https://example.com/placeholder.jpg"}
+      timeAgo="3m"
+      isUrgent={item.is_urgent || item.isUrgent}
+      isNew={item.is_new || item.isNew}
+      onPress={() => navigation.navigate('DetailEmploi', { id: item.id })}
+      onFavoriteToggle={() => {}}
+    />
+  );
+  
   return (
-    <ScrollView 
-      style={[
-        styles.container, 
-        { backgroundColor: theme.couleurs.FOND_SOMBRE }
-      ]}
-      contentContainerStyle={styles.contentContainer}
-    >
-      {/* Barre de recherche */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={[
-            styles.searchInput, 
-            { 
-              backgroundColor: theme.couleurs.FOND_SECONDAIRE,
-              color: theme.couleurs.TEXTE_PRIMAIRE 
-            }
-          ]}
-          placeholder="Search Jobs"
-          placeholderTextColor={theme.couleurs.TEXTE_SECONDAIRE}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-        <TouchableOpacity 
-          style={[
-            styles.filterButton, 
-            { backgroundColor: theme.couleurs.PRIMAIRE }
-          ]}
-        //   onPress={navigateToFiltrageRecherche}
-        >
-          <Text style={{ color: 'white' }}>Filtres</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Section Recommandations */}
-      <View style={styles.sectionContainer}>
-        <Text 
-          style={[
-            styles.sectionTitle, 
-            { color: theme.couleurs.TEXTE_PRIMAIRE }
-          ]}
-        >
-          Recommandation pour vous
-        </Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {recommendedJobs.map(job => (
-            <TouchableOpacity 
-              key={job.id} 
-              style={styles.jobCard}
-            //   onPress={() => navigateToDetailEmploi(job.id)}
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
+      <Header />
+      
+      <ScrollView style={styles.content}>
+        <View style={styles.searchSection}>
+          <Text style={[styles.label, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>What</Text>
+          <View style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}>
+            <TextInput
+              style={[styles.input, { color: theme.couleurs.TEXTE_PRIMAIRE }]}
+              placeholder="Enter keywords"
+              placeholderTextColor={theme.couleurs.TEXTE_TERTIAIRE}
+              value={keywordSearch}
+              onChangeText={setKeywordSearch}
+            />
+          </View>
+          
+          <View style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE, marginTop: 12 }]}>
+            <TextInput
+              style={[styles.input, { color: theme.couleurs.TEXTE_PRIMAIRE }]}
+              placeholder="Any classification"
+              placeholderTextColor={theme.couleurs.TEXTE_TERTIAIRE}
+              onFocus={navigateToSearch}
+            />
+          </View>
+          
+          <Text style={[styles.label, { color: theme.couleurs.TEXTE_PRIMAIRE, marginTop: 16 }]}>Where</Text>
+          <View style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}>
+            <TextInput
+              style={[styles.input, { color: theme.couleurs.TEXTE_PRIMAIRE }]}
+              placeholder="Enter suburb, city or region"
+              placeholderTextColor={theme.couleurs.TEXTE_TERTIAIRE}
+              value={locationSearch}
+              onChangeText={setLocationSearch}
+            />
+          </View>
+          
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={styles.filterButton}
+              onPress={navigateToFilters}
             >
-              <View style={styles.jobCardContent}>
-                <Text style={{ color: theme.couleurs.TEXTE_PRIMAIRE }}>{job.title}</Text>
-                <Text style={{ color: theme.couleurs.TEXTE_SECONDAIRE }}>{job.company}</Text>
-                <Text style={{ color: theme.couleurs.TEXTE_SECONDAIRE }}>{job.location}</Text>
-              </View>
+              <Icon name="filter-variant" size={24} color={theme.couleurs.TEXTE_SECONDAIRE} />
             </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
-
-      {/* Section Flash Jobs */}
-      <View style={styles.sectionContainer}>
-        <Text 
-          style={[
-            styles.sectionTitle, 
-            { color: theme.couleurs.TEXTE_PRIMAIRE }
-          ]}
-        >
-          Flash Jobs
-        </Text>
-        {flashJobs.map(job => (
-          <TouchableOpacity 
-            key={job.id} 
-            style={styles.flashJobCard}
-            // onPress={() => navigateToDetailFlashJob(job.id)}
-          >
-            <View style={styles.flashJobCardContent}>
-              <Text style={{ color: theme.couleurs.TEXTE_PRIMAIRE }}>{job.title}</Text>
-              <Text style={{ color: theme.couleurs.TEXTE_SECONDAIRE }}>{job.company}</Text>
-              <Text style={{ color: theme.couleurs.TEXTE_SECONDAIRE }}>{job.location}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Bouton Publier une offre */}
-      <Bouton 
-        titre="Publier une offre" 
-        onPress={() => navigation.navigate('PublierEmploi')}
-        variante="primaire"
-        style={styles.publishButton}
-      />
-    </ScrollView>
+            
+            <TouchableOpacity
+              style={[styles.goButton, { backgroundColor: theme.couleurs.PRIMAIRE }]}
+              onPress={handleSearch}
+            >
+              <Text style={styles.goButtonText}>GO</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        
+        {/* Section Emplois recommandés */}
+        <View style={styles.sectionContainer}>
+          <Text style={[styles.sectionTitle, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>
+            Recommandation pour vous
+          </Text>
+          
+          {chargement ? (
+            <ActivityIndicator size="large" color={theme.couleurs.PRIMAIRE} />
+          ) : (
+            <FlatList
+              data={emplois}
+              renderItem={renderEmploiItem}
+              keyExtractor={(item) => item.id.toString()}
+              horizontal={false}
+              scrollEnabled={false}
+              nestedScrollEnabled={true}
+              ListEmptyComponent={
+                <Text style={[styles.emptyText, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
+                  Aucune recommandation disponible pour le moment.
+                </Text>
+              }
+            />
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -172,55 +185,64 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  contentContainer: {
+  content: {
+    flex: 1,
     padding: 16,
   },
-  searchContainer: {
-    flexDirection: 'row',
-    marginBottom: 16,
+  searchSection: {
+    marginBottom: 24,
   },
-  searchInput: {
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  inputContainer: {
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    height: 50,
+    justifyContent: 'center',
+  },
+  input: {
+    fontSize: 16,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    marginTop: 16,
+    alignItems: 'center',
+  },
+  filterButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  goButton: {
     flex: 1,
     height: 50,
     borderRadius: 8,
-    paddingHorizontal: 16,
-    marginRight: 8,
-  },
-  filterButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    borderRadius: 8,
+  },
+  goButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   sectionContainer: {
-    marginBottom: 16,
+    marginBottom: 24,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 16,
   },
-  jobCard: {
-    marginRight: 8,
-    padding: 12,
-    borderRadius: 8,
-    backgroundColor: '#f0f0f0',
-  },
-  jobCardContent: {
-    width: 150,
-  },
-  flashJobCard: {
-    marginBottom: 8,
-    padding: 12,
-    borderRadius: 8,
-    backgroundColor: '#f0f0f0',
-  },
-  flashJobCardContent: {
-    // Styles spécifiques si nécessaire
-  },
-  publishButton: {
-    marginTop: 16,
-  },
+  emptyText: {
+    textAlign: 'center',
+    padding: 20,
+  }
 });
 
-export default AccueilScreen;
+export default Accueil;

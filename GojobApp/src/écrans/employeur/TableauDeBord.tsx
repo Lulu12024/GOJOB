@@ -6,24 +6,25 @@ import { StatistiqueCard } from '../../components/StatistiqueCard';
 import { fetchEmployerDashboard } from '../../redux/slices/statisticsSlice';
 import { Dimensions } from 'react-native';
 import { AppDispatch } from '../../redux/store';
-
-// Si vous n'avez pas cette bibliothèque, installez-la:
-// npm install react-native-chart-kit
-// ou 
-// yarn add react-native-chart-kit
 import { LineChart } from 'react-native-chart-kit';
+import Header from '../../components/communs/Header';
 
 const screenWidth = Dimensions.get('window').width;
 
 export const TableauDeBord: React.FC = () => {
   const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
-  const { dashboardData, loading, error } = useSelector((state: any) => state.statistics);
-
+  const dashboardData:any = null;
+  const loading:boolean = false;
+  const error:any = null
+  // const { dashboardData, loading, error } = useSelector((state: any) => state.statistics);
+  // const { loading, error } = useSelector((state: any) => state.statistics);
+  console.error("Nous sommes venus ici");
   useEffect(() => {
     dispatch(fetchEmployerDashboard());
   }, [dispatch]);
 
+  // Loading state
   if (loading) {
     return (
       <View style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
@@ -32,6 +33,7 @@ export const TableauDeBord: React.FC = () => {
     );
   }
 
+  // Error state
   if (error) {
     return (
       <View style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
@@ -39,12 +41,19 @@ export const TableauDeBord: React.FC = () => {
       </View>
     );
   }
-
-  if (!dashboardData) {
+  
+  // More robust null/undefined checking
+  if (!dashboardData || 
+      !dashboardData.viewsData || 
+      !dashboardData.applicationData || 
+      !dashboardData.activeJobsData) {
     return (
-      <View style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
-        <Text style={{ color: theme.couleurs.TEXTE_PRIMAIRE }}>Aucune donnée disponible.</Text>
-      </View>
+      <ScrollView style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
+        <Header />
+        <View style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
+          <Text style={{ color: theme.couleurs.TEXTE_PRIMAIRE }}>Aucune donnée disponible.</Text>
+        </View>
+      </ScrollView>
     );
   }
 
@@ -58,19 +67,21 @@ export const TableauDeBord: React.FC = () => {
   };
 
   return (
+    
     <ScrollView style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
+      <Header />
       <Text style={[styles.title, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>Tableau de Bord</Text>
       
       <View style={styles.cardsRow}>
         <StatistiqueCard
           titre="Candidatures"
-          valeur={dashboardData.totalApplications}
+          valeur={dashboardData.totalApplications || 0}
           couleur="#4CAF50"
         />
         
         <StatistiqueCard
           titre="Vues"
-          valeur={dashboardData.totalViews}
+          valeur={dashboardData.totalViews || 0}
           couleur="#2196F3"
         />
       </View>
@@ -78,13 +89,13 @@ export const TableauDeBord: React.FC = () => {
       <View style={styles.cardsRow}>
         <StatistiqueCard
           titre="Taux de CV"
-          valeur={`${dashboardData.cvRate}%`}
+          valeur={`${dashboardData.cvRate || 0}%`}
           couleur="#FF9800"
         />
         
         <StatistiqueCard
           titre="Postes actifs"
-          valeur={dashboardData.activeJobs}
+          valeur={dashboardData.activeJobs || 0}
           couleur="#9C27B0"
         />
       </View>
@@ -93,15 +104,15 @@ export const TableauDeBord: React.FC = () => {
         <Text style={[styles.chartTitle, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>Vues par jour</Text>
         <LineChart
           data={{
-            labels: dashboardData.viewsData.labels,
+            labels: dashboardData.viewsData.labels || [],
             datasets: [
               {
-                data: dashboardData.viewsData.values,
+                data: dashboardData.viewsData.values || [],
                 color: (opacity = 1) => `rgba(0, 102, 204, ${opacity})`,
                 strokeWidth: 2,
               },
               {
-                data: dashboardData.applicationData.values,
+                data: dashboardData.applicationData.values || [],
                 color: (opacity = 1) => `rgba(76, 175, 80, ${opacity})`,
                 strokeWidth: 2,
               },

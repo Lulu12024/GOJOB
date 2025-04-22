@@ -9,6 +9,7 @@ import { toggleFavorite } from '../redux/slices/favorisSlice';
 import Bouton from '../components/communs/Bouton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppDispatch, RootState } from '../redux/store';
+import { MainNavigatorParamList } from '../types/navigation';
 
 type DetailEmploiProps = {
   route: RouteProp<{ params: { jobId: number } }, 'params'>;

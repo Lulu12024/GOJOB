@@ -6,6 +6,7 @@ import Bouton from '../../components/communs/Bouton';
 import ChampTexte from '../../components/communs/ChampTexte';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Picker } from '@react-native-picker/picker';
+import { useSelector } from 'react-redux';
 // Si vous n'avez pas ce module, installez-le avec:
 // npm install @react-native-community/checkbox
 // ou
@@ -17,7 +18,7 @@ import jobsApi, { PublicationEmploiPayload } from '../../api/jobsApi';
 export const PublierEmploi: React.FC = () => {
   const theme = useTheme(); // Utilisez le thème correctement
   const dispatch = useDispatch<AppDispatch>();
-  
+  const { user } = useSelector((state: any) => state.auth || {});
   const [formData, setFormData] = useState({
     titre: '',
     categorie: '',
@@ -71,36 +72,42 @@ export const PublierEmploi: React.FC = () => {
   const createJob = async (data: typeof formData) => {
     try {
       // Convertir les données pour qu'elles correspondent à ce que votre API attend
+      const contractMapping: Record<string, string> = {
+        'cdi': 'CDI',
+        'cdd': 'CDD',
+        'interim': 'Intérim',
+        'freelance': 'Freelance',
+        'alternance': 'Alternance',
+        'saisonnier': 'Saisonnier'
+      };
+      
+      // Créer un objet conforme à l'interface PublicationEmploiPayload
       const payload: PublicationEmploiPayload = {
         title: data.titre,
-        company: "Votre entreprise", // À adapter selon votre logique d'application
-        location: data.localisation,
         description: data.description,
-        contract_type: data.typeContrat as 'CDI' | 'CDD' | 'alternance' | 'freelance',
-        salary: data.salaire ? {
-          amount: parseFloat(data.salaire),
-          period: data.typeSalaire === 'mensuel' ? 'month' : 'hour'
-        } : undefined,
-        accommodation: data.logement,
-        accommodation_details: data.logement ? {
-          children_allowed: data.logementEnfants,
-          pets_allowed: data.logementAnimaux,
-          accessible: data.logementAdapte
-        } : undefined,
-        // Convertir les photos si nécessaire
+        category: data.categorie,
+        company: "Votre entreprise", // Champ obligatoire manquant
+        location: data.localisation,    // Utiliser comme city plutôt que location
+        salary_type: data.typeSalaire === 'mensuel' ? 'monthly' : 'hourly',
+        salary_amount: data.salaire ? parseFloat(data.salaire) : undefined,
+        contract_type: contractMapping[data.typeContrat.toLowerCase()] as 'CDI' | 'CDD' | 'Freelance' | 'Alternance',
+        is_entry_level: data.debutantAccepte,
+        accepts_working_visa: data.visaAccepte,
+        accepts_holiday_visa: false,
+        accepts_student_visa: data.etudiantAccepte,
+        has_accommodation: data.logement,
+        accommodation_accepts_children: data.logementEnfants,
+        accommodation_accepts_dogs: data.logementAnimaux,
+        accommodation_is_accessible: data.logementAdapte,
+        has_company_car: data.vehicule,
+        contact_name: data.contactName,
+        contact_phone: data.contactPhone,
+        contact_methods: ['phone', 'message'],
         photos: data.photos,
         is_urgent: data.priorite === 'urgente',
-        contact_details: {
-          name: data.contactName,
-          phone: data.contactPhone,
-          contact_methods: ['phone', 'message'], // Adapter selon vos besoins
-        },
-        working_rights: {
-          entry_level: data.debutantAccepte,
-          working_visa: data.visaAccepte,
-          holiday_visa: false, // Ajouté pour correspondre au type attendu
-          student_visa: data.etudiantAccepte
-        }
+        createdAt: new Date().toISOString(),
+        user_id: user.id 
+        // Ne pas inclure createdAt car il n'est pas défini dans l'interface
       };
       
       await jobsApi.publierEmploi(payload);

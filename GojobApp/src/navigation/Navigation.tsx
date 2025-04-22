@@ -10,7 +10,7 @@ import { useTheme } from '../hooks/useTheme';
 
 export const Navigation: React.FC = () => {
   // Utilisation des types corrects pour Redux
-  const { utilisateur, chargement, estAuthentifie } = useSelector((state: RootState) => state.auth);
+  const { utilisateur, chargement, authenticated } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const theme = useTheme();
   
@@ -40,7 +40,7 @@ export const Navigation: React.FC = () => {
         backgroundColor={theme.couleurs.FOND_SOMBRE}
         barStyle={isDark ? 'light-content' : 'dark-content'}
       />
-      {estAuthentifie ? <MainNavigator /> : <AuthNavigator />}
+      {authenticated ? <MainNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };

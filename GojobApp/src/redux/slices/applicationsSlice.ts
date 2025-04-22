@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import applicationsApi from '../../api/applicationsApi';
-import { Application } from '../../api/applicationsApi'; // Importez également le type Application
+import applicationsApi, { Candidature } from '../../api/applicationsApi';
 
+// Utiliser Candidature à la place de Application
 interface ApplicationState {
-  applications: Application[];
+  applications: Candidature[];
   loading: boolean;
   error: string | null;
 }
@@ -15,40 +15,41 @@ const initialState: ApplicationState = {
 };
 
 // Thunks
-export const fetchApplications = createAsyncThunk<
-  Application[],
+export const fetchApplications = createAsyncThunk
+  <Candidature[],
   void,
   { rejectValue: string }
 >(
   'applications/fetchApplications',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await applicationsApi.getApplications();
-      return response.data.data; // Accéder aux données dans response.data.data
+      // Corriger l'appel API - getCandidatures au lieu de getApplications
+      const response = await applicationsApi.getCandidatures();
+      return response; // Votre API renvoie déjà les données, pas response.data.data
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la récupération des candidatures');
     }
   }
 );
 
-export const createApplication = createAsyncThunk<
-  Application,
-  FormData | any,
+export const createApplication = createAsyncThunk
+  <boolean, // Votre API renvoie un boolean, pas une Candidature
+  any,
   { rejectValue: string }
 >(
   'applications/createApplication',
   async (applicationData, { rejectWithValue }) => {
     try {
       const response = await applicationsApi.createApplication(applicationData);
-      return response.data.data; // Accéder aux données dans response.data.data
+      return response; // Votre API renvoie déjà un boolean
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la création de la candidature');
     }
   }
 );
 
-export const updateApplicationStatus = createAsyncThunk<
-  Application,
+export const updateApplicationStatus = createAsyncThunk
+  <boolean, // Votre API renvoie un boolean, pas une Candidature
   { id: number; status: string },
   { rejectValue: string }
 >(
@@ -56,14 +57,13 @@ export const updateApplicationStatus = createAsyncThunk<
   async ({ id, status }, { rejectWithValue }) => {
     try {
       const response = await applicationsApi.updateApplicationStatus(id, status);
-      return response.data.data; // Accéder aux données dans response.data.data
+      return response; // Votre API renvoie déjà un boolean
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la mise à jour de la candidature');
     }
   }
 );
 
-// Le reste du code reste inchangé
 const applicationsSlice = createSlice({
   name: 'applications',
   initialState,
@@ -74,21 +74,24 @@ const applicationsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchApplications.fulfilled, (state, action: PayloadAction<Application[]>) => {
+      .addCase(fetchApplications.fulfilled, (state, action: PayloadAction<Candidature[]>) => {
         state.loading = false;
         state.applications = action.payload;
       })
       .addCase(fetchApplications.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? 'Une erreur est survenue'; // Utilisez ?? au lieu de ||
+        state.error = action.payload ?? 'Une erreur est survenue';
       })
+      // Les cas createApplication et updateApplicationStatus doivent être modifiés
+      // car ils retournent un boolean, pas une Candidature
       .addCase(createApplication.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(createApplication.fulfilled, (state, action: PayloadAction<Application>) => {
+      .addCase(createApplication.fulfilled, (state) => {
         state.loading = false;
-        state.applications.push(action.payload);
+        // Nous ne pouvons pas ajouter une candidature ici car l'API retourne un boolean
+        // Vous pourriez recharger les candidatures après l'ajout si besoin
       })
       .addCase(createApplication.rejected, (state, action) => {
         state.loading = false;
@@ -98,12 +101,10 @@ const applicationsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateApplicationStatus.fulfilled, (state, action: PayloadAction<Application>) => {
+      .addCase(updateApplicationStatus.fulfilled, (state, action: PayloadAction<boolean>) => {
         state.loading = false;
-        const index = state.applications.findIndex(app => app.id === action.payload.id);
-        if (index !== -1) {
-          state.applications[index] = action.payload;
-        }
+        // Nous ne pouvons pas mettre à jour une candidature ici car l'API retourne un boolean
+        // Vous pourriez recharger les candidatures après la mise à jour
       })
       .addCase(updateApplicationStatus.rejected, (state, action) => {
         state.loading = false;

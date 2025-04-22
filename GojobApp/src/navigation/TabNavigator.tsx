@@ -112,7 +112,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector } from 'react-redux';
 import { useTheme } from '../hooks/useTheme';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 // Écrans candidat
 import Accueil from '../écrans/accueil/Accueil';
 import ListeFlashJobs from '../écrans/flashJobs/ListeFlashJobs';
@@ -131,7 +131,10 @@ const Tab = createBottomTabNavigator();
 
 export const TabNavigator: React.FC = () => {
   const theme = useTheme();
-  const { user } = useSelector((state: any) => state.auth);
+  const { utilisateur } = useAppSelector(state => state.auth);
+  // const { user } = useSelector((state: any) => state.auth);
+  const user = utilisateur
+  console.error('Le user est:', user);
   const isEmployer = user?.role === 'employer';
 
   return (
@@ -263,7 +266,7 @@ export const TabNavigator: React.FC = () => {
           />
         </>
       )}
-      <Tab.Screen
+      {/* <Tab.Screen
         name="MonProfil"
         component={MonProfil}
         options={{
@@ -272,7 +275,7 @@ export const TabNavigator: React.FC = () => {
             <Icon name="person" color={color} size={size} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

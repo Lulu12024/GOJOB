@@ -91,9 +91,10 @@ export interface PublicationEmploiPayload {
   description: string;
   category: string;
   subcategory?: string;
-  city: string;
-  address?: string;
-  salary_type: 'hourly' | 'monthly';
+  // city: string;
+  company: string;
+  location?: string;
+  salary_type: 'hourly' | 'monthly'; 
   salary_amount?: number;
   contract_type: 'CDI' | 'CDD' | 'Freelance' | 'Alternance';
   is_entry_level?: boolean;
@@ -114,7 +115,9 @@ export interface PublicationEmploiPayload {
   website_url?: string;
   is_urgent?: boolean;
   photos?: Array<string | ReactNativeFile | File>;
+  user_id: number; 
   expires_at?: string;
+  createdAt?: string;
 }
 
 export interface MetadonneesPagination {
@@ -141,7 +144,7 @@ const jobsApi = {
    */
   getEmplois: async (page = 1, perPage = 20): Promise<ReponsePaginee<Emploi>> => {
     try {
-      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('/jobs', {
+      const response = await apiClient.get<ApiResponse<ReponsePaginee<Emploi>>>('/jobs/', {
         params: { page, per_page: perPage }
       });
       
@@ -265,7 +268,7 @@ const jobsApi = {
         }
       });
       
-      const response = await apiClient.post<ApiResponse<Emploi>>('/jobs', formData, {
+      const response = await apiClient.post<ApiResponse<Emploi>>('/jobs/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

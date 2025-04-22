@@ -1,3 +1,4 @@
+// src/écrans/messages/Conversation.tsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,37 +6,39 @@ import { useTheme } from '../../hooks/useTheme';
 import { RouteProp } from '@react-navigation/native';
 import { fetchMessages, sendMessage } from '../../redux/slices/messagesSlice';
 import { AppDispatch } from '../../redux/store';
+import { MessagesNavigatorParamList } from '../../types/navigation';
 
-type ConversationProps = {
-  route: RouteProp<{ params: { conversationId: number } }, 'params'>;
-};
+export interface ConversationProps {
+  route: RouteProp<MessagesNavigatorParamList, 'Conversation'>;
+}
 
 export const Conversation: React.FC<ConversationProps> = ({ route }) => {
-  const theme = useTheme(); // Correction ici
-  const dispatch = useDispatch<AppDispatch>(); // Typage dispatch
-  const { conversationId } = route.params;
+  const theme = useTheme();
+  const dispatch = useDispatch<AppDispatch>();
+  const { conversationId } = route.params || {};
   const [messageText, setMessageText] = useState('');
   
-  const { currentConversation, messages, loading } = useSelector((state: any) => state.messages);
-  const { user } = useSelector((state: any) => state.auth);
+  const { currentConversation, messages = [], loading = false } = useSelector((state: any) => state.messages || {});
+  const { utilisateur } = useSelector((state: any) => state.auth || {});
 
   useEffect(() => {
-    dispatch(fetchMessages(conversationId));
+    if (conversationId) {
+      dispatch(fetchMessages(conversationId));
+    }
   }, [dispatch, conversationId]);
 
   const handleSendMessage = () => {
-    if (messageText.trim()) {
-      dispatch(sendMessage({
-        conversationId,
-        text: messageText,
-        senderId: user.id
-      }));
-      setMessageText('');
-    }
+    if (!messageText.trim() || !conversationId || !utilisateur?.id) return;
+    
+    dispatch(sendMessage({
+      receiver_id: conversationId, // L'ID de l'autre utilisateur
+      text: messageText
+    }));
+    setMessageText('');
   };
 
   const renderMessageItem = ({ item }: { item: any }) => {
-    const isUserMessage = item.senderId === user.id;
+    const isUserMessage = item.senderId === utilisateur.id;
     
     return (
       <View style={[
@@ -109,7 +112,6 @@ export const Conversation: React.FC<ConversationProps> = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  // Styles inchangés
   container: {
     flex: 1,
   },
