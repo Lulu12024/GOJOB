@@ -6,7 +6,7 @@ import Bouton from '../../components/communs/Bouton';
 import ChampTexte from '../../components/communs/ChampTexte';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Picker } from '@react-native-picker/picker';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 // Si vous n'avez pas ce module, installez-le avec:
 // npm install @react-native-community/checkbox
 // ou
@@ -18,7 +18,7 @@ import jobsApi, { PublicationEmploiPayload } from '../../api/jobsApi';
 export const PublierEmploi: React.FC = () => {
   const theme = useTheme(); // Utilisez le thème correctement
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: any) => state.auth || {});
+  const { utilisateur } = useAppSelector(state => state.auth);
   const [formData, setFormData] = useState({
     titre: '',
     categorie: '',
@@ -71,6 +71,10 @@ export const PublierEmploi: React.FC = () => {
   // Fonction pour créer un emploi
   const createJob = async (data: typeof formData) => {
     try {
+      if (!utilisateur || !utilisateur.id) {
+        Alert.alert('Erreur', 'Vous devez être connecté pour publier une offre d\'emploi.');
+        return;
+      }
       // Convertir les données pour qu'elles correspondent à ce que votre API attend
       const contractMapping: Record<string, string> = {
         'cdi': 'CDI',
@@ -80,7 +84,7 @@ export const PublierEmploi: React.FC = () => {
         'alternance': 'Alternance',
         'saisonnier': 'Saisonnier'
       };
-      
+      console.log(utilisateur)
       // Créer un objet conforme à l'interface PublicationEmploiPayload
       const payload: PublicationEmploiPayload = {
         title: data.titre,
@@ -106,7 +110,7 @@ export const PublierEmploi: React.FC = () => {
         photos: data.photos,
         is_urgent: data.priorite === 'urgente',
         createdAt: new Date().toISOString(),
-        user_id: user.id 
+        user_id: utilisateur.id 
         // Ne pas inclure createdAt car il n'est pas défini dans l'interface
       };
       

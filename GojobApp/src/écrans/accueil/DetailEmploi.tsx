@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -131,7 +130,7 @@ const DetailEmploi: React.FC = () => {
     try {
       await Share.share({
         title: emploi.title,
-        message: `Découvrez cette offre d'emploi : ${emploi.title} chez ${emploi.company} à ${emploi.location}. Plus d'informations sur GoJobs !`,
+        message: `Découvrez cette offre d'emploi : ${emploi.title} à ${emploi.city || emploi.location || ''}. Plus d'informations sur GoJobs !`,
       });
     } catch (error) {
       console.error('Erreur lors du partage :', error);
@@ -163,17 +162,20 @@ const DetailEmploi: React.FC = () => {
   
   // Contacter l'employeur par téléphone
   const appelerEmployeur = () => {
-    if (!emploi) return;
+    if (!emploi || !emploi.contact_phone) return;
     
-    // TODO: Remplacer par le numéro de téléphone réel de l'employeur
-    const telephone = '+33612345678';
-    
-    Linking.openURL(`tel:${telephone}`);
+    Linking.openURL(`tel:${emploi.contact_phone}`);
   };
   
   // Contacter l'employeur par message
   const envoyerMessage = () => {
     if (!emploi) return;
+    
+    // Récupérer l'ID de l'employeur
+    const employerId = typeof emploi.employer === 'object' ? emploi.employer.id : emploi.employer;
+    const employerName = typeof emploi.employer === 'object' 
+      ? `${emploi.employer.prenom || ''} ${emploi.employer.nom || ''}` 
+      : (emploi.entreprise || emploi.contact_name || '');
     
     // Naviguer vers l'écran de conversation
     navigation.navigate('Tabs', {
@@ -181,8 +183,8 @@ const DetailEmploi: React.FC = () => {
       params: {
         screen: 'Conversation',
         params: {
-          id: emploi.user_id,
-          nom: emploi.company,
+          id: employerId,
+          nom: employerName,
         },
       },
     });
@@ -283,6 +285,12 @@ const DetailEmploi: React.FC = () => {
     );
   }
   
+  // Déterminer les valeurs à afficher
+  const displayTitle = emploi.titre || emploi.title;
+  const displayCompany = emploi.entreprise || 
+    (typeof emploi.employer === 'object' ? emploi.employer.company_name || '' : '');
+  const displayLocation = emploi.location || emploi.city || '';
+  
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
       <ScrollView>
@@ -302,10 +310,9 @@ const DetailEmploi: React.FC = () => {
                     fontSize: theme.typographie.TAILLES.TRES_GRAND,
                     fontWeight: theme.typographie.POIDS.GRAS as TextStyle['fontWeight'],
                   },
-              
                 ]}
               >
-                {emploi.title}
+                {displayTitle}
               </Text>
               <Text
                 style={[
@@ -316,7 +323,7 @@ const DetailEmploi: React.FC = () => {
                   },
                 ]}
               >
-                {emploi.company}
+                {displayCompany}
               </Text>
             </View>
             
@@ -375,7 +382,7 @@ const DetailEmploi: React.FC = () => {
                 ]}
               >
                 <Text style={[styles.badgeTexte, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
-                  {emploi.contract_type}
+                  {emploi.typeContrat || emploi.contract_type}
                 </Text>
               </View>
             )}
@@ -386,29 +393,29 @@ const DetailEmploi: React.FC = () => {
             <View style={styles.detailItem}>
               <Icon name="map-marker" size={20} color={theme.couleurs.TEXTE_SECONDAIRE} />
               <Text style={[styles.detailTexte, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
-                {emploi.location}
+                {displayLocation}
               </Text>
             </View>
             
             <View style={styles.detailItem}>
               <Icon name="currency-eur" size={20} color={theme.couleurs.TEXTE_SECONDAIRE} />
               <Text style={[styles.detailTexte, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
-                {emploi.salary
-                  ? `${emploi.salary.amount} € / ${
-                      emploi.salary.period === 'hour' ? 'heure' : 'mois'
+                {emploi.salaire || emploi.salary_amount
+                  ? `${emploi.salaire || emploi.salary_amount} € / ${
+                      (emploi.typeSalaire === 'horaire' || emploi.salary_type === 'hourly') ? 'heure' : 'mois'
                     }`
                   : 'Salaire non précisé'}
               </Text>
             </View>
             
-            {emploi.accommodation && (
+            {emploi.has_accommodation && (
               <View style={styles.detailItem}>
                 <Icon name="home" size={20} color={theme.couleurs.TEXTE_SECONDAIRE} />
                 <Text style={[styles.detailTexte, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
                   Logement inclus
-                  {emploi.accommodation_details?.children_allowed && ' (enfants acceptés)'}
-                  {emploi.accommodation_details?.pets_allowed && ' (animaux acceptés)'}
-                  {emploi.accommodation_details?.accessible && ' (accessible PMR)'}
+                  {emploi.accommodation_accepts_children && ' (enfants acceptés)'}
+                  {emploi.accommodation_accepts_dogs && ' (animaux acceptés)'}
+                  {emploi.accommodation_is_accessible && ' (accessible PMR)'}
                 </Text>
               </View>
             )}
@@ -423,11 +430,10 @@ const DetailEmploi: React.FC = () => {
               style={[
                 styles.sectionTitre,
                 {
-                    color: theme.couleurs.TEXTE_PRIMAIRE,
-                    fontSize: theme.typographie.TAILLES.TRES_GRAND,
-                    fontWeight: theme.typographie.POIDS.GRAS as TextStyle['fontWeight'],
-                  },
-              
+                  color: theme.couleurs.TEXTE_PRIMAIRE,
+                  fontSize: theme.typographie.TAILLES.TRES_GRAND,
+                  fontWeight: theme.typographie.POIDS.GRAS as TextStyle['fontWeight'],
+                },
               ]}
             >
               Description
@@ -436,38 +442,6 @@ const DetailEmploi: React.FC = () => {
               {emploi.description}
             </Text>
           </View>
-          
-          {/* Exigences */}
-          {emploi.requirements && emploi.requirements.length > 0 && (
-            <View style={styles.section}>
-              <Text
-                style={[
-                  styles.sectionTitre,
-                  {
-                    color: theme.couleurs.TEXTE_PRIMAIRE,
-                    fontSize: theme.typographie.TAILLES.TRES_GRAND,
-                    fontWeight: theme.typographie.POIDS.GRAS as TextStyle['fontWeight'],
-                  },
-              
-                ]}
-              >
-                Exigences
-              </Text>
-              {emploi.requirements.map((requirement, index) => (
-                <View key={index} style={styles.exigenceItem}>
-                  <Icon name="check-circle" size={16} color={theme.couleurs.PRIMAIRE} />
-                  <Text
-                    style={[
-                      styles.exigenceTexte,
-                      { color: theme.couleurs.TEXTE_PRIMAIRE },
-                    ]}
-                  >
-                    {requirement}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
         </View>
       </ScrollView>
       

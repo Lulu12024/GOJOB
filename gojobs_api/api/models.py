@@ -198,8 +198,8 @@ class Job(models.Model):
     is_new = models.BooleanField(_('nouveau'), default=True)
     is_top = models.BooleanField(_('premium'), default=False)
     status = models.CharField(_('statut'), max_length=10, choices=STATUS_CHOICES, default='active')
-    created_at = models.DateTimeField(timezone.now)
-    updated_at = models.DateTimeField(timezone.now)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
     expires_at = models.DateTimeField(_('expire le'), blank=True, null=True)
     
     # Statistiques

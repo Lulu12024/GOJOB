@@ -7,7 +7,7 @@ import { fetchAiSuggestions, applyToJob } from '../../redux/slices/applyAiSlice'
 import { CarteOffre } from '../../components/CarteOffre';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AppDispatch } from '../../redux/store'; // Importez AppDispatch
-
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 type ApplyAIProps = {
   navigation: StackNavigationProp<any>;
 };
@@ -15,13 +15,15 @@ type ApplyAIProps = {
 export const ApplyAI: React.FC<ApplyAIProps> = ({ navigation }) => {
   const theme = useTheme(); // Utilisez le thème sans déstructuration
   const dispatch = useDispatch<AppDispatch>(); // Typez correctement le dispatch
-  const { suggestions, loading, error } = useSelector((state: any) => state.applyAi);
-  const { user } = useSelector((state: any) => state.auth);
+  // const { suggestions, loading, error } = useSelector((state: any) => state.applyAi);
+  const { suggestions = [], loading = false, error = null } = useSelector((state: any) => state.applyAi || {});
+  // const { user } = useSelector((state: any) => state.auth);
+  const { utilisateur } = useAppSelector((state: any)  => state.auth);
   
   const [activeTab, setActiveTab] = useState('suggestions');
   
   useEffect(() => {
-    if (!user.hasSubscription('apply_ai') && !user.hasSubscription('apply_ai_pro')) {
+    if (!utilisateur.hasSubscription('apply_ai') && !utilisateur.hasSubscription('apply_ai_pro')) {
       Alert.alert(
         'Abonnement requis', 
         'ApplyAI nécessite un abonnement. Souhaitez-vous vous abonner?',
@@ -34,7 +36,7 @@ export const ApplyAI: React.FC<ApplyAIProps> = ({ navigation }) => {
     }
     
     dispatch(fetchAiSuggestions());
-  }, [dispatch, user, navigation]);
+  }, [dispatch, utilisateur, navigation]);
   
   const handleApplyToJob = (jobId: number) => {
     Alert.alert(

@@ -14,7 +14,8 @@ type FavorisProps = {
 export const Favoris: React.FC<FavorisProps> = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
-  const { favoris, loading, error } = useSelector((state: any) => state.favoris);
+  // const { favoris, loading, error } = useSelector((state: any) => state.favoris);
+  const { favoris = [], loading = false, error = null } = useSelector((state: any) => state.favoris || {});
   
   useEffect(() => {
     dispatch(fetchFavorites());

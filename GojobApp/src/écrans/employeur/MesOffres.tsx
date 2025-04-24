@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Alert } from 'react-native';
 import jobsApi from '../../api/jobsApi';
 import { AppDispatch } from '../../redux/store';
-
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 type MesOffresProps = {
   navigation: StackNavigationProp<any>;
 };
@@ -18,12 +18,16 @@ export const MesOffres: React.FC<MesOffresProps> = ({ navigation }) => {
   const theme = useTheme(); // Utilisez le thème correctement
   const dispatch = useDispatch<AppDispatch>(); // Typez le dispatch
   const { employerJobs = [], loading, error } = useSelector((state: any) => state.emplois);
-
+  const { utilisateur } = useAppSelector(state => state.auth);
   // Fonction pour charger les offres d'emploi de l'employeur
   const fetchEmployerJobs = async () => {
     try {
       dispatch(setChargement(true));
-      const jobs = await jobsApi.getEmployerJobs();
+      if (!utilisateur || !utilisateur.id) {
+        Alert.alert('Erreur', 'Vous devez être connecté pour y accéder');
+        return;
+      }
+      const jobs = await jobsApi.getEmployerJobs(utilisateur.id);
       // Ajoutez cette propriété à votre state ou modifiez le sélecteur
       // Dans un cas réel, vous pourriez vouloir ajouter cette action dans votre slice
       dispatch({ type: 'emplois/setEmployerJobs', payload: jobs });

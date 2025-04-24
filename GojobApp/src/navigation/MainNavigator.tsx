@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainNavigatorParamList } from '../types/navigation';
 import { useTheme } from '../hooks/useTheme';
-
+import { MonProfil } from '../écrans/profil/MonProfil';
 // Importation des navigateurs et écrans
 import {TabNavigator} from './TabNavigator';
 import EcranDetailEmploi from '../écrans/accueil/DetailEmploi';
@@ -76,6 +76,7 @@ const MainNavigator: React.FC = () => {
           title: 'Publier un emploi flash',
         }}
       />
+      <Stack.Screen name="MonProfil" component={MonProfil} options={{ title: 'Profil' }} />
       {/* <Stack.Screen
         name="FiltrageRecherche"
         component={FiltrageRecherche}

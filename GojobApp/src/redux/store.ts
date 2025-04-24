@@ -7,7 +7,8 @@ import messagesReducer from './slices/messagesSlice';
 import uiReducer from './slices/uiSlice';
 import { useDispatch } from 'react-redux';
 import applicationsReducer from './slices/applicationsSlice';
-
+import applyAiReducer from './slices/applyAiSlice';
+import favorisReducer from './slices/favorisSlice';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -16,6 +17,8 @@ export const store = configureStore({
     messages: messagesReducer,
     applications: applicationsReducer,
     ui: uiReducer,
+    applyAi: applyAiReducer,
+    favoris: favorisReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

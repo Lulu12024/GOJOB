@@ -55,12 +55,12 @@ class JobSerializer(serializers.ModelSerializer):
     photos = JobPhotoSerializer(many=True, read_only=True)
     days_until_expiry = serializers.ReadOnlyField()
     is_expired = serializers.ReadOnlyField()
-    
+    user_id = serializers.IntegerField(write_only=True, required=False)
     # Ajouter les champs personnalisés pour le frontend
     title = serializers.CharField()
     description = serializers.CharField()
     entreprise = serializers.CharField(source='employer.company_name', read_only=True)
-    location = serializers.CharField()
+    # location = serializers.CharField()
     contract_type = serializers.CharField()
     salaire = serializers.SerializerMethodField()
     typeSalaire = serializers.SerializerMethodField()
@@ -86,10 +86,22 @@ class JobSerializer(serializers.ModelSerializer):
             'expires_at', 'views_count', 'applications_count', 'conversion_rate',
             'photos', 'days_until_expiry', 'is_expired','user_id',
             # Champs personnalisés pour le frontend
-             'entreprise', 'location', 'salaire', 'typeSalaire',
+             'entreprise',  'salaire', 'typeSalaire',
             'logo', 'createdAt', 'isUrgent', 'isNew', 'logement', 'vehicule', 'employeur'
         ]
-        read_only_fields = ['created_at', 'updated_at', 'views_count', 'applications_count', 'conversion_rate']
+        read_only_fields = ['created_at','user_id','updated_at', 'views_count', 'applications_count', 'conversion_rate']
+    
+    def create(self, validated_data):
+        # Supprimer user_id du validated_data car il est traité séparément dans perform_create
+        user_id = validated_data.pop('user_id', None)
+        
+        # Si location est envoyé à la place de city, faire le mapping correct
+        # if 'city' not in validated_data and 'location' in validated_data:
+        #     validated_data['city'] = validated_data.pop('location')
+            
+        # Créer l'objet avec les données validées
+        instance = Job.objects.create(**validated_data)
+        return instance
     
     def get_salaire(self, obj):
         return obj.salary_amount

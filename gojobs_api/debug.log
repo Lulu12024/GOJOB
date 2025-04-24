@@ -4200,3 +4200,1118 @@ WARNING 2025-04-22 01:16:13,807 basehttp "GET /api/statistics/dashboard HTTP/1.1
 WARNING 2025-04-22 01:16:14,258 log Unauthorized: /api/users/profile
 WARNING 2025-04-22 01:16:14,259 basehttp "GET /api/users/profile HTTP/1.1" 401 58
 INFO 2025-04-22 01:16:16,550 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 07:26:42,532 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 07:32:44,848 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 07:32:44,849 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 61639
+WARNING 2025-04-22 07:32:45,050 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 07:32:45,052 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 07:32:47,237 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-22 07:32:55,339 log Not Found: /api/jobs/employer
+WARNING 2025-04-22 07:32:55,339 basehttp "GET /api/jobs/employer HTTP/1.1" 404 61618
+WARNING 2025-04-22 07:33:02,124 log Not Found: /api/applications
+WARNING 2025-04-22 07:33:02,125 basehttp "GET /api/applications HTTP/1.1" 404 61615
+INFO 2025-04-22 07:33:07,741 basehttp "GET /api/messages/user/4/conversations/ HTTP/1.1" 200 2
+WARNING 2025-04-22 07:35:14,494 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 07:35:14,495 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 61639
+WARNING 2025-04-22 07:35:14,916 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 07:35:14,917 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 07:35:16,914 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-22 07:41:51,912 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 07:41:51,913 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 61639
+WARNING 2025-04-22 07:41:52,401 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 07:41:52,404 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 61639
+WARNING 2025-04-22 07:41:52,734 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 07:41:52,735 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 07:41:54,749 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-22 07:47:34,203 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 07:47:34,204 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 61639
+WARNING 2025-04-22 07:47:34,392 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 07:47:34,393 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 07:47:36,496 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+ERROR 2025-04-22 07:53:50,178 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 192, in create
+    if serializer.is_valid():
+       ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 444, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 497, in to_internal_value
+    for field in fields:
+                 ^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 380, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ~~~~~~~~~~~~~~~^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ~~~~~~~~~~~~~~~~^
+        source, info, model, depth
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+    ...<2 lines>...
+    )
+django.core.exceptions.ImproperlyConfigured: Field name `user_id` is not valid for model `Job` in `api.serializers.JobSerializer`.
+ERROR 2025-04-22 07:53:50,184 basehttp "POST /api/jobs/ HTTP/1.1" 500 23330
+INFO 2025-04-22 07:56:01,437 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 07:56:04,032 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-22 07:56:16,768 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 193, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 154, in perform_create
+    serializer.save(employer=employer)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1010, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Job.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Job.objects.create()`. You may need to make the field read-only, or override the JobSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+ERROR 2025-04-22 07:56:16,774 basehttp "POST /api/jobs/ HTTP/1.1" 500 25157
+ERROR 2025-04-22 08:07:31,945 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 193, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 154, in perform_create
+    serializer.save(employer=employer)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1010, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Job.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Job.objects.create()`. You may need to make the field read-only, or override the JobSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+ERROR 2025-04-22 08:07:31,950 basehttp "POST /api/jobs/ HTTP/1.1" 500 25157
+INFO 2025-04-22 08:08:09,883 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 08:08:12,630 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 08:08:16,326 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 08:08:17,340 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 08:08:19,704 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 08:08:20,591 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-22 08:08:33,428 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 193, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 154, in perform_create
+    serializer.save(employer=employer)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1010, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Job.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Job.objects.create()`. You may need to make the field read-only, or override the JobSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+ERROR 2025-04-22 08:08:33,434 basehttp "POST /api/jobs/ HTTP/1.1" 500 25157
+ERROR 2025-04-22 08:19:53,612 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 193, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 154, in perform_create
+    serializer.save(employer=employer)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1010, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Job.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Job.objects.create()`. You may need to make the field read-only, or override the JobSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 991, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Job() got unexpected keyword arguments: 'user_id', 'location'
+
+ERROR 2025-04-22 08:19:53,617 basehttp "POST /api/jobs/ HTTP/1.1" 500 25157
+INFO 2025-04-22 09:23:51,421 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-22 09:24:08,049 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.NotNullViolation: null value in column "updated_at" of relation "api_job" violates not-null constraint
+DETAIL:  Failing row contains (1, DEVELOPPEUR, TEST, informatique, null, PARIS, null, monthly, 2500.00, CDD, f, 0, f, f, f, f, f, f, f, f, f, f, TOTO, 123456, ["phone", "message"], null, f, f, f, active, 2025-04-22 08:24:01.644+00, null, 2025-05-22 08:24:07.075191+00, 0, 0, 0.00, 4).
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 193, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 154, in perform_create
+    serializer.save(employer=employer)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py", line 103, in create
+    instance = Job.objects.create(**validated_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 663, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\models.py", line 232, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 1854, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\sql\compiler.py", line 1881, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.IntegrityError: null value in column "updated_at" of relation "api_job" violates not-null constraint
+DETAIL:  Failing row contains (1, DEVELOPPEUR, TEST, informatique, null, PARIS, null, monthly, 2500.00, CDD, f, 0, f, f, f, f, f, f, f, f, f, f, TOTO, 123456, ["phone", "message"], null, f, f, f, active, 2025-04-22 08:24:01.644+00, null, 2025-05-22 08:24:07.075191+00, 0, 0, 0.00, 4).
+
+ERROR 2025-04-22 09:24:08,060 basehttp "POST /api/jobs/ HTTP/1.1" 500 26495
+INFO 2025-04-22 09:28:26,398 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\models.py changed, reloading.
+INFO 2025-04-22 09:28:27,497 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-22 09:28:44,191 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\fields.py", line 437, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\fields.py", line 104, in get_attribute
+    instance = getattr(instance, attr)
+AttributeError: 'Job' object has no attribute 'location'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 194, in create
+    return api_response(serializer.data, "Offre d'emploi créée avec succès", status_code=201)
+                        ^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 573, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 527, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\fields.py", line 470, in get_attribute
+    raise type(exc)(msg)
+AttributeError: Got AttributeError when attempting to get a value for field `location` on serializer `JobSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `Job` instance.
+Original exception text was: 'Job' object has no attribute 'location'.
+ERROR 2025-04-22 09:28:44,242 basehttp "POST /api/jobs/ HTTP/1.1" 500 23166
+INFO 2025-04-22 09:31:53,279 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 09:31:56,403 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-22 09:34:29,076 log Internal Server Error: /api/jobs/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 192, in create
+    if serializer.is_valid():
+       ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 444, in run_validation
+    value = self.to_internal_value(data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 497, in to_internal_value
+    for field in fields:
+                 ^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 380, in _writable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 374, in fields
+    for key, value in self.get_fields().items():
+                      ~~~~~~~~~~~~~~~^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1105, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ~~~~~~~~~~~~~~~~^
+        source, info, model, depth
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1251, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 1369, in build_unknown_field
+    raise ImproperlyConfigured(
+    ...<2 lines>...
+    )
+django.core.exceptions.ImproperlyConfigured: Field name `location` is not valid for model `Job` in `api.serializers.JobSerializer`.
+ERROR 2025-04-22 09:34:29,085 basehttp "POST /api/jobs/ HTTP/1.1" 500 23332
+INFO 2025-04-22 09:34:36,988 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 09:34:38,032 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 09:40:39,678 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 09:40:40,732 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 09:40:45,651 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 09:40:46,766 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 09:40:56,610 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-22 09:40:57,642 autoreload Watching for file changes with StatReloader
+INFO 2025-04-22 09:41:16,123 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\models.py changed, reloading.
+INFO 2025-04-22 09:41:17,150 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 09:42:12,400 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 09:42:12,404 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 61639
+WARNING 2025-04-22 09:42:12,688 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 09:42:12,689 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 09:42:14,639 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-22 09:59:03,098 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 09:59:03,103 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 61639
+WARNING 2025-04-22 09:59:03,322 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 09:59:03,322 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 09:59:05,476 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 10:00:38,424 basehttp "POST /api/jobs/ HTTP/1.1" 201 1812
+WARNING 2025-04-22 10:00:43,033 log Not Found: /api/jobs/employer
+WARNING 2025-04-22 10:00:43,034 basehttp "GET /api/jobs/employer HTTP/1.1" 404 61618
+WARNING 2025-04-22 10:00:46,084 log Not Found: /api/applications
+WARNING 2025-04-22 10:00:46,085 basehttp "GET /api/applications HTTP/1.1" 404 61615
+INFO 2025-04-22 10:01:16,465 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 10:01:23,853 log Not Found: /api/jobs/employer
+WARNING 2025-04-22 10:01:23,854 basehttp "GET /api/jobs/employer HTTP/1.1" 404 61619
+WARNING 2025-04-22 10:01:23,934 log Not Found: /favicon.ico
+WARNING 2025-04-22 10:01:23,936 basehttp "GET /favicon.ico HTTP/1.1" 404 2703
+WARNING 2025-04-22 10:01:40,158 log Not Found: /api/jobs
+WARNING 2025-04-22 10:01:40,160 basehttp "GET /api/jobs HTTP/1.1" 404 61592
+INFO 2025-04-22 10:06:47,159 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-22 10:06:50,175 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 10:08:58,451 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 10:08:58,453 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 62397
+WARNING 2025-04-22 10:18:19,719 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 10:18:19,720 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 62397
+WARNING 2025-04-22 10:18:19,947 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 10:18:19,948 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 10:18:22,051 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 10:20:30,789 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 3467
+WARNING 2025-04-22 10:23:31,765 log Not Found: /api/applications
+WARNING 2025-04-22 10:23:31,767 basehttp "GET /api/applications HTTP/1.1" 404 62373
+INFO 2025-04-22 10:23:41,878 basehttp "GET /api/messages/user/4/conversations/ HTTP/1.1" 200 2
+WARNING 2025-04-22 10:57:40,339 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 10:57:40,341 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 62397
+WARNING 2025-04-22 10:57:40,578 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 10:57:40,581 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 10:57:42,583 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-22 10:59:51,974 log Not Found: /
+WARNING 2025-04-22 10:59:51,980 log Not Found: /struts2-showcase/struts/utils.js
+WARNING 2025-04-22 10:59:51,984 log Not Found: /
+INFO 2025-04-22 10:59:51,986 basehttp - Broken pipe from ('127.0.0.1', 57759)
+INFO 2025-04-22 10:59:51,986 basehttp - Broken pipe from ('127.0.0.1', 57760)
+INFO 2025-04-22 10:59:51,988 basehttp - Broken pipe from ('127.0.0.1', 57761)
+WARNING 2025-04-22 10:59:51,993 log Not Found: /
+WARNING 2025-04-22 10:59:51,997 log Not Found: /
+INFO 2025-04-22 10:59:51,998 basehttp - Broken pipe from ('127.0.0.1', 57763)
+INFO 2025-04-22 10:59:51,998 basehttp - Broken pipe from ('127.0.0.1', 57764)
+WARNING 2025-04-22 10:59:53,204 log Not Found: /js/
+WARNING 2025-04-22 10:59:53,205 basehttp "GET /js/?${jndi:dns://MDEDiscoverye37a1cd565SeenInTheWildGet-8000} HTTP/1.1" 404 2741
+INFO 2025-04-22 10:59:53,212 basehttp - Broken pipe from ('127.0.0.1', 57782)
+WARNING 2025-04-22 10:59:54,044 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,046 basehttp - Broken pipe from ('127.0.0.1', 57806)
+WARNING 2025-04-22 10:59:54,052 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,058 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,059 basehttp - Broken pipe from ('127.0.0.1', 57807)
+WARNING 2025-04-22 10:59:54,067 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,069 basehttp - Broken pipe from ('127.0.0.1', 57808)
+WARNING 2025-04-22 10:59:54,071 log Not Found: /struts2-showcase/struts/tooltip.gif
+WARNING 2025-04-22 10:59:54,076 log Not Found: /
+INFO 2025-04-22 10:59:54,078 basehttp - Broken pipe from ('127.0.0.1', 57809)
+WARNING 2025-04-22 10:59:54,083 log Not Found: /
+INFO 2025-04-22 10:59:54,085 basehttp - Broken pipe from ('127.0.0.1', 57810)
+INFO 2025-04-22 10:59:54,087 basehttp - Broken pipe from ('127.0.0.1', 57812)
+INFO 2025-04-22 10:59:54,088 basehttp - Broken pipe from ('127.0.0.1', 57817)
+WARNING 2025-04-22 10:59:54,093 log Not Found: /
+WARNING 2025-04-22 10:59:54,101 log Not Found: /
+WARNING 2025-04-22 10:59:54,108 log Not Found: /struts2-showcase/struts/domtt.css
+WARNING 2025-04-22 10:59:54,114 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,116 basehttp - Broken pipe from ('127.0.0.1', 57819)
+INFO 2025-04-22 10:59:54,117 basehttp - Broken pipe from ('127.0.0.1', 57820)
+INFO 2025-04-22 10:59:54,117 basehttp - Broken pipe from ('127.0.0.1', 57821)
+WARNING 2025-04-22 10:59:54,124 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,126 basehttp - Broken pipe from ('127.0.0.1', 57826)
+WARNING 2025-04-22 10:59:54,133 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,136 basehttp - Broken pipe from ('127.0.0.1', 57828)
+WARNING 2025-04-22 10:59:54,143 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,149 log Not Found: /struts2-showcase/struts/domTT.js
+INFO 2025-04-22 10:59:54,150 basehttp - Broken pipe from ('127.0.0.1', 57829)
+WARNING 2025-04-22 10:59:54,154 log Not Found: /
+WARNING 2025-04-22 10:59:54,161 log Not Found: /
+INFO 2025-04-22 10:59:54,162 basehttp - Broken pipe from ('127.0.0.1', 57830)
+INFO 2025-04-22 10:59:54,164 basehttp - Broken pipe from ('127.0.0.1', 57831)
+INFO 2025-04-22 10:59:54,165 basehttp - Broken pipe from ('127.0.0.1', 57832)
+WARNING 2025-04-22 10:59:54,169 log Not Found: /
+WARNING 2025-04-22 10:59:54,176 log Not Found: /
+INFO 2025-04-22 10:59:54,176 basehttp - Broken pipe from ('127.0.0.1', 57837)
+WARNING 2025-04-22 10:59:54,182 log Not Found: /struts2-showcase/struts/inputtransfersselect.js
+INFO 2025-04-22 10:59:54,184 basehttp - Broken pipe from ('127.0.0.1', 57840)
+INFO 2025-04-22 10:59:54,185 basehttp - Broken pipe from ('127.0.0.1', 57838)
+WARNING 2025-04-22 10:59:54,189 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,190 basehttp - Broken pipe from ('127.0.0.1', 57841)
+WARNING 2025-04-22 10:59:54,200 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,208 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,209 basehttp - Broken pipe from ('127.0.0.1', 57845)
+INFO 2025-04-22 10:59:54,212 basehttp - Broken pipe from ('127.0.0.1', 57847)
+WARNING 2025-04-22 10:59:54,216 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,217 basehttp - Broken pipe from ('127.0.0.1', 57848)
+WARNING 2025-04-22 10:59:54,225 log Not Found: /
+WARNING 2025-04-22 10:59:54,228 log Not Found: /struts2-showcase/struts/optiontransferselect.js
+INFO 2025-04-22 10:59:54,229 basehttp - Broken pipe from ('127.0.0.1', 57849)
+WARNING 2025-04-22 10:59:54,234 log Not Found: /
+INFO 2025-04-22 10:59:54,235 basehttp - Broken pipe from ('127.0.0.1', 57854)
+INFO 2025-04-22 10:59:54,236 basehttp - Broken pipe from ('127.0.0.1', 57851)
+WARNING 2025-04-22 10:59:54,242 log Not Found: /struts2-showcase
+WARNING 2025-04-22 10:59:54,249 log Not Found: /
+INFO 2025-04-22 10:59:54,250 basehttp - Broken pipe from ('127.0.0.1', 57857)
+WARNING 2025-04-22 10:59:54,256 log Not Found: /
+INFO 2025-04-22 10:59:54,257 basehttp - Broken pipe from ('127.0.0.1', 57859)
+INFO 2025-04-22 10:59:54,258 basehttp - Broken pipe from ('127.0.0.1', 57858)
+WARNING 2025-04-22 10:59:54,263 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,271 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,273 basehttp - Broken pipe from ('127.0.0.1', 57861)
+WARNING 2025-04-22 10:59:54,279 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,284 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,286 basehttp - Broken pipe from ('127.0.0.1', 57866)
+INFO 2025-04-22 10:59:54,288 basehttp - Broken pipe from ('127.0.0.1', 57869)
+INFO 2025-04-22 10:59:54,288 basehttp - Broken pipe from ('127.0.0.1', 57868)
+INFO 2025-04-22 10:59:54,288 basehttp - Broken pipe from ('127.0.0.1', 57867)
+WARNING 2025-04-22 10:59:54,295 log Not Found: /index.action/struts/utils.js
+WARNING 2025-04-22 10:59:54,301 log Not Found: /
+WARNING 2025-04-22 10:59:54,306 log Not Found: /
+WARNING 2025-04-22 10:59:54,312 log Not Found: /struts2-showcase/token/transfer4.action
+INFO 2025-04-22 10:59:54,313 basehttp - Broken pipe from ('127.0.0.1', 57870)
+INFO 2025-04-22 10:59:54,313 basehttp - Broken pipe from ('127.0.0.1', 57874)
+WARNING 2025-04-22 10:59:54,323 log Not Found: /
+INFO 2025-04-22 10:59:54,324 basehttp - Broken pipe from ('127.0.0.1', 57880)
+INFO 2025-04-22 10:59:54,324 basehttp - Broken pipe from ('127.0.0.1', 57879)
+WARNING 2025-04-22 10:59:54,332 log Not Found: /
+INFO 2025-04-22 10:59:54,335 basehttp - Broken pipe from ('127.0.0.1', 57878)
+WARNING 2025-04-22 10:59:54,341 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,349 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,350 basehttp - Broken pipe from ('127.0.0.1', 57881)
+WARNING 2025-04-22 10:59:54,358 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,365 log Not Found: /struts2-showcase/${jndi:dns://MDEDiscoverye37a1cd565ApacheStruts2-8000}
+INFO 2025-04-22 10:59:54,367 basehttp - Broken pipe from ('127.0.0.1', 57885)
+WARNING 2025-04-22 10:59:54,374 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,381 log Not Found: /
+INFO 2025-04-22 10:59:54,381 basehttp - Broken pipe from ('127.0.0.1', 57888)
+INFO 2025-04-22 10:59:54,384 basehttp - Broken pipe from ('127.0.0.1', 57887)
+WARNING 2025-04-22 10:59:54,389 log Not Found: /
+INFO 2025-04-22 10:59:54,391 basehttp - Broken pipe from ('127.0.0.1', 57889)
+INFO 2025-04-22 10:59:54,396 basehttp - Broken pipe from ('127.0.0.1', 57891)
+WARNING 2025-04-22 10:59:54,399 log Not Found: /
+WARNING 2025-04-22 10:59:54,405 log Not Found: /struts2-showcase/token/transfer4.action
+WARNING 2025-04-22 10:59:54,412 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,414 basehttp - Broken pipe from ('127.0.0.1', 57895)
+INFO 2025-04-22 10:59:54,416 basehttp - Broken pipe from ('127.0.0.1', 57897)
+WARNING 2025-04-22 10:59:54,421 log Not Found: /
+WARNING 2025-04-22 10:59:54,427 log Not Found: /analytics/telemetry/ph/api/hyper/send
+INFO 2025-04-22 10:59:54,428 basehttp - Broken pipe from ('127.0.0.1', 57899)
+WARNING 2025-04-22 10:59:54,433 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,433 basehttp - Broken pipe from ('127.0.0.1', 57901)
+WARNING 2025-04-22 10:59:54,438 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,439 basehttp - Broken pipe from ('127.0.0.1', 57905)
+WARNING 2025-04-22 10:59:54,449 log Not Found: /
+INFO 2025-04-22 10:59:54,450 basehttp - Broken pipe from ('127.0.0.1', 57906)
+WARNING 2025-04-22 10:59:54,459 log Not Found: /
+WARNING 2025-04-22 10:59:54,463 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,464 basehttp - Broken pipe from ('127.0.0.1', 57908)
+WARNING 2025-04-22 10:59:54,470 log Not Found: /
+INFO 2025-04-22 10:59:54,471 basehttp - Broken pipe from ('127.0.0.1', 57910)
+INFO 2025-04-22 10:59:54,475 basehttp - Broken pipe from ('127.0.0.1', 57914)
+WARNING 2025-04-22 10:59:54,483 log Not Found: /
+INFO 2025-04-22 10:59:54,487 basehttp - Broken pipe from ('127.0.0.1', 57919)
+INFO 2025-04-22 10:59:54,487 basehttp - Broken pipe from ('127.0.0.1', 57913)
+WARNING 2025-04-22 10:59:54,494 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,496 basehttp - Broken pipe from ('127.0.0.1', 57920)
+WARNING 2025-04-22 10:59:54,502 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,510 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,513 basehttp - Broken pipe from ('127.0.0.1', 57922)
+WARNING 2025-04-22 10:59:54,520 log Not Found: /
+INFO 2025-04-22 10:59:54,522 basehttp - Broken pipe from ('127.0.0.1', 57923)
+WARNING 2025-04-22 10:59:54,527 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,534 log Not Found: /
+WARNING 2025-04-22 10:59:54,541 log Not Found: /
+INFO 2025-04-22 10:59:54,543 basehttp - Broken pipe from ('127.0.0.1', 57925)
+INFO 2025-04-22 10:59:54,544 basehttp - Broken pipe from ('127.0.0.1', 57926)
+INFO 2025-04-22 10:59:54,546 basehttp - Broken pipe from ('127.0.0.1', 57929)
+WARNING 2025-04-22 10:59:54,549 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,554 basehttp - Broken pipe from ('127.0.0.1', 57932)
+WARNING 2025-04-22 10:59:54,557 log Not Found: /
+INFO 2025-04-22 10:59:54,559 basehttp - Broken pipe from ('127.0.0.1', 57936)
+WARNING 2025-04-22 10:59:54,563 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,564 basehttp - Broken pipe from ('127.0.0.1', 57935)
+WARNING 2025-04-22 10:59:54,571 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,572 basehttp - Broken pipe from ('127.0.0.1', 57940)
+WARNING 2025-04-22 10:59:54,577 log Not Found: /
+WARNING 2025-04-22 10:59:54,583 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,585 basehttp - Broken pipe from ('127.0.0.1', 57938)
+WARNING 2025-04-22 10:59:54,588 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,589 basehttp - Broken pipe from ('127.0.0.1', 57944)
+INFO 2025-04-22 10:59:54,591 basehttp - Broken pipe from ('127.0.0.1', 57945)
+WARNING 2025-04-22 10:59:54,596 log Not Found: /
+INFO 2025-04-22 10:59:54,597 basehttp - Broken pipe from ('127.0.0.1', 57946)
+INFO 2025-04-22 10:59:54,600 basehttp - Broken pipe from ('127.0.0.1', 57949)
+WARNING 2025-04-22 10:59:54,608 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,609 basehttp - Broken pipe from ('127.0.0.1', 57954)
+WARNING 2025-04-22 10:59:54,615 log Not Found: /
+WARNING 2025-04-22 10:59:54,621 log Not Found: /
+INFO 2025-04-22 10:59:54,623 basehttp - Broken pipe from ('127.0.0.1', 57955)
+WARNING 2025-04-22 10:59:54,629 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,631 basehttp - Broken pipe from ('127.0.0.1', 57958)
+WARNING 2025-04-22 10:59:54,635 log Not Found: /
+WARNING 2025-04-22 10:59:54,642 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,643 basehttp - Broken pipe from ('127.0.0.1', 57959)
+INFO 2025-04-22 10:59:54,643 basehttp - Broken pipe from ('127.0.0.1', 57962)
+INFO 2025-04-22 10:59:54,645 basehttp - Broken pipe from ('127.0.0.1', 57963)
+INFO 2025-04-22 10:59:54,648 basehttp - Broken pipe from ('127.0.0.1', 57966)
+INFO 2025-04-22 10:59:54,649 basehttp - Broken pipe from ('127.0.0.1', 57967)
+WARNING 2025-04-22 10:59:54,654 log Not Found: /
+WARNING 2025-04-22 10:59:54,662 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,664 basehttp - Broken pipe from ('127.0.0.1', 57970)
+INFO 2025-04-22 10:59:54,664 basehttp - Broken pipe from ('127.0.0.1', 57971)
+WARNING 2025-04-22 10:59:54,686 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,693 log Not Found: /
+INFO 2025-04-22 10:59:54,693 basehttp - Broken pipe from ('127.0.0.1', 57974)
+INFO 2025-04-22 10:59:54,694 basehttp - Broken pipe from ('127.0.0.1', 57975)
+WARNING 2025-04-22 10:59:54,717 log Not Found: /
+WARNING 2025-04-22 10:59:54,724 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,726 basehttp - Broken pipe from ('127.0.0.1', 57978)
+INFO 2025-04-22 10:59:54,727 basehttp - Broken pipe from ('127.0.0.1', 57979)
+WARNING 2025-04-22 10:59:54,733 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,734 basehttp - Broken pipe from ('127.0.0.1', 57981)
+WARNING 2025-04-22 10:59:54,746 log Not Found: /
+WARNING 2025-04-22 10:59:54,753 log Not Found: /
+INFO 2025-04-22 10:59:54,754 basehttp - Broken pipe from ('127.0.0.1', 57984)
+INFO 2025-04-22 10:59:54,755 basehttp - Broken pipe from ('127.0.0.1', 57985)
+WARNING 2025-04-22 10:59:54,767 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,768 basehttp - Broken pipe from ('127.0.0.1', 57987)
+WARNING 2025-04-22 10:59:54,776 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,778 basehttp - Broken pipe from ('127.0.0.1', 57990)
+WARNING 2025-04-22 10:59:54,793 log Not Found: /
+WARNING 2025-04-22 10:59:54,798 log Not Found: /
+INFO 2025-04-22 10:59:54,799 basehttp - Broken pipe from ('127.0.0.1', 57992)
+INFO 2025-04-22 10:59:54,800 basehttp - Broken pipe from ('127.0.0.1', 57994)
+WARNING 2025-04-22 10:59:54,807 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,810 basehttp - Broken pipe from ('127.0.0.1', 57997)
+WARNING 2025-04-22 10:59:54,825 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,830 log Not Found: /
+INFO 2025-04-22 10:59:54,832 basehttp - Broken pipe from ('127.0.0.1', 58001)
+INFO 2025-04-22 10:59:54,833 basehttp - Broken pipe from ('127.0.0.1', 58000)
+WARNING 2025-04-22 10:59:54,838 log Not Found: /
+INFO 2025-04-22 10:59:54,839 basehttp - Broken pipe from ('127.0.0.1', 58003)
+WARNING 2025-04-22 10:59:54,854 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,861 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,884 log Not Found: /api/v2/${jndi:dns://MDEDiscoverye37a1cd565SeenInTheWildGet-8000}
+INFO 2025-04-22 10:59:54,885 basehttp - Broken pipe from ('127.0.0.1', 58007)
+INFO 2025-04-22 10:59:54,885 basehttp - Broken pipe from ('127.0.0.1', 58008)
+INFO 2025-04-22 10:59:54,887 basehttp - Broken pipe from ('127.0.0.1', 58009)
+WARNING 2025-04-22 10:59:54,933 log Not Found: /
+INFO 2025-04-22 10:59:54,952 basehttp - Broken pipe from ('127.0.0.1', 58015)
+INFO 2025-04-22 10:59:54,954 basehttp - Broken pipe from ('127.0.0.1', 58011)
+WARNING 2025-04-22 10:59:54,961 log Not Found: /
+WARNING 2025-04-22 10:59:54,967 log Not Found: /:undefined
+INFO 2025-04-22 10:59:54,967 basehttp - Broken pipe from ('127.0.0.1', 58016)
+INFO 2025-04-22 10:59:54,969 basehttp - Broken pipe from ('127.0.0.1', 58017)
+WARNING 2025-04-22 10:59:54,976 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:54,987 log Not Found: /index.html
+WARNING 2025-04-22 10:59:54,996 log Not Found: /
+INFO 2025-04-22 10:59:54,997 basehttp - Broken pipe from ('127.0.0.1', 58022)
+INFO 2025-04-22 10:59:55,000 basehttp - Broken pipe from ('127.0.0.1', 58024)
+WARNING 2025-04-22 10:59:55,008 log Not Found: /
+INFO 2025-04-22 10:59:55,009 basehttp - Broken pipe from ('127.0.0.1', 58028)
+WARNING 2025-04-22 10:59:55,015 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:55,023 log Not Found: /login
+INFO 2025-04-22 10:59:55,024 basehttp - Broken pipe from ('127.0.0.1', 58031)
+WARNING 2025-04-22 10:59:55,032 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,034 basehttp - Broken pipe from ('127.0.0.1', 58034)
+INFO 2025-04-22 10:59:55,034 basehttp - Broken pipe from ('127.0.0.1', 58038)
+INFO 2025-04-22 10:59:55,035 basehttp - Broken pipe from ('127.0.0.1', 58042)
+WARNING 2025-04-22 10:59:55,041 log Not Found: /
+INFO 2025-04-22 10:59:55,045 basehttp - Broken pipe from ('127.0.0.1', 58043)
+WARNING 2025-04-22 10:59:55,051 log Not Found: /
+INFO 2025-04-22 10:59:55,054 basehttp - Broken pipe from ('127.0.0.1', 58048)
+WARNING 2025-04-22 10:59:55,060 log Not Found: /
+WARNING 2025-04-22 10:59:55,068 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,070 basehttp - Broken pipe from ('127.0.0.1', 58051)
+INFO 2025-04-22 10:59:55,071 basehttp - Broken pipe from ('127.0.0.1', 58053)
+WARNING 2025-04-22 10:59:55,076 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:55,082 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,086 basehttp - Broken pipe from ('127.0.0.1', 58060)
+WARNING 2025-04-22 10:59:55,090 log Not Found: /
+INFO 2025-04-22 10:59:55,092 basehttp - Broken pipe from ('127.0.0.1', 58057)
+INFO 2025-04-22 10:59:55,094 basehttp - Broken pipe from ('127.0.0.1', 58063)
+WARNING 2025-04-22 10:59:55,101 log Not Found: /
+WARNING 2025-04-22 10:59:55,107 log Not Found: /
+WARNING 2025-04-22 10:59:55,114 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,114 basehttp - Broken pipe from ('127.0.0.1', 58070)
+INFO 2025-04-22 10:59:55,115 basehttp - Broken pipe from ('127.0.0.1', 58069)
+WARNING 2025-04-22 10:59:55,124 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,124 basehttp - Broken pipe from ('127.0.0.1', 58073)
+WARNING 2025-04-22 10:59:55,134 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:55,140 log Not Found: /login
+INFO 2025-04-22 10:59:55,141 basehttp - Broken pipe from ('127.0.0.1', 58079)
+INFO 2025-04-22 10:59:55,144 basehttp - Broken pipe from ('127.0.0.1', 58082)
+WARNING 2025-04-22 10:59:55,151 log Not Found: /
+INFO 2025-04-22 10:59:55,153 basehttp - Broken pipe from ('127.0.0.1', 58081)
+WARNING 2025-04-22 10:59:55,158 log Not Found: /
+INFO 2025-04-22 10:59:55,161 basehttp - Broken pipe from ('127.0.0.1', 58088)
+INFO 2025-04-22 10:59:55,163 basehttp - Broken pipe from ('127.0.0.1', 58090)
+WARNING 2025-04-22 10:59:55,168 log Not Found: /
+WARNING 2025-04-22 10:59:55,178 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,180 basehttp - Broken pipe from ('127.0.0.1', 58097)
+INFO 2025-04-22 10:59:55,180 basehttp - Broken pipe from ('127.0.0.1', 58093)
+WARNING 2025-04-22 10:59:55,184 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:55,190 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,192 basehttp - Broken pipe from ('127.0.0.1', 58100)
+WARNING 2025-04-22 10:59:55,199 log Not Found: /
+INFO 2025-04-22 10:59:55,199 basehttp - Broken pipe from ('127.0.0.1', 58104)
+INFO 2025-04-22 10:59:55,200 basehttp - Broken pipe from ('127.0.0.1', 58105)
+WARNING 2025-04-22 10:59:55,208 log Not Found: /
+INFO 2025-04-22 10:59:55,211 basehttp - Broken pipe from ('127.0.0.1', 58110)
+WARNING 2025-04-22 10:59:55,215 log Not Found: /
+WARNING 2025-04-22 10:59:55,223 log Not Found: /JSPWiki/wiki/${jndi:dns://MDEDiscoverye37a1cd565ApacheJspWiki-8000}
+INFO 2025-04-22 10:59:55,224 basehttp - Broken pipe from ('127.0.0.1', 58113)
+WARNING 2025-04-22 10:59:55,229 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,230 basehttp - Broken pipe from ('127.0.0.1', 58115)
+INFO 2025-04-22 10:59:55,234 basehttp - Broken pipe from ('127.0.0.1', 58117)
+WARNING 2025-04-22 10:59:55,238 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:55,246 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,247 basehttp - Broken pipe from ('127.0.0.1', 58122)
+WARNING 2025-04-22 10:59:55,250 log Not Found: /webtools/control/main
+INFO 2025-04-22 10:59:55,251 basehttp - Broken pipe from ('127.0.0.1', 58126)
+INFO 2025-04-22 10:59:55,253 basehttp - Broken pipe from ('127.0.0.1', 58125)
+WARNING 2025-04-22 10:59:55,261 log Not Found: /
+WARNING 2025-04-22 10:59:55,268 log Not Found: /
+INFO 2025-04-22 10:59:55,269 basehttp - Broken pipe from ('127.0.0.1', 58133)
+INFO 2025-04-22 10:59:55,272 basehttp - Broken pipe from ('127.0.0.1', 58135)
+WARNING 2025-04-22 10:59:55,278 log Not Found: /broker/xml
+WARNING 2025-04-22 10:59:55,283 log Not Found: /
+INFO 2025-04-22 10:59:55,284 basehttp - Broken pipe from ('127.0.0.1', 58138)
+WARNING 2025-04-22 10:59:55,291 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,293 basehttp - Broken pipe from ('127.0.0.1', 58139)
+WARNING 2025-04-22 10:59:55,301 log Not Found: /:undefined
+WARNING 2025-04-22 10:59:55,306 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,306 basehttp - Broken pipe from ('127.0.0.1', 58141)
+INFO 2025-04-22 10:59:55,308 basehttp - Broken pipe from ('127.0.0.1', 58148)
+INFO 2025-04-22 10:59:55,314 basehttp - Broken pipe from ('127.0.0.1', 58147)
+WARNING 2025-04-22 10:59:55,316 log Not Found: /broker/xml
+INFO 2025-04-22 10:59:55,319 basehttp - Broken pipe from ('127.0.0.1', 58151)
+WARNING 2025-04-22 10:59:55,325 log Not Found: /
+WARNING 2025-04-22 10:59:55,331 log Not Found: /portal/info.jsp
+INFO 2025-04-22 10:59:55,332 basehttp - Broken pipe from ('127.0.0.1', 58158)
+INFO 2025-04-22 10:59:55,333 basehttp - Broken pipe from ('127.0.0.1', 58160)
+WARNING 2025-04-22 10:59:55,342 log Not Found: /cgi-bin/
+INFO 2025-04-22 10:59:55,344 basehttp - Broken pipe from ('127.0.0.1', 58163)
+WARNING 2025-04-22 10:59:55,353 log Not Found: /
+INFO 2025-04-22 10:59:55,354 basehttp - Broken pipe from ('127.0.0.1', 58167)
+WARNING 2025-04-22 10:59:55,371 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,373 basehttp - Broken pipe from ('127.0.0.1', 58170)
+WARNING 2025-04-22 10:59:55,386 log Not Found: /
+INFO 2025-04-22 10:59:55,388 basehttp - Broken pipe from ('127.0.0.1', 58172)
+WARNING 2025-04-22 10:59:55,400 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,401 basehttp - Broken pipe from ('127.0.0.1', 58174)
+WARNING 2025-04-22 10:59:55,420 log Not Found: /
+INFO 2025-04-22 10:59:55,421 basehttp - Broken pipe from ('127.0.0.1', 58176)
+WARNING 2025-04-22 10:59:55,430 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,431 basehttp - Broken pipe from ('127.0.0.1', 58178)
+WARNING 2025-04-22 10:59:55,449 log Not Found: /
+INFO 2025-04-22 10:59:55,450 basehttp - Broken pipe from ('127.0.0.1', 58180)
+WARNING 2025-04-22 10:59:55,462 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,464 basehttp - Broken pipe from ('127.0.0.1', 58182)
+WARNING 2025-04-22 10:59:55,481 log Not Found: /
+INFO 2025-04-22 10:59:55,483 basehttp - Broken pipe from ('127.0.0.1', 58184)
+WARNING 2025-04-22 10:59:55,511 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,512 basehttp - Broken pipe from ('127.0.0.1', 58186)
+WARNING 2025-04-22 10:59:55,526 log Not Found: /
+INFO 2025-04-22 10:59:55,527 basehttp - Broken pipe from ('127.0.0.1', 58188)
+WARNING 2025-04-22 10:59:55,544 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,545 basehttp - Broken pipe from ('127.0.0.1', 58190)
+WARNING 2025-04-22 10:59:55,556 log Not Found: /
+INFO 2025-04-22 10:59:55,557 basehttp - Broken pipe from ('127.0.0.1', 58192)
+WARNING 2025-04-22 10:59:55,570 log Not Found: /:undefined
+INFO 2025-04-22 10:59:55,571 basehttp - Broken pipe from ('127.0.0.1', 58194)
+WARNING 2025-04-22 10:59:55,591 log Not Found: /
+INFO 2025-04-22 10:59:55,592 basehttp - Broken pipe from ('127.0.0.1', 58196)
+WARNING 2025-04-22 10:59:55,606 log Not Found: /cgi-bin/
+INFO 2025-04-22 10:59:55,608 basehttp - Broken pipe from ('127.0.0.1', 58198)
+WARNING 2025-04-22 10:59:56,573 log Not Found: /
+WARNING 2025-04-22 10:59:56,591 log Not Found: /
+INFO 2025-04-22 10:59:56,593 basehttp - Broken pipe from ('127.0.0.1', 58204)
+WARNING 2025-04-22 10:59:56,623 log Not Found: /
+WARNING 2025-04-22 10:59:56,648 log Not Found: /
+INFO 2025-04-22 10:59:56,649 basehttp - Broken pipe from ('127.0.0.1', 58208)
+WARNING 2025-04-22 10:59:56,678 log Not Found: /
+INFO 2025-04-22 10:59:56,682 basehttp - Broken pipe from ('127.0.0.1', 58210)
+WARNING 2025-04-22 10:59:56,706 log Not Found: /
+INFO 2025-04-22 10:59:56,710 basehttp - Broken pipe from ('127.0.0.1', 58212)
+WARNING 2025-04-22 11:15:19,987 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 11:15:19,991 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 62397
+WARNING 2025-04-22 11:15:20,386 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 11:15:20,387 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 62397
+WARNING 2025-04-22 11:15:20,605 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 11:15:20,607 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 11:15:22,793 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-22 11:16:34,754 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-22 11:16:34,756 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 62397
+WARNING 2025-04-22 11:16:35,023 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 11:16:35,024 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 11:16:37,103 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-22 11:16:44,553 log Not Found: /api/auth/logout
+WARNING 2025-04-22 11:16:44,554 basehttp "POST /api/auth/logout HTTP/1.1" 404 62371
+WARNING 2025-04-22 11:17:19,753 log Unauthorized: /api/auth/login
+WARNING 2025-04-22 11:17:19,754 basehttp "POST /api/auth/login HTTP/1.1" 401 65
+INFO 2025-04-22 11:28:19,216 basehttp "POST /api/auth/register HTTP/1.1" 201 1092
+INFO 2025-04-22 11:28:40,030 basehttp "POST /api/auth/login HTTP/1.1" 200 1084
+INFO 2025-04-22 11:28:43,930 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+WARNING 2025-04-22 11:28:54,353 log Not Found: /api/jobs/2
+WARNING 2025-04-22 11:28:54,355 basehttp "GET /api/jobs/2 HTTP/1.1" 404 62355
+INFO 2025-04-22 11:29:26,435 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 11:29:29,805 log Not Found: /api/jobs/3
+WARNING 2025-04-22 11:29:29,806 basehttp "GET /api/jobs/3 HTTP/1.1" 404 62355
+INFO 2025-04-22 11:29:44,496 basehttp "GET /api/messages/user/5/conversations/ HTTP/1.1" 200 2
+WARNING 2025-04-22 18:49:52,940 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 18:49:52,955 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 18:49:55,071 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 18:49:56,465 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+WARNING 2025-04-22 18:51:28,211 log Not Found: /api/flash-jobs
+WARNING 2025-04-22 18:51:28,212 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 404 62390
+WARNING 2025-04-22 18:53:55,078 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 18:53:55,081 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 18:53:57,289 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 18:53:57,967 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+INFO 2025-04-22 18:57:33,355 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+WARNING 2025-04-22 18:59:36,219 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 18:59:36,221 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 18:59:38,309 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 18:59:39,193 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+WARNING 2025-04-22 19:06:17,451 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 19:06:17,454 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 19:06:19,634 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 19:06:20,736 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+WARNING 2025-04-22 20:19:14,431 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 20:19:14,438 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 20:19:16,515 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 20:19:17,634 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+WARNING 2025-04-22 20:19:46,630 log Not Found: /api/favorites
+WARNING 2025-04-22 20:19:46,631 basehttp "GET /api/favorites HTTP/1.1" 404 62364
+INFO 2025-04-22 20:19:52,999 basehttp "GET /api/messages/user/5/conversations/ HTTP/1.1" 200 2
+WARNING 2025-04-22 20:19:57,439 log Not Found: /api/flash-jobs
+WARNING 2025-04-22 20:19:57,441 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 404 62390
+WARNING 2025-04-22 20:20:37,338 log Not Found: /api/jobs/3
+WARNING 2025-04-22 20:20:37,339 basehttp "GET /api/jobs/3 HTTP/1.1" 404 62355
+INFO 2025-04-22 20:23:21,851 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-22 20:23:25,980 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 20:23:56,611 log Not Found: /api/jobs/2
+WARNING 2025-04-22 20:23:56,612 basehttp "GET /api/jobs/2 HTTP/1.1" 404 62355
+WARNING 2025-04-22 20:24:25,514 log Not Found: /api/jobs/5
+WARNING 2025-04-22 20:24:25,515 basehttp "GET /api/jobs/5 HTTP/1.1" 404 62356
+WARNING 2025-04-22 20:24:37,638 log Not Found: /api/jobs/4
+WARNING 2025-04-22 20:24:37,639 basehttp "GET /api/jobs/4 HTTP/1.1" 404 62356
+WARNING 2025-04-22 20:24:41,634 log Not Found: /api/jobs/2
+WARNING 2025-04-22 20:24:41,635 basehttp "GET /api/jobs/2 HTTP/1.1" 404 62356
+INFO 2025-04-22 20:24:48,043 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 24816
+INFO 2025-04-22 20:24:48,296 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2025-04-22 20:24:48,304 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2025-04-22 20:24:48,304 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2025-04-22 20:24:48,309 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2025-04-22 20:24:48,349 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2025-04-22 20:24:48,354 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2025-04-22 20:24:48,361 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2025-04-22 20:24:48,361 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2025-04-22 20:24:48,367 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-04-22 20:24:48,383 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2025-04-22 20:24:48,390 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-04-22 20:24:48,397 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2025-04-22 20:24:48,399 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2025-04-22 20:24:48,401 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2025-04-22 20:24:48,405 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-04-22 20:24:48,445 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2025-04-22 20:24:48,509 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2025-04-22 20:24:48,510 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-04-22 20:24:48,513 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+WARNING 2025-04-22 20:25:39,422 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 20:25:39,424 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 20:25:46,076 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 20:26:56,572 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 20:26:56,576 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 20:26:58,809 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 20:26:59,509 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+INFO 2025-04-22 20:32:04,891 basehttp "GET /api/jobs/3/ HTTP/1.1" 200 1764
+INFO 2025-04-22 20:32:22,642 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+INFO 2025-04-22 20:32:35,288 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+WARNING 2025-04-22 20:32:43,308 log Not Found: /api/applications
+WARNING 2025-04-22 20:32:43,309 basehttp "POST /api/applications HTTP/1.1" 404 62374
+WARNING 2025-04-22 23:12:29,639 log Not Found: /accueil
+WARNING 2025-04-22 23:12:29,642 basehttp "GET /accueil HTTP/1.1" 404 2691
+WARNING 2025-04-22 23:12:40,363 log Not Found: /api/application
+WARNING 2025-04-22 23:12:40,366 basehttp "GET /api/application HTTP/1.1" 404 62371
+WARNING 2025-04-22 23:12:56,916 log Not Found: /api/applications
+WARNING 2025-04-22 23:12:56,918 basehttp "GET /api/applications HTTP/1.1" 404 62374
+WARNING 2025-04-22 23:13:02,704 log Unauthorized: /api/applications/
+WARNING 2025-04-22 23:13:02,706 basehttp "GET /api/applications/ HTTP/1.1" 401 5230
+INFO 2025-04-22 23:13:03,252 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2025-04-22 23:13:03,252 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2025-04-22 23:13:03,264 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-04-22 23:13:03,275 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2025-04-22 23:13:03,298 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-04-22 23:13:03,376 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2025-04-22 23:14:27,991 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-04-22 23:14:32,494 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-22 23:14:37,959 log Unauthorized: /api/applications/
+WARNING 2025-04-22 23:14:37,961 basehttp "GET /api/applications/ HTTP/1.1" 401 5230
+WARNING 2025-04-22 23:14:41,557 log Unauthorized: /api/applications/
+WARNING 2025-04-22 23:14:41,559 basehttp "GET /api/applications/ HTTP/1.1" 401 5230
+WARNING 2025-04-22 23:20:47,820 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 23:20:47,821 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 23:20:50,508 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+INFO 2025-04-22 23:20:51,108 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 23:21:00,376 basehttp "GET /api/jobs/3/ HTTP/1.1" 200 1764
+INFO 2025-04-22 23:21:18,326 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:23:26,795 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:23:50,213 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:24:40,797 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:29:08,352 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:29:16,096 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:29:23,365 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:29:29,566 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:29:34,204 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:29:35,777 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-22 23:30:18,495 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+WARNING 2025-04-22 23:58:44,135 log Unauthorized: /api/users/profile
+WARNING 2025-04-22 23:58:44,145 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-22 23:58:46,539 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-22 23:58:47,982 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+INFO 2025-04-23 00:03:09,796 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-23 00:07:09,845 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-23 00:07:10,927 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-23 00:12:53,061 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-23 00:13:06,471 basehttp "GET /api/jobs/?page=1&per_page=5 HTTP/1.1" 200 3568
+WARNING 2025-04-23 00:13:08,349 log Not Found: /api/flash-jobs
+WARNING 2025-04-23 00:13:08,352 basehttp "GET /api/flash-jobs?page=1&per_page=20 HTTP/1.1" 404 62376
+INFO 2025-04-23 00:13:16,898 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1756
+INFO 2025-04-24 16:47:01,312 autoreload Watching for file changes with StatReloader

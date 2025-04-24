@@ -48,7 +48,7 @@ export interface Emploi {
   applications_count: number;
   conversion_rate: number;
   photos: string[];
-  
+  isFavorite?: boolean;
   // Compatibilité frontend (aliases)
   titre?: string;                // Alias pour title
   entreprise?: string;           // Alias pour employer.company_name
@@ -166,7 +166,7 @@ const jobsApi = {
    */
   getEmploi: async (id: number): Promise<Emploi> => {
     try {
-      const response = await apiClient.get<ApiResponse<Emploi>>(`/jobs/${id}`);
+      const response = await apiClient.get<ApiResponse<Emploi>>(`/jobs/${id}/`);
       return normalizeEmploi(response.data.data);
     } catch (error) {
       console.error(`Erreur lors de la récupération de l'emploi ${id} :`, error);
@@ -382,9 +382,9 @@ const jobsApi = {
   /**
    * Récupérer les offres d'emploi publiées par l'employeur connecté
    */
-  getEmployerJobs: async (): Promise<Emploi[]> => {
+  getEmployerJobs: async (employerId:number ): Promise<Emploi[]> => {
     try {
-      const response = await apiClient.get<ApiResponse<Emploi[]>>('/jobs/employer');
+      const response = await apiClient.get<ApiResponse<Emploi[]>>('/jobs/employer/?employer_id=' + employerId);
       return response.data.data.map(emploi => normalizeEmploi(emploi));
     } catch (error) {
       console.error('Erreur lors de la récupération des emplois de l\'employeur :', error);

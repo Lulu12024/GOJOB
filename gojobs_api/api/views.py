@@ -183,9 +183,13 @@ class JobViewSet(viewsets.ModelViewSet):
         return api_response(serializer.data)
     
     def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return api_response(serializer.data)
+        try:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance)
+            return api_response(serializer.data)
+        except Exception as e:
+            print(f"Erreur lors de la récupération de l'emploi: {e}")
+            return api_response(None, str(e), status_code=500)
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -195,6 +199,35 @@ class JobViewSet(viewsets.ModelViewSet):
         print(serializer.errors)
         return api_response(None, serializer.errors, status_code=400)
     
+    @action(detail=False, methods=['GET'])
+    def employer(self, request):
+        """
+        Récupérer les emplois publiés par un employeur spécifique
+        GET /api/jobs/employer/?employer_id=<id>
+        """
+        employer_id = request.query_params.get('employer_id')
+        
+        if not employer_id:
+            return Response(
+                {"error": "Le paramètre employer_id est requis"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        try:
+            # Récupérer tous les emplois publiés par l'employeur spécifié
+            jobs = Job.objects.filter(
+                employer_id=employer_id
+            ).order_by('-created_at')  # Supposant que tu as un champ 'created_at'
+            
+            serializer = self.get_serializer(jobs, many=True)
+            return Response(serializer.data)
+            
+        except Exception as e:
+            return Response(
+                {"error": f"Une erreur s'est produite: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
