@@ -14,6 +14,11 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import CheckBox from '@react-native-community/checkbox';
 import { AppDispatch } from '../../redux/store';
 import jobsApi, { PublicationEmploiPayload } from '../../api/jobsApi';
+interface PhotoAsset {
+  uri: string;
+  type: string;
+  name: string;
+}
 
 export const PublierEmploi: React.FC = () => {
   const theme = useTheme(); // Utilisez le thème correctement
@@ -23,11 +28,12 @@ export const PublierEmploi: React.FC = () => {
     titre: '',
     categorie: '',
     description: '',
-    photos: [] as string[],
+    photos: [] as (string | PhotoAsset)[],
     typeContrat: '',
     localisation: '',
     contactName: '',
     contactPhone: '',
+    company: '', 
     salaire: '',
     typeSalaire: 'mensuel', // "mensuel" ou "horaire"
     logement: false,
@@ -51,6 +57,22 @@ export const PublierEmploi: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
   
+  // const handleAddPhotos = async () => {
+  //   const result = await launchImageLibrary({
+  //     mediaType: 'photo',
+  //     selectionLimit: 5,
+  //     quality: 0.8,
+  //   });
+    
+  //   if (result.assets && result.assets.length > 0) {
+  //     const newPhotos = result.assets.map(asset => asset.uri).filter(uri => uri !== undefined) as string[];
+      
+  //     setFormData(prev => ({
+  //       ...prev,
+  //       photos: [...prev.photos, ...newPhotos]
+  //     }));
+  //   }
+  // };
   const handleAddPhotos = async () => {
     const result = await launchImageLibrary({
       mediaType: 'photo',
@@ -59,7 +81,11 @@ export const PublierEmploi: React.FC = () => {
     });
     
     if (result.assets && result.assets.length > 0) {
-      const newPhotos = result.assets.map(asset => asset.uri).filter(uri => uri !== undefined) as string[];
+      const newPhotos = result.assets.map(asset => ({
+        uri: asset.uri || '',
+        type: asset.type || 'image/jpeg',
+        name: asset.fileName || `photo_${Date.now()}.jpg`
+      }));
       
       setFormData(prev => ({
         ...prev,
@@ -91,7 +117,7 @@ export const PublierEmploi: React.FC = () => {
         description: data.description,
         category: data.categorie,
         company: "Votre entreprise", // Champ obligatoire manquant
-        location: data.localisation,    // Utiliser comme city plutôt que location
+        address: data.localisation,    // Utiliser comme city plutôt que location
         salary_type: data.typeSalaire === 'mensuel' ? 'monthly' : 'hourly',
         salary_amount: data.salaire ? parseFloat(data.salaire) : undefined,
         contract_type: contractMapping[data.typeContrat.toLowerCase()] as 'CDI' | 'CDD' | 'Freelance' | 'Alternance',
@@ -130,7 +156,7 @@ export const PublierEmploi: React.FC = () => {
         { text: 'OK', onPress: () => {} }
       ]);
     } else {
-      Alert.alert('Erreur', 'Une erreur est survenue lors de la publication de votre offre.', [
+      Alert.alert('Erreur', 'Une erreur est survenue lors de la publication de votre offre.Veuillez renseigner tout les champs et rééssayer', [
         { text: 'OK' }
       ]);
     }
@@ -229,6 +255,15 @@ export const PublierEmploi: React.FC = () => {
         placeholder="Exemple: Rennes, Île-et-Vilaine"
       />
       
+      <Text style={[styles.label, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>Entreprise</Text>
+      <ChampTexte
+        label="Entreprise"
+        placeholder="Nom de l'entreprise"
+        value={formData.company}
+        onChangeText={(text) => handleChangeText('company', text)}
+        iconGauche="domain"
+      />
+
       <Text style={[styles.label, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>Salaire</Text>
       <View style={styles.salaryContainer}>
         <TextInput

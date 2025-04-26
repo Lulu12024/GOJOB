@@ -6,13 +6,15 @@ interface CarteOffreProps {
   titre: string;
   entreprise: string;
   location: string;
-  logo: string;
+  logo: string | null;
   timeAgo: string;
   isFavorite?: boolean;
   isUrgent?: boolean;
   isNew?: boolean;
   onPress: () => void;
   onFavoriteToggle?: () => void;
+  views?: number;
+  applications?: number;
 }
 
 export const CarteOffre: React.FC<CarteOffreProps> = ({
@@ -25,10 +27,28 @@ export const CarteOffre: React.FC<CarteOffreProps> = ({
   isUrgent = false,
   isNew = false,
   onPress,
-  onFavoriteToggle
+  onFavoriteToggle,
+  views,
+  applications
 }) => {
     const theme = useTheme();
+    // Image par défaut si aucun logo n'est fourni ou si l'URL est invalide
+    const imagePlaceholder = require('../assets/images/job-placeholder.png');
   
+    // Fonction pour formater la date
+    const formatDate = (dateString: string) => {
+      try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('fr-FR', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+      } catch (e) {
+        return dateString;
+      }
+    };
+
     return (
       <TouchableOpacity
         onPress={onPress}
@@ -37,7 +57,16 @@ export const CarteOffre: React.FC<CarteOffreProps> = ({
           { backgroundColor: theme.couleurs.FOND_SECONDAIRE }
         ]}
       >
-        <Image source={{ uri: logo }} style={styles.logo} />
+        <Image 
+          source={logo ? { uri: logo } : imagePlaceholder} 
+          style={styles.logo}
+          onError={(e) => {
+            // En cas d'erreur de chargement de l'image, Image utilisera automatiquement 
+            // l'image par défaut définie dans defaultSource 
+            console.log("Erreur de chargement de l'image:", e.nativeEvent.error);
+          }}
+          defaultSource={imagePlaceholder}
+        />
         
         <View style={styles.content}>
           <Text style={[
@@ -52,6 +81,18 @@ export const CarteOffre: React.FC<CarteOffreProps> = ({
             styles.location,
             { color: theme.couleurs.TEXTE_SECONDAIRE }
           ]}>{location}</Text>
+          
+          {/* Statistiques de vues et candidatures */}
+          {(views !== undefined || applications !== undefined) && (
+            <Text style={[
+              styles.statsText,
+              { color: theme.couleurs.TEXTE_TERTIAIRE, marginTop: 4 }
+            ]}>
+              {views !== undefined ? `${views} vues` : ''}
+              {views !== undefined && applications !== undefined ? ' · ' : ''}
+              {applications !== undefined ? `${applications} candidatures` : ''}
+            </Text>
+          )}
         </View>
         
         {isUrgent && (
@@ -66,22 +107,24 @@ export const CarteOffre: React.FC<CarteOffreProps> = ({
           </View>
         )}
         
-        <TouchableOpacity
-          onPress={onFavoriteToggle}
-          style={styles.favoriteButton}
-        >
-          <Text style={{ 
-            color: isFavorite ? theme.couleurs.ERREUR : theme.couleurs.TEXTE_TERTIAIRE, 
-            fontSize: 20 
-          }}>
-            {isFavorite ? '❤️' : '♡'}
-          </Text>
-        </TouchableOpacity>
+        {onFavoriteToggle && (
+          <TouchableOpacity
+            onPress={onFavoriteToggle}
+            style={styles.favoriteButton}
+          >
+            <Text style={{ 
+              color: isFavorite ? theme.couleurs.ERREUR : theme.couleurs.TEXTE_TERTIAIRE, 
+              fontSize: 20 
+            }}>
+              {isFavorite ? '❤️' : '♡'}
+            </Text>
+          </TouchableOpacity>
+        )}
         
         <Text style={[
           styles.timeAgo,
           { color: theme.couleurs.TEXTE_TERTIAIRE }
-        ]}>{timeAgo}</Text>
+        ]}>{formatDate(timeAgo)}</Text>
       </TouchableOpacity>
     );
   };
@@ -111,12 +154,13 @@ const styles = StyleSheet.create({
   },
   company: {
     fontSize: 14,
-    color: '#666',
     marginBottom: 3,
   },
   location: {
     fontSize: 14,
-    color: '#666',
+  },
+  statsText: {
+    fontSize: 12,
   },
   badge: {
     position: 'absolute',
@@ -145,7 +189,6 @@ const styles = StyleSheet.create({
   },
   timeAgo: {
     fontSize: 12,
-    color: '#777',
     position: 'absolute',
     bottom: 10,
     right: 10,

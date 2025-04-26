@@ -130,7 +130,7 @@ const DetailEmploi: React.FC = () => {
     try {
       await Share.share({
         title: emploi.title,
-        message: `Découvrez cette offre d'emploi : ${emploi.title} à ${emploi.city || emploi.location || ''}. Plus d'informations sur GoJobs !`,
+        message: `Découvrez cette offre d'emploi : ${emploi.title} à ${emploi.city || emploi.address || ''}. Plus d'informations sur GoJobs !`,
       });
     } catch (error) {
       console.error('Erreur lors du partage :', error);
@@ -288,8 +288,8 @@ const DetailEmploi: React.FC = () => {
   // Déterminer les valeurs à afficher
   const displayTitle = emploi.titre || emploi.title;
   const displayCompany = emploi.entreprise || 
-    (typeof emploi.employer === 'object' ? emploi.employer.company_name || '' : '');
-  const displayLocation = emploi.location || emploi.city || '';
+    (typeof emploi.employer === 'object' ? emploi.company || '' : '');
+  const displayLocation = emploi.address || emploi.city || '';
   
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>

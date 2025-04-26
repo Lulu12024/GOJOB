@@ -19,6 +19,30 @@ export const MesOffres: React.FC<MesOffresProps> = ({ navigation }) => {
   const dispatch = useDispatch<AppDispatch>(); // Typez le dispatch
   const { employerJobs = [], loading, error } = useSelector((state: any) => state.emplois);
   const { utilisateur } = useAppSelector(state => state.auth);
+  const imagePlaceholder = require('../../assets/images/job-placeholder.png');
+  const formatTimeAgo = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - date.getTime());
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 0) {
+        const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+        if (diffHours === 0) {
+          const diffMinutes = Math.floor(diffTime / (1000 * 60));
+          return `${diffMinutes}m`;
+        }
+        return `${diffHours}h`;
+      } else if (diffDays < 30) {
+        return `${diffDays}j`;
+      } else {
+        return date.toLocaleDateString('fr-FR');
+      }
+    } catch (e) {
+      return dateString;
+    }
+  };
   // Fonction pour charger les offres d'emploi de l'employeur
   const fetchEmployerJobs = async () => {
     try {
@@ -120,20 +144,22 @@ export const MesOffres: React.FC<MesOffresProps> = ({ navigation }) => {
         renderItem={({ item }) => (
           <View>
             <CarteOffre
-              titre={item.titre}
-              entreprise={item.entreprise}
-              location={item.location}
+              titre={item.title || item.titre}
+              entreprise={item.company || item.entreprise}
+              location={item.location || item.address || item.city}
               logo={item.logo}
-              timeAgo={item.createdAt}
-              isUrgent={item.isUrgent}
-              isNew={item.isNew}
-              onPress={() => navigation.navigate('DetailEmploi', { jobId: item.id })}
+              timeAgo={item.created_at}
+              isUrgent={item.is_urgent || item.isUrgent}
+              isNew={item.is_new || item.isNew}
+              onPress={() => navigation.navigate('DetailEmploi', { id: item.id })}
               onFavoriteToggle={() => {}}
+              views={item.views_count}
+              applications={item.applications_count}
             />
             
             <View style={styles.jobActions}>
               <Text style={[styles.statsText, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
-                {item.views} vues · {item.applications} candidatures
+                {/* {item.views} vues · {item.applications} candidatures */}
               </Text>
               
               <View style={styles.actionButtons}>
@@ -144,12 +170,12 @@ export const MesOffres: React.FC<MesOffresProps> = ({ navigation }) => {
                   <Icon name="bar-chart" size={20} color={theme.couleurs.PRIMAIRE} />
                 </TouchableOpacity>
                 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={[styles.actionButton, { backgroundColor: `${theme.couleurs.FOND_TERTIAIRE}` }]}
                   onPress={() => handleEditJob(item.id)}
                 >
                   <Icon name="create" size={20} color={theme.couleurs.PRIMAIRE} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 
                 <TouchableOpacity
                   style={[styles.actionButton, { backgroundColor: `${theme.couleurs.FOND_TERTIAIRE}` }]}

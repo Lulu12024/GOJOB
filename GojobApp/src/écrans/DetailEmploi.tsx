@@ -29,7 +29,9 @@ export const DetailEmploi: React.FC<DetailEmploiProps> = ({ route, navigation })
   const [isFavorite, setIsFavorite] = useState(false);
   
   useEffect(() => {
+    console.log("Le job est:"+jobDetails);
     dispatch(fetchJobDetails(jobId));
+    
   }, [dispatch, jobId]);
   
   useEffect(() => {
@@ -63,7 +65,7 @@ export const DetailEmploi: React.FC<DetailEmploiProps> = ({ route, navigation })
   const handleShare = async () => {
     try {
       await Share.share({
-        message: `Découvre cette offre d'emploi sur GoJobs: ${jobDetails.titre} - ${jobDetails.entreprise} à ${jobDetails.location}`,
+        message: `Découvre cette offre d'emploi sur GoJobs: ${jobDetails.titre} - ${jobDetails.company} à ${jobDetails.address}`,
       });
     } catch (error) {
       Alert.alert('Erreur', 'Impossible de partager cette offre.');
@@ -115,6 +117,7 @@ export const DetailEmploi: React.FC<DetailEmploiProps> = ({ route, navigation })
   }
   
   return (
+    
     <ScrollView style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -144,8 +147,8 @@ export const DetailEmploi: React.FC<DetailEmploiProps> = ({ route, navigation })
         <View style={styles.companyContainer}>
           <Image source={{ uri: jobDetails.logo }} style={styles.logo} />
           <View>
-            <Text style={[styles.company, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>{jobDetails.entreprise}</Text>
-            <Text style={styles.location}>{jobDetails.location}</Text>
+            <Text style={[styles.company, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>{jobDetails.company}</Text>
+            <Text style={styles.location}>{jobDetails.address}</Text>
           </View>
         </View>
         

@@ -2,8 +2,8 @@ import axios, { AxiosError, AxiosInstance } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // URL de l'API backend
-const API_URL = 'http://10.0.2.2:8000/api'; // Pour Android Emulator
-// const API_URL = 'https://gojob-rwqa.onrender.com/api'; // Pour iOS Simulator
+// const API_URL = 'http://10.0.2.2:8000/api'; // Pour Android Emulator
+const API_URL = 'https://gojob-rwqa.onrender.com/api'; // Pour iOS Simulator
 
 // Clés de stockage
 const AUTH_TOKEN_KEY = 'auth_token';

@@ -16,6 +16,8 @@ export interface Emploi {
   description: string;
   category: string;
   subcategory: string | null;
+  has_accommodation_pets?: boolean;
+  company: string;
   city: string;
   address: string | null;
   salary_type: 'hourly' | 'monthly';
@@ -48,11 +50,12 @@ export interface Emploi {
   applications_count: number;
   conversion_rate: number;
   photos: string[];
+  logo: string;
   isFavorite?: boolean;
   // Compatibilité frontend (aliases)
   titre?: string;                // Alias pour title
   entreprise?: string;           // Alias pour employer.company_name
-  location?: string;             // Alias pour city
+  // address?: string;             // Alias pour city
   typeContrat?: string;          // Alias pour contract_type
   salaire?: number;              // Alias pour salary_amount
   typeSalaire?: 'horaire' | 'mensuel'; // Alias pour salary_type
@@ -64,7 +67,7 @@ export interface Emploi {
 
 export interface RechercheEmploiParams {
   keyword?: string;
-  location?: string;
+  address?: string;
   category?: string;
   contract_type?: string;
   accommodation?: boolean;
@@ -93,7 +96,7 @@ export interface PublicationEmploiPayload {
   subcategory?: string;
   // city: string;
   company: string;
-  location?: string;
+  address?: string;
   salary_type: 'hourly' | 'monthly'; 
   salary_amount?: number;
   contract_type: 'CDI' | 'CDD' | 'Freelance' | 'Alternance';
@@ -114,7 +117,8 @@ export interface PublicationEmploiPayload {
   contact_methods: string[];
   website_url?: string;
   is_urgent?: boolean;
-  photos?: Array<string | ReactNativeFile | File>;
+  // photos?: Array<string | ReactNativeFile | File>;
+  photos?: Array<string | { uri: string; type?: string; name?: string }>;
   user_id: number; 
   expires_at?: string;
   createdAt?: string;
@@ -182,7 +186,7 @@ const jobsApi = {
       // Adaptation des paramètres de recherche pour correspondre au backend
       const apiParams = {
         q: params.keyword,
-        location: params.location,
+        address: params.address,
         category: params.category,
         contract_type: params.contract_type,
         has_accommodation: params.accommodation,
@@ -237,6 +241,49 @@ const jobsApi = {
   /**
    * Publier une nouvelle offre d'emploi (employeur uniquement)
    */
+  // publierEmploi: async (payload: PublicationEmploiPayload): Promise<Emploi> => {
+  //   try {
+  //     const formData = new FormData();
+      
+  //     // Conversion des données en FormData pour pouvoir envoyer des fichiers
+  //     Object.entries(payload).forEach(([key, value]) => {
+  //       if (key === 'photos' && Array.isArray(value)) {
+  //         value.forEach((photo, index) => {
+  //           if (typeof photo === 'string') {
+  //             // C'est une URL
+  //             formData.append(`photos[${index}]`, photo);
+  //           } else if (photo instanceof File) {
+  //             // C'est un fichier File standard
+  //             formData.append(`photos[${index}]`, photo);
+  //           } else if (isReactNativeFile(photo)) {
+  //             // C'est un objet avec uri (format React Native)
+  //             // Using type assertion to handle React Native file format
+  //             formData.append(`photos[${index}]`, {
+  //               uri: photo.uri,
+  //               type: photo.type || 'image/jpeg',
+  //               name: photo.name || `photo_${index}.jpg`
+  //             } as unknown as Blob);
+  //           }
+  //         });
+  //       } else if (typeof value === 'object' && value !== null) {
+  //         formData.append(key, JSON.stringify(value));
+  //       } else if (value !== undefined) {
+  //         formData.append(key, String(value));
+  //       }
+  //     });
+      
+  //     const response = await apiClient.post<ApiResponse<Emploi>>('/jobs/', formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+      
+  //     return normalizeEmploi(response.data.data);
+  //   } catch (error) {
+  //     console.error('Erreur lors de la publication de l\'emploi :', error);
+  //     throw error;
+  //   }
+  // },
   publierEmploi: async (payload: PublicationEmploiPayload): Promise<Emploi> => {
     try {
       const formData = new FormData();
@@ -247,18 +294,18 @@ const jobsApi = {
           value.forEach((photo, index) => {
             if (typeof photo === 'string') {
               // C'est une URL
-              formData.append(`photos[${index}]`, photo);
+              formData.append(`photos`, photo);
             } else if (photo instanceof File) {
               // C'est un fichier File standard
-              formData.append(`photos[${index}]`, photo);
+              formData.append(`photos`, photo);
             } else if (isReactNativeFile(photo)) {
               // C'est un objet avec uri (format React Native)
-              // Using type assertion to handle React Native file format
-              formData.append(`photos[${index}]`, {
+              // Note: pour React Native, nous devons utiliser cette structure spécifique
+              formData.append(`photos`, {
                 uri: photo.uri,
                 type: photo.type || 'image/jpeg',
                 name: photo.name || `photo_${index}.jpg`
-              } as unknown as Blob);
+              } as any);
             }
           });
         } else if (typeof value === 'object' && value !== null) {

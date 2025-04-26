@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Emploi } from '../../api/jobsApi';
 import jobsApi from '../../api/jobsApi';
-
+// import { useAppSelector } from '../../redux/hooks';
 interface EtatEmplois {
   emplois: Emploi[];
   employerJobs: Emploi[]; // Ajouté pour stocker les offres de l'employeur
@@ -37,13 +37,15 @@ const initialState: EtatEmplois = {
     chargement: false,
   },
 };
-
+// export const ajouterFavori = createAction<number>('emplois/ajouterFavori');
+// export const retirerFavori = createAction<number>('emplois/retirerFavori');
+// const { utilisateur } = useAppSelector((state: any)  => state.auth);
 // Action asynchrone pour récupérer les offres d'emploi de l'employeur
 export const fetchEmployerJobs = createAsyncThunk(
   'emplois/fetchEmployerJobs',
   async (_, { rejectWithValue }) => {
     try {
-      const jobs = await jobsApi.getEmployerJobs();
+      const jobs = await jobsApi.getEmployerJobs(utilisateur.id);
       return jobs;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Impossible de charger vos offres');
@@ -110,6 +112,7 @@ const emploisSlice = createSlice({
     retirerFavori: (state, action: PayloadAction<number>) => {
       state.favoris = state.favoris.filter(id => id !== action.payload);
     },
+    
     setFiltres: (state, action: PayloadAction<any>) => {
       state.filtres = action.payload;
     },
@@ -166,7 +169,16 @@ const emploisSlice = createSlice({
       .addCase(deleteJob.rejected, (state, action) => {
         state.chargement = false;
         state.erreur = action.payload as string;
+      })
+      .addCase(ajouterFavori, (state, action) => {
+        if (!state.favoris.includes(action.payload)) {
+          state.favoris.push(action.payload);
+        }
+      })
+      .addCase(retirerFavori, (state, action) => {
+        state.favoris = state.favoris.filter(id => id !== action.payload);
       });
+      
   }
 });
 

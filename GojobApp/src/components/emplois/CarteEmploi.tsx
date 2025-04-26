@@ -1,3 +1,4 @@
+// src/components/emplois/CarteEmploi.tsx
 import React from 'react';
 import {
   View,
@@ -11,7 +12,7 @@ import { useNavigation } from '@react-navigation/core';
 import { useTheme } from '../../hooks/useTheme';
 import { Emploi } from '../../api/jobsApi';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TextStyle /* autres imports */ } from 'react-native';
+import { TextStyle } from 'react-native';
 
 interface PropsCarteEmploi {
   emploi: Emploi;
@@ -36,9 +37,27 @@ const CarteEmploi: React.FC<PropsCarteEmploi> = ({
   
   // Formatage du salaire pour affichage
   const formatSalaire = (emploi: Emploi): string => {
-    if (!emploi.salary) return 'Salaire non précisé';
+    if (!emploi.salary_amount) return 'Salaire non précisé';
     
-    return `${emploi.salary.amount} € / ${emploi.salary.period === 'hour' ? 'h' : 'mois'}`;
+    return `${emploi.salary_amount} € / ${emploi.salary_type === 'hourly' ? 'h' : 'mois'}`;
+  };
+  
+  // Formatage de la date relative (ex: il y a 3m, il y a 2h, etc.)
+  const formatRelativeTime = (dateString: string) => {
+    console.log(emploi.created_at);
+    if (!dateString) return '3m'; // Valeur par défaut
+    
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+    
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}m`;
+    } else if (diffInMinutes < 1440) {
+      return `${Math.floor(diffInMinutes / 60)}h`;
+    } else {
+      return `${Math.floor(diffInMinutes / 1440)}j`;
+    }
   };
   
   // Ouvrir la page de détail de l'emploi
@@ -62,7 +81,7 @@ const CarteEmploi: React.FC<PropsCarteEmploi> = ({
       onPress={ouvrirDetail}
       activeOpacity={0.7}
     >
-      {/* Badges pour urgent/nouveau */}
+      {/* Badges d'état */}
       <View style={styles.badgesConteneur}>
         {emploi.is_urgent && (
           <View style={[styles.badge, { backgroundColor: theme.couleurs.URGENT }]}>
@@ -79,7 +98,7 @@ const CarteEmploi: React.FC<PropsCarteEmploi> = ({
       <View style={styles.conteneurPrincipal}>
         {/* Image de l'emploi */}
         <Image
-          source={emploi.photos && emploi.photos.length > 0 ? { uri: emploi.photos[0] } : imagePlaceholder}
+          source={emploi.photos && emploi.photos.length > 0 ? { uri: emploi.logo} : imagePlaceholder}
           style={[
             styles.image,
             compact ? styles.imageCompact : {},
@@ -96,14 +115,13 @@ const CarteEmploi: React.FC<PropsCarteEmploi> = ({
               {
                 color: theme.couleurs.TEXTE_PRIMAIRE,
                 fontSize: theme.typographie.TAILLES.MOYEN,
-                // fontWeight: theme.typographie.POIDS.GRAS,
                 fontWeight: theme.typographie.POIDS.GRAS as TextStyle['fontWeight'],
               },
             ]}
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            {emploi.title}
+            {emploi.title || emploi.titre}
           </Text>
           
           {/* Entreprise */}
@@ -116,8 +134,8 @@ const CarteEmploi: React.FC<PropsCarteEmploi> = ({
               },
             ]}
             numberOfLines={1}
-          >
-            {emploi.company}
+            >
+            {emploi.company || 'Entreprise'}
           </Text>
           
           {/* Localisation */}
@@ -133,63 +151,9 @@ const CarteEmploi: React.FC<PropsCarteEmploi> = ({
               ]}
               numberOfLines={1}
             >
-              {emploi.location}
+              {emploi.address || emploi.city || ''}
             </Text>
           </View>
-          
-          {/* Salaire */}
-          {!compact && (
-            <View style={styles.rangee}>
-              <Icon name="currency-eur" size={16} color={theme.couleurs.TEXTE_SECONDAIRE} />
-              <Text
-                style={[
-                  styles.texteLigne,
-                  {
-                    color: theme.couleurs.TEXTE_SECONDAIRE,
-                    fontSize: theme.typographie.TAILLES.PETIT,
-                  },
-                ]}
-              >
-                {formatSalaire(emploi)}
-              </Text>
-            </View>
-          )}
-          
-          {/* Type de contrat */}
-          {!compact && emploi.contract_type && (
-            <View style={styles.rangee}>
-              <Icon name="file-document-outline" size={16} color={theme.couleurs.TEXTE_SECONDAIRE} />
-              <Text
-                style={[
-                  styles.texteLigne,
-                  {
-                    color: theme.couleurs.TEXTE_SECONDAIRE,
-                    fontSize: theme.typographie.TAILLES.PETIT,
-                  },
-                ]}
-              >
-                {emploi.contract_type}
-              </Text>
-            </View>
-          )}
-          
-          {/* Accommodation si disponible */}
-          {!compact && emploi.accommodation && (
-            <View style={styles.rangee}>
-              <Icon name="home" size={16} color={theme.couleurs.TEXTE_SECONDAIRE} />
-              <Text
-                style={[
-                  styles.texteLigne,
-                  {
-                    color: theme.couleurs.TEXTE_SECONDAIRE,
-                    fontSize: theme.typographie.TAILLES.PETIT,
-                  },
-                ]}
-              >
-                Logement inclus
-              </Text>
-            </View>
-          )}
         </View>
         
         {/* Bouton favori */}
@@ -220,8 +184,10 @@ const CarteEmploi: React.FC<PropsCarteEmploi> = ({
             },
           ]}
         >
-          {emploi.created_at ? `Publié il y a 3m` : ''}
+          {formatRelativeTime(emploi.created_at)}
+          
         </Text>
+        
       </View>
     </TouchableOpacity>
   );

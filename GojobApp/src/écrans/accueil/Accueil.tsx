@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   FlatList,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -21,8 +22,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // API
 import jobsApi from '../../api/jobsApi';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setEmplois, setChargement } from '../../redux/slices/emploisSlice';
-import { CarteOffre } from '../../components/CarteOffre';
+import { setEmplois, setChargement, ajouterFavori, retirerFavori } from '../../redux/slices/emploisSlice';
+import CarteEmploi from '../../components/emplois/CarteEmploi';
 
 type NavigationProp = NativeStackNavigationProp<AccueilNavigatorParamList>;
 
@@ -33,17 +34,18 @@ const Accueil: React.FC = () => {
   
   // States
   const [keywordSearch, setKeywordSearch] = useState('');
+  const [categorySearch, setCategorySearch] = useState('');
   const [locationSearch, setLocationSearch] = useState('');
   
   // Redux state
-  const { emplois, chargement } = useAppSelector(state => state.emplois);
+  const { emplois, chargement, favoris } = useAppSelector(state => state.emplois);
   
   // Charger les emplois recommandés au chargement
   useEffect(() => {
     const fetchRecommendedJobs = async () => {
       try {
         dispatch(setChargement(true));
-        const response = await jobsApi.getEmplois(1, 5);
+        const response = await jobsApi.getEmplois(1, 10);
         dispatch(setEmplois(response.data));
       } catch (error) {
         console.error('Erreur lors du chargement des emplois recommandés:', error);
@@ -60,6 +62,7 @@ const Accueil: React.FC = () => {
     navigation.navigate('ResultatsRecherche', {
       params: {
         keyword: keywordSearch,
+        category: categorySearch,
         location: locationSearch
       }
     });
@@ -74,29 +77,62 @@ const Accueil: React.FC = () => {
   };
   
   // Naviguer vers les filtres
+  // const navigateToFilters = () => {
+  //   navigation.navigate('FiltrageRecherche', {
+  //     fromScreen: 'Accueil'
+  //   });
+  // };
+  // Naviguer vers les filtres
   const navigateToFilters = () => {
     navigation.navigate('FiltrageRecherche', {
-      filtres: {},
-      onApply: (nouveauxFiltres) => {
-        console.log('Nouveaux filtres:', nouveauxFiltres);
+      filtres: {}, // Objet vide pour les filtres initiaux
+      onApply: (nouveauxFiltres: any) => {
+        // Fonction appelée lorsque l'utilisateur applique de nouveaux filtres
+        // Vous pouvez utiliser ces filtres pour mettre à jour votre état ou naviguer vers les résultats
+        navigation.navigate('ResultatsRecherche', {
+          params: {
+            ...nouveauxFiltres,
+            keyword: keywordSearch,
+            location: locationSearch
+          }
+        });
       }
     });
   };
 
-  // Rendu de la carte d'emploi
-  const renderEmploiItem = ({ item }: any) => (
-    <CarteOffre
-      titre={item.title || item.titre}
-      entreprise={item.company || item.entreprise}
-      location={item.city || item.location}
-      logo={item.logo || "https://example.com/placeholder.jpg"}
-      timeAgo="3m"
-      isUrgent={item.is_urgent || item.isUrgent}
-      isNew={item.is_new || item.isNew}
-      onPress={() => navigation.navigate('DetailEmploi', { id: item.id })}
-      onFavoriteToggle={() => {}}
-    />
-  );
+  // Gérer le toggle des favoris
+  const handleToggleFavorite = async (id: number) => {
+    try {
+      const estFavori = favoris.includes(id);
+      
+      // Optimistic UI update
+      if (estFavori) {
+        dispatch(retirerFavori(id));
+      } else {
+        dispatch(ajouterFavori(id));
+      }
+      
+      // API call
+      await jobsApi.toggleFavori(id);
+    } catch (error) {
+      console.error('Erreur lors de la gestion des favoris:', error);
+    }
+  };
+
+  // Formatage de la date relative (ex: il y a 3m, il y a 2h, etc.)
+  const formatRelativeTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+    
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}m`;
+    } else if (diffInMinutes < 1440) {
+      return `${Math.floor(diffInMinutes / 60)}h`;
+    } else {
+      return `${Math.floor(diffInMinutes / 1440)}j`;
+    }
+  };
   
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
@@ -105,7 +141,10 @@ const Accueil: React.FC = () => {
       <ScrollView style={styles.content}>
         <View style={styles.searchSection}>
           <Text style={[styles.label, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>What</Text>
-          <View style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}>
+          <TouchableOpacity 
+            style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}
+            onPress={navigateToSearch}
+          >
             <TextInput
               style={[styles.input, { color: theme.couleurs.TEXTE_PRIMAIRE }]}
               placeholder="Enter keywords"
@@ -113,19 +152,26 @@ const Accueil: React.FC = () => {
               value={keywordSearch}
               onChangeText={setKeywordSearch}
             />
-          </View>
+          </TouchableOpacity>
           
-          <View style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE, marginTop: 12 }]}>
+          <TouchableOpacity 
+            style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE, marginTop: 12 }]}
+            onPress={navigateToSearch}
+          >
             <TextInput
               style={[styles.input, { color: theme.couleurs.TEXTE_PRIMAIRE }]}
               placeholder="Any classification"
               placeholderTextColor={theme.couleurs.TEXTE_TERTIAIRE}
-              onFocus={navigateToSearch}
+              value={categorySearch}
+              onChangeText={setCategorySearch}
             />
-          </View>
+          </TouchableOpacity>
           
           <Text style={[styles.label, { color: theme.couleurs.TEXTE_PRIMAIRE, marginTop: 16 }]}>Where</Text>
-          <View style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}>
+          <TouchableOpacity 
+            style={[styles.inputContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}
+            onPress={navigateToSearch}
+          >
             <TextInput
               style={[styles.input, { color: theme.couleurs.TEXTE_PRIMAIRE }]}
               placeholder="Enter suburb, city or region"
@@ -133,11 +179,11 @@ const Accueil: React.FC = () => {
               value={locationSearch}
               onChangeText={setLocationSearch}
             />
-          </View>
+          </TouchableOpacity>
           
           <View style={styles.buttonRow}>
             <TouchableOpacity
-              style={styles.filterButton}
+              style={[styles.filterButton, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}
               onPress={navigateToFilters}
             >
               <Icon name="filter-variant" size={24} color={theme.couleurs.TEXTE_SECONDAIRE} />
@@ -163,7 +209,13 @@ const Accueil: React.FC = () => {
           ) : (
             <FlatList
               data={emplois}
-              renderItem={renderEmploiItem}
+              renderItem={({ item }) => (
+                <CarteEmploi
+                  emploi={item}
+                  isFavorite={favoris.includes(item.id)}
+                  onFavorite={() => handleToggleFavorite(item.id)}
+                />
+              )}
               keyExtractor={(item) => item.id.toString()}
               horizontal={false}
               scrollEnabled={false}
