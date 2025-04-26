@@ -1,5 +1,10 @@
 from rest_framework import serializers
 from .models import *
+from django.conf import settings
+from urllib.parse import urljoin
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework import  status
 
 class UserSerializer(serializers.ModelSerializer):
     # Ajout de champs pour correspondre aux attentes du frontend
@@ -52,7 +57,7 @@ class JobPhotoSerializer(serializers.ModelSerializer):
 
 class JobSerializer(serializers.ModelSerializer):
     employer = UserSerializer(read_only=True)
-    photos = JobPhotoSerializer(many=True, read_only=True)
+    # photos = JobPhotoSerializer(many=True, read_only=True)
     days_until_expiry = serializers.ReadOnlyField()
     is_expired = serializers.ReadOnlyField()
     user_id = serializers.IntegerField(write_only=True, required=False)
@@ -65,13 +70,13 @@ class JobSerializer(serializers.ModelSerializer):
     salaire = serializers.SerializerMethodField()
     typeSalaire = serializers.SerializerMethodField()
     logo = serializers.SerializerMethodField()
-    createdAt = serializers.DateTimeField(source='created_at')
+    # createdAt = serializers.DateTimeField(source='created_at')
     isUrgent = serializers.BooleanField(source='is_urgent')
     isNew = serializers.BooleanField(source='is_new')
     logement = serializers.BooleanField(source='has_accommodation')
     vehicule = serializers.BooleanField(source='has_company_car')
     employeur = serializers.SerializerMethodField()
-    
+    photos = serializers.SerializerMethodField()
     class Meta:
         model = Job
         fields = [
@@ -82,12 +87,12 @@ class JobSerializer(serializers.ModelSerializer):
             'has_accommodation', 'accommodation_accepts_children', 'accommodation_accepts_dogs',
             'accommodation_is_accessible', 'job_accepts_handicapped', 'has_company_car',
             'contact_name', 'contact_phone', 'contact_methods', 'website_url',
-            'is_urgent', 'is_new', 'is_top', 'status',
+            'is_urgent', 'is_new', 'is_top', 'status','created_at',
             'expires_at', 'views_count', 'applications_count', 'conversion_rate',
-            'photos', 'days_until_expiry', 'is_expired','user_id',
+            'photos', 'days_until_expiry', 'is_expired','user_id','company',
             # Champs personnalisés pour le frontend
              'entreprise',  'salaire', 'typeSalaire',
-            'logo', 'createdAt', 'isUrgent', 'isNew', 'logement', 'vehicule', 'employeur'
+            'logo', 'isUrgent', 'isNew', 'logement', 'vehicule', 'employeur'
         ]
         read_only_fields = ['created_at','user_id','updated_at', 'views_count', 'applications_count', 'conversion_rate']
     
@@ -95,9 +100,9 @@ class JobSerializer(serializers.ModelSerializer):
         # Supprimer user_id du validated_data car il est traité séparément dans perform_create
         user_id = validated_data.pop('user_id', None)
         
-        # Si location est envoyé à la place de city, faire le mapping correct
-        # if 'city' not in validated_data and 'location' in validated_data:
-        #     validated_data['city'] = validated_data.pop('location')
+        # Si company n'est pas fourni mais que l'utilisateur a une entreprise, utiliser celle-ci
+        if 'company' not in validated_data and self.context['request'].user.company_name:
+            validated_data['company'] = self.context['request'].user.company_name
             
         # Créer l'objet avec les données validées
         instance = Job.objects.create(**validated_data)
@@ -106,14 +111,46 @@ class JobSerializer(serializers.ModelSerializer):
     def get_salaire(self, obj):
         return obj.salary_amount
     
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        
+        # S'assurer que les statistiques sont bien calculées
+        for job in queryset:
+            job.views_count = job.views_count or 0
+            job.applications_count = Application.objects.filter(job=job).count()
+            job.conversion_rate = (job.applications_count / job.views_count * 100) if job.views_count > 0 else 0
+        
+        return queryset
+
     def get_typeSalaire(self, obj):
         return 'horaire' if obj.salary_type == 'hourly' else 'mensuel'
     
     def get_logo(self, obj):
-        # Récupérer une photo de profil de l'employeur ou une image par défaut
-        if obj.employer and obj.employer.profile_image:
-            return obj.employer.profile_image.url
+
+        photos = JobPhoto.objects.filter(job=obj).order_by('order').first()
+        if photos and photos.photo:
+            # Récupérer le domaine du site à partir de la requête
+            request = self.context.get('request')
+            if request is not None and isinstance(request, Request):
+                base_url = request.build_absolute_uri('/').rstrip('/')
+                # Construire l'URL absolue
+                if photos.photo.url.startswith('/'):
+                    return f"{base_url}{photos.photo.url}"
+                else:
+                    return f"{base_url}/{photos.photo.url}"
+            return photos.photo.url
+        
+        # URL par défaut
+        request = self.context.get('request')
+        if request is not None and isinstance(request, Request):
+            base_url = request.build_absolute_uri('/').rstrip('/')
+            return f"{base_url}/static/images/company-default.png"
         return '/static/images/company-default.png'
+    
+    def get_photos(self, obj):
+        """Récupérer les URLs des photos associées à cette offre"""
+        photos = JobPhoto.objects.filter(job=obj).order_by('order')
+        return [photo.photo.url for photo in photos]
     
     def get_employeur(self, obj):
         return {
@@ -147,6 +184,8 @@ class JobSerializer(serializers.ModelSerializer):
                 )
         
         return data
+    
+    
 
 class ApplicationSerializer(serializers.ModelSerializer):
     job = JobSerializer(read_only=True)

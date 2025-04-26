@@ -27,7 +27,7 @@ urlpatterns = [
     path('auth/login', views.login_view, name='login'),
     path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/logout/', views.logout_user, name='logout'),
-    
+    path('api/users/', views.UsersListView.as_view(), name='users-list'),
     # API routes
     path('', include(router.urls)),
     

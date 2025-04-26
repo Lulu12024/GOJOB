@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
 from .permissions import IsEmployer, IsCandidate, IsOwner, HasSubscription
-
+from rest_framework.generics import ListAPIView
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -39,6 +39,13 @@ def api_response(data, message=None, status_code=200):
         response["message"] = message
     
     return Response(response, status=status_code)
+
+
+class UsersListView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
+    
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -145,22 +152,60 @@ class JobViewSet(viewsets.ModelViewSet):
     ordering_fields = ['created_at', 'updated_at', 'salary_amount']
     
     
+    # def perform_create(self, serializer):
+    #     # Extraire l'ID utilisateur depuis les données de la requête
+    #     user_id = self.request.data.get('user_id')
+    #     if user_id:
+    #         try:
+    #             employer = User.objects.get(id=user_id)
+    #             serializer.save(employer=employer)
+    #         except User.DoesNotExist:
+    #             raise serializers.ValidationError({"user_id": "Utilisateur non trouvé"})
+    #     else:
+    #         # Comportement par défaut si aucun user_id n'est fourni
+    #         if self.request.user.is_authenticated:
+    #             serializer.save(employer=self.request.user)
+    #         else:
+    #             raise serializers.ValidationError({"user_id": "ID utilisateur requis"})
+    @action(detail=False, methods=['POST'])
     def perform_create(self, serializer):
         # Extraire l'ID utilisateur depuis les données de la requête
         user_id = self.request.data.get('user_id')
         if user_id:
             try:
                 employer = User.objects.get(id=user_id)
-                serializer.save(employer=employer)
+                job = serializer.save(employer=employer)
+                
+                # Gestion des photos
+                photos_files = self.request.FILES.getlist('photos')
+                for i, photo_file in enumerate(photos_files):
+                    JobPhoto.objects.create(
+                        job=job,
+                        photo=photo_file,
+                        order=i
+                    )
+                    
+                return job
             except User.DoesNotExist:
                 raise serializers.ValidationError({"user_id": "Utilisateur non trouvé"})
         else:
             # Comportement par défaut si aucun user_id n'est fourni
             if self.request.user.is_authenticated:
-                serializer.save(employer=self.request.user)
+                job = serializer.save(employer=self.request.user)
+                
+                # Gestion des photos
+                photos_files = self.request.FILES.getlist('photos')
+                for i, photo_file in enumerate(photos_files):
+                    JobPhoto.objects.create(
+                        job=job,
+                        photo=photo_file,
+                        order=i
+                    )
+                    
+                return job
             else:
                 raise serializers.ValidationError({"user_id": "ID utilisateur requis"})
-    
+            
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
@@ -238,9 +283,31 @@ class JobViewSet(viewsets.ModelViewSet):
         return api_response(None, serializer.errors, status_code=400)
     
     def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return api_response(None, "Offre d'emploi supprimée avec succès")
+        try:
+            instance = self.get_object()
+            
+            # Vérifier que l'utilisateur est bien le propriétaire de l'offre
+            if instance.employer != request.user and not request.user.is_staff:
+                return Response(
+                    {"detail": "Vous n'êtes pas autorisé à supprimer cette offre."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            
+            # Supprimer d'abord les photos associées pour éviter les problèmes de clé étrangère
+            JobPhoto.objects.filter(job=instance).delete()
+            
+            # Supprimer l'offre
+            self.perform_destroy(instance)
+            
+            return Response(
+                {"status": "success", "message": "Offre supprimée avec succès"},
+                status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return Response(
+                {"status": "error", "message": f"Erreur lors de la suppression: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @action(detail=False, methods=['get'])
     def recommended(self, request):

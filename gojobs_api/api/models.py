@@ -165,7 +165,7 @@ class Job(models.Model):
     # Localisation
     city = models.CharField(_('ville'), max_length=100)
     address = models.CharField(_('adresse'), max_length=255, blank=True, null=True)
-    
+    company = models.CharField(_('entreprise'), max_length=255, blank=True, null=True)
     # Rémunération
     salary_type = models.CharField(_('type de salaire'), max_length=10, choices=SALARY_TYPE_CHOICES)
     salary_amount = models.DecimalField(_('montant du salaire'), max_digits=10, decimal_places=2, blank=True, null=True)
@@ -661,7 +661,7 @@ class FlashJob(models.Model):
     
     job = models.OneToOneField(Job, on_delete=models.CASCADE, related_name='flash_job')
     start_time = models.DateTimeField(_('heure de début'))
-    end_time = models.DateTimeField(_('heure de fin'))
+    end_time = models.DateTimeField(_('heure de fin'), default=timezone.now)
     confirmation_required = models.BooleanField(_('confirmation requise'), default=True)
     is_confirmed = models.BooleanField(_('confirmé'), default=False)
     max_applicants = models.IntegerField(_('nombre maximum de candidats'), blank=True, null=True)
