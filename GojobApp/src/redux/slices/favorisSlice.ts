@@ -15,36 +15,59 @@ const initialState: FavorisState = {
   error: null
 };
 
-export const fetchFavorites = createAsyncThunk
-  <Emploi[],
-  void,
-  { rejectValue: string }
->(
+// export const fetchFavorites = createAsyncThunk
+//   <Emploi[],
+//   void,
+//   { rejectValue: string }
+// >(
+//   'favoris/fetchFavorites',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       // The function already returns Emploi[], so don't try to access .data
+//       return await favorisApi.getFavorites();
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la récupération des favoris');
+//     }
+//   }
+// );
+export const fetchFavorites = createAsyncThunk(
   'favoris/fetchFavorites',
-  async (_, { rejectWithValue }) => {
+  async (userId: number, { rejectWithValue }) => {
     try {
-      // The function already returns Emploi[], so don't try to access .data
-      return await favorisApi.getFavorites();
+      const favorites = await favorisApi.getFavorites(userId);
+      return favorites;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Erreur lors de la récupération des favoris');
+      return rejectWithValue(error.message || 'Erreur lors de la récupération des favoris');
     }
   }
 );
-export const toggleFavorite = createAsyncThunk
-  <{ jobId: number; isFavorite: boolean },
-  number,
-  { rejectValue: string }
->(
+export const toggleFavorite = createAsyncThunk(
   'favoris/toggleFavorite',
-  async (jobId: number, { rejectWithValue }) => {
+  async ({ jobId, userId }: { jobId: number, userId: number }, { rejectWithValue }) => {
     try {
-      const isFavorite = await favorisApi.toggleFavorite(jobId);
-      return { jobId, isFavorite };  // Return object with jobId and boolean result
+      const isFavorite = await favorisApi.toggleFavorite(jobId, userId);
+      return { jobId, isFavorite };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Erreur lors de la modification des favoris');
+      return rejectWithValue(error.message || 'Erreur lors de la gestion des favoris');
     }
   }
 );
+
+// export const toggleFavorite = createAsyncThunk
+//   <{ jobId: number; isFavorite: boolean },
+//   number,
+//   { rejectValue: string }
+// >(
+//   'favoris/toggleFavorite',
+//   async (jobId: number, { rejectWithValue }) => {
+//     try {
+//       const isFavorite = await favorisApi.toggleFavorite(jobId);
+//       return { jobId, isFavorite };  // Return object with jobId and boolean result
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la modification des favoris');
+//     }
+//   }
+// );
 
 
 const favorisSlice = createSlice({
@@ -63,7 +86,7 @@ const favorisSlice = createSlice({
       })
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Une erreur est survenue';
+        // state.error = action.payload || 'Une erreur est survenue';
       })
       .addCase(toggleFavorite.pending, (state) => {
         state.loading = true;
@@ -122,8 +145,8 @@ const favorisSlice = createSlice({
               
               // The following are for internal use, not part of the API model
               titre: "Emploi favori",
-              entreprise: "",
-              location: ""
+              company: "",
+              logo: ""
             };
             state.favoris.push(newFavorite);
           }
@@ -134,7 +157,7 @@ const favorisSlice = createSlice({
       })
       .addCase(toggleFavorite.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Une erreur est survenue';
+        // state.error = action.payload || 'Une erreur est survenue';
       });
   }
 });

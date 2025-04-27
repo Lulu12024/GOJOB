@@ -11,7 +11,7 @@ import {
   Dimensions,
   Share,
   Alert,
-  Linking,
+  Modal,
   Platform,
 } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
@@ -22,24 +22,24 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { AccueilNavigatorParamList, MainNavigatorParamList } from '../../types/navigation';
 import { Emploi } from '../../api/jobsApi';
 import { ajouterFavori, retirerFavori } from '../../redux/slices/emploisSlice';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { TextStyle } from 'react-native';
 // Composants
 import Bouton from '../../components/communs/Bouton';
-import { TextStyle } from 'react-native';
+import { TextStyle as RNTextStyle } from 'react-native';
 // API
 import jobsApi from '../../api/jobsApi';
 import applicationsApi from '../../api/applicationsApi';
+import * as DocumentPicker from 'react-native-document-picker';
 
 // Constantes
 const LARGEUR_ECRAN = Dimensions.get('window').width;
 
 type DetailEmploiRouteProp = RouteProp<AccueilNavigatorParamList, 'DetailEmploi'>;
-type NavigationProp = NativeStackNavigationProp<MainNavigatorParamList>;
 
 const DetailEmploi: React.FC = () => {
   const theme = useTheme();
   const route = useRoute<DetailEmploiRouteProp>();
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation();
   const dispatch = useAppDispatch();
   
   // Redux state
@@ -52,6 +52,11 @@ const DetailEmploi: React.FC = () => {
   const [indexImage, setIndexImage] = useState(0);
   const [estFavori, setEstFavori] = useState(false);
   const [envoyerCandidature, setEnvoyerCandidature] = useState(false);
+  
+  // Modal application states
+  const [applicationModalVisible, setApplicationModalVisible] = useState(false);
+  const [cv, setCV] = useState<any>(null);
+  const [lettre, setLettre] = useState<any>(null);
   
   // Récupérer l'ID de l'emploi depuis les paramètres de route
   const { id, emploi: emploiParam } = route.params as { id?: number; emploi?: Emploi };
@@ -137,21 +142,63 @@ const DetailEmploi: React.FC = () => {
     }
   };
   
-  // Postuler à l'offre d'emploi
-  const postuler = async () => {
-    if (!emploi) return;
+  // Sélectionner un CV
+  const selectCV = async () => {
+    try {
+      const result = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.docx],
+      });
+      setCV(result[0]);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // L'utilisateur a annulé
+      } else {
+        Alert.alert('Erreur', 'Impossible de sélectionner le CV.');
+      }
+    }
+  };
+  
+  // Sélectionner une lettre de motivation
+  const selectLettre = async () => {
+    try {
+      const result = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.docx],
+      });
+      setLettre(result[0]);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // L'utilisateur a annulé
+      } else {
+        Alert.alert('Erreur', 'Impossible de sélectionner la lettre de motivation.');
+      }
+    }
+  };
+  
+  // Soumettre la candidature
+  const envoyerApplication = async () => {
+    if (!emploi || !utilisateur) return;
+    
+    if (!cv) {
+      Alert.alert('Erreur', 'Veuillez sélectionner votre CV.');
+      return;
+    }
     
     try {
       setEnvoyerCandidature(true);
       
       // Appel API pour postuler
-      await applicationsApi.postuler(emploi.id);
+      const success = await applicationsApi.postuler(emploi.id, utilisateur.id, cv, lettre);
       
-      Alert.alert(
-        'Candidature envoyée',
-        'Votre candidature a été envoyée avec succès. L\'employeur vous contactera bientôt.',
-        [{ text: 'OK' }]
-      );
+      if (success) {
+        Alert.alert(
+          'Candidature envoyée',
+          'Votre candidature a été envoyée avec succès. L\'employeur vous contactera bientôt.',
+          [{ text: 'OK' }]
+        );
+        setApplicationModalVisible(false);
+      } else {
+        Alert.alert('Erreur', 'Un problème est survenu lors de l\'envoi de votre candidature.');
+      }
     } catch (error) {
       console.error('Erreur lors de l\'envoi de la candidature :', error);
       Alert.alert('Erreur', 'Impossible d\'envoyer votre candidature. Veuillez réessayer plus tard.');
@@ -160,41 +207,92 @@ const DetailEmploi: React.FC = () => {
     }
   };
   
-  // Contacter l'employeur par téléphone
-  const appelerEmployeur = () => {
-    if (!emploi || !emploi.contact_phone) return;
+  // Afficher le modal de candidature
+  const ouvrirModalCandidature = () => {
+    if (!utilisateur) {
+      Alert.alert(
+        'Connexion requise',
+        'Vous devez être connecté pour postuler à cette offre.',
+        [
+          { text: 'Annuler', style: 'cancel' },
+          { 
+            text: 'Se connecter', 
+            onPress: () => {
+              // Correction de la navigation
+              // @ts-ignore - Nous savons que cette route existe
+              navigation.navigate('Auth', { screen: 'Connexion' });
+            } 
+          }
+        ]
+      );
+      return;
+    }
     
-    Linking.openURL(`tel:${emploi.contact_phone}`);
+    if (estEmployeur) {
+      Alert.alert('Information', 'Vous ne pouvez pas postuler en tant qu\'employeur.');
+      return;
+    }
+    
+    setApplicationModalVisible(true);
   };
   
   // Contacter l'employeur par message
   const envoyerMessage = () => {
-    if (!emploi) return;
+    if (!emploi || !utilisateur) {
+      Alert.alert(
+        'Connexion requise',
+        'Vous devez être connecté pour envoyer un message.',
+        [
+          { text: 'Annuler', style: 'cancel' },
+          { 
+            text: 'Se connecter', 
+            onPress: () => {
+              // Correction de la navigation
+              // @ts-ignore - Nous savons que cette route existe
+              navigation.navigate('Auth', { screen: 'Connexion' });
+            } 
+          }
+        ]
+      );
+      return;
+    }
     
     // Récupérer l'ID de l'employeur
     const employerId = typeof emploi.employer === 'object' ? emploi.employer.id : emploi.employer;
     const employerName = typeof emploi.employer === 'object' 
-      ? `${emploi.employer.prenom || ''} ${emploi.employer.nom || ''}` 
+      ? `${emploi.employer.first_name || ''} ${emploi.employer.last_name || ''}` 
       : (emploi.entreprise || emploi.contact_name || '');
-    
+    console.log("navigation vers message");
     // Naviguer vers l'écran de conversation
+    // @ts-ignore - On ignore l'erreur de type de navigation
+    
     navigation.navigate('Tabs', {
-      screen: 'MessagesTab',
+      screen: 'Conversation',
       params: {
         screen: 'Conversation',
         params: {
-          id: employerId,
+          conversationId: employerId,
           nom: employerName,
         },
       },
     });
+    // navigation.navigate('Conversation', { 
+    //   conversationId: null, 
+    //   newConversation: true,
+    //   receiver: {
+    //     id: employerId,
+    //     nom: employerName
+    //   }
+    // });
+    
   };
   
   // Modifier l'offre d'emploi (pour les employeurs)
   const modifierEmploi = () => {
     if (!emploi) return;
     
-    navigation.navigate('EditerEmploi', { id: emploi.id });
+    // @ts-ignore - On ignore l'erreur de type de navigation
+    navigation.navigate('EditerEmploi', { emploiId: emploi.id });
   };
   
   // Afficher les photos de l'offre d'emploi
@@ -288,7 +386,7 @@ const DetailEmploi: React.FC = () => {
   // Déterminer les valeurs à afficher
   const displayTitle = emploi.titre || emploi.title;
   const displayCompany = emploi.entreprise || 
-    (typeof emploi.employer === 'object' ? emploi.company || '' : '');
+    (typeof emploi.employer === 'object' ? emploi.employer.company_name || '' : '');
   const displayLocation = emploi.address || emploi.city || '';
   
   return (
@@ -431,7 +529,7 @@ const DetailEmploi: React.FC = () => {
                 styles.sectionTitre,
                 {
                   color: theme.couleurs.TEXTE_PRIMAIRE,
-                  fontSize: theme.typographie.TAILLES.TRES_GRAND,
+                  fontSize: theme.typographie.TAILLES.GRAND,
                   fontWeight: theme.typographie.POIDS.GRAS as TextStyle['fontWeight'],
                 },
               ]}
@@ -444,6 +542,77 @@ const DetailEmploi: React.FC = () => {
           </View>
         </View>
       </ScrollView>
+      
+      {/* Modal de candidature */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={applicationModalVisible}
+        onRequestClose={() => setApplicationModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContainer, { backgroundColor: theme.couleurs.FOND_SECONDAIRE }]}>
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>
+                Postuler à cette offre
+              </Text>
+              <TouchableOpacity onPress={() => setApplicationModalVisible(false)}>
+                <Icon name="close" size={24} color={theme.couleurs.TEXTE_SECONDAIRE} />
+              </TouchableOpacity>
+            </View>
+            
+            <ScrollView style={styles.modalContent}>
+              <Text style={[styles.modalLabel, { color: theme.couleurs.TEXTE_PRIMAIRE }]}>
+                Votre CV *
+              </Text>
+              <TouchableOpacity
+                style={[styles.fileSelector, { borderColor: theme.couleurs.BORDURE }]}
+                onPress={selectCV}
+              >
+                <Icon name="file-pdf-box" size={24} color={theme.couleurs.PRIMAIRE} />
+                <Text style={[styles.fileSelectorText, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
+                  {cv ? cv.name : 'Sélectionner votre CV'}
+                </Text>
+              </TouchableOpacity>
+              
+              <Text style={[styles.modalLabel, { color: theme.couleurs.TEXTE_PRIMAIRE, marginTop: 16 }]}>
+                Lettre de motivation (optionnel)
+              </Text>
+              <TouchableOpacity
+                style={[styles.fileSelector, { borderColor: theme.couleurs.BORDURE }]}
+                onPress={selectLettre}
+              >
+                <Icon name="file-document-outline" size={24} color={theme.couleurs.PRIMAIRE} />
+                <Text style={[styles.fileSelectorText, { color: theme.couleurs.TEXTE_SECONDAIRE }]}>
+                  {lettre ? lettre.name : 'Sélectionner votre lettre de motivation'}
+                </Text>
+              </TouchableOpacity>
+              
+              <Text style={[styles.requiredNote, { color: theme.couleurs.TEXTE_TERTIAIRE }]}>
+                * Champ obligatoire
+              </Text>
+            </ScrollView>
+            
+            <View style={styles.modalFooter}>
+              <Bouton
+                titre="Annuler"
+                onPress={() => setApplicationModalVisible(false)}
+                variante="outline"
+                taille="moyen"
+                style={{ flex: 1, marginRight: 8 }}
+              />
+              <Bouton
+                titre="Envoyer ma candidature"
+                onPress={envoyerApplication}
+                variante="primaire"
+                taille="moyen"
+                charge={envoyerCandidature}
+                style={{ flex: 1 }}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
       
       {/* Barre d'actions en bas de l'écran */}
       <View
@@ -458,34 +627,19 @@ const DetailEmploi: React.FC = () => {
         {/* Actions pour les candidats */}
         {!estEmployeur && (
           <View style={styles.actionsPostuler}>
-            <View style={styles.boutonsContact}>
-              <TouchableOpacity
-                style={[
-                  styles.boutonContact,
-                  { backgroundColor: theme.couleurs.FOND_TERTIAIRE },
-                ]}
-                onPress={appelerEmployeur}
-              >
-                <Icon name="phone" size={24} color={theme.couleurs.TEXTE_SECONDAIRE} />
-              </TouchableOpacity>
-              
-              <TouchableOpacity
-                style={[
-                  styles.boutonContact,
-                  { backgroundColor: theme.couleurs.FOND_TERTIAIRE },
-                ]}
-                onPress={envoyerMessage}
-              >
-                <Icon name="message-text" size={24} color={theme.couleurs.TEXTE_SECONDAIRE} />
-              </TouchableOpacity>
-            </View>
-            
             <Bouton
               titre="Postuler"
-              onPress={postuler}
+              onPress={ouvrirModalCandidature}
               variante="primaire"
               taille="moyen"
-              charge={envoyerCandidature}
+              style={{ flex: 1, marginRight: 8 }}
+            />
+            <Bouton
+              titre="Message"
+              onPress={envoyerMessage}
+              variante="secondaire"
+              taille="moyen"
+              icone={<Icon name="message-text" size={20} color={theme.couleurs.TEXTE_PRIMAIRE} />}
               style={{ flex: 1 }}
             />
           </View>
@@ -507,6 +661,7 @@ const DetailEmploi: React.FC = () => {
               titre="Statistiques"
               onPress={() => {
                 // Naviguer vers les statistiques de l'offre
+                // @ts-ignore - On ignore l'erreur de type de navigation
                 navigation.navigate('Tabs', {
                   screen: 'ProfilTab',
                   params: {
@@ -639,16 +794,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
   },
-  exigenceItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 8,
-  },
-  exigenceTexte: {
-    fontSize: 16,
-    marginLeft: 8,
-    flex: 1,
-  },
   barreActions: {
     padding: 16,
     borderTopWidth: 1,
@@ -657,21 +802,65 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  boutonsContact: {
-    flexDirection: 'row',
-    marginRight: 16,
-  },
-  boutonContact: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 8,
-  },
   actionsEmployeur: {
     flexDirection: 'row',
   },
-});
+  
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContainer: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 20,
+    paddingHorizontal: 16,
+    paddingBottom: Platform.OS === 'ios' ? 34 : 16,
+    maxHeight: '80%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  modalContent: {
+    maxHeight: 400,
+  },
+  modalLabel: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 8,
+  },
+  fileSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 8,
+  },
+  fileSelectorText: {
+    marginLeft: 12,
+    fontSize: 16,
+  },
+  requiredNote: {
+    fontSize: 12,
+    marginTop: 16,
+    marginBottom: 8,
+    fontStyle: 'italic',
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+})
 
 export default DetailEmploi;

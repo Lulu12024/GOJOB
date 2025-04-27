@@ -69,7 +69,8 @@ export const MonProfil: React.FC = () => {
     try {
       setChargement(true);
       await authApi.deconnexion();
-      dispatch(reinitialiser());
+      console.log("On s'est deconnecté 2")
+      // dispatch(reinitialiser());
     } catch (error) {
       console.error('Erreur lors de la déconnexion :', error);
       // Même en cas d'erreur, on réinitialise l'état d'authentification

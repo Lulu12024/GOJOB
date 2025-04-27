@@ -18,7 +18,7 @@ import { AccueilNavigatorParamList } from '../../types/navigation';
 import { useTheme } from '../../hooks/useTheme';
 import Header from '../../components/communs/Header';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { fetchFavorites, toggleFavorite } from '../../redux/slices/favorisSlice';
 // API
 import jobsApi from '../../api/jobsApi';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -31,7 +31,7 @@ const Accueil: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  
+  const { utilisateur } = useAppSelector(state => state.auth);
   // States
   const [keywordSearch, setKeywordSearch] = useState('');
   const [categorySearch, setCategorySearch] = useState('');
@@ -113,7 +113,11 @@ const Accueil: React.FC = () => {
       }
       
       // API call
-      await jobsApi.toggleFavori(id);
+      // await jobsApi.toggleFavori(id);
+      if (utilisateur ){
+        dispatch(toggleFavorite({ jobId: id, userId: utilisateur.id }));
+      }
+      
     } catch (error) {
       console.error('Erreur lors de la gestion des favoris:', error);
     }

@@ -175,16 +175,18 @@ const authApi = {
     try {
       const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
       
-      if (refreshToken) {
-        await apiClient.post('auth/logout', { refresh: refreshToken });
-      }
+      // if (refreshToken) {
+      //   await apiClient.post('auth/logout/', { refresh: refreshToken });
+      // }
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
     } finally {
+      console.log("On se déconnecte")
       // Suppression des données locales même en cas d'erreur API
       await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
       await AsyncStorage.removeItem(USER_DATA_KEY);
       await AsyncStorage.removeItem(REFRESH_TOKEN_KEY);
+      console.log("On s'est déconnecté")
     }
   },
   

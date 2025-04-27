@@ -63,10 +63,14 @@ export const MesOffres: React.FC<MesOffresProps> = ({ navigation }) => {
   };
 
   // Fonction pour supprimer une offre d'emploi
-  const deleteJob = async (jobId: number) => {
+  const deleteJob = async (jobId: number ) => {
     try {
+      if (!utilisateur || !utilisateur.id) {
+        Alert.alert('Erreur', 'Vous devez être connecté pour y accéder');
+        return;
+      }
       dispatch(setChargement(true));
-      await jobsApi.deleteJob(jobId);
+      await jobsApi.deleteJob(jobId, utilisateur.id);
       // Rechargez la liste après suppression
       fetchEmployerJobs();
     } catch (err: any) {
@@ -74,7 +78,7 @@ export const MesOffres: React.FC<MesOffresProps> = ({ navigation }) => {
       dispatch(setChargement(false));
     }
   };
-
+  
   useEffect(() => {
     fetchEmployerJobs();
   }, [dispatch]);
@@ -103,7 +107,7 @@ export const MesOffres: React.FC<MesOffresProps> = ({ navigation }) => {
       ]
     );
   };
-
+  
   const handleViewJobStats = (jobId: number) => {
     navigation.navigate('JobStats', { jobId });
   };

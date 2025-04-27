@@ -35,6 +35,7 @@ import {
 // API
 import jobsApi, { Emploi, RechercheEmploiParams } from '../../api/jobsApi';
 import { TextStyle } from 'react-native';
+import { fetchFavorites, toggleFavorite } from '../../redux/slices/favorisSlice';
 
 type ResultatsRechercheRouteProp = RouteProp<AccueilNavigatorParamList, 'ResultatsRecherche'>;
 type NavigationProp = NativeStackNavigationProp<AccueilNavigatorParamList>;
@@ -62,6 +63,7 @@ const ResultatsRecherche: React.FC = () => {
   const [nombreResultats, setNombreResultats] = useState(0);
   const [termeSaisi, setTermeSaisi] = useState(termeRecherche || params.keyword || '');
   const [lieuSaisi, setLieuSaisi] = useState(location || params.location || '');
+  const { utilisateur } = useAppSelector(state => state.auth);
   
   // Effectuer la recherche
   const effectuerRecherche = useCallback(async (pageNo = 1, rafraichir = false) => {
@@ -162,7 +164,10 @@ const ResultatsRecherche: React.FC = () => {
       }
       
       // API call
-      await jobsApi.toggleFavori(id);
+      // await jobsApi.toggleFavori(id);
+      if (utilisateur ){
+        dispatch(toggleFavorite({ jobId: id, userId: utilisateur.id }));
+      }
     } catch (error) {
       console.error('Erreur lors de la gestion des favoris :', error);
       

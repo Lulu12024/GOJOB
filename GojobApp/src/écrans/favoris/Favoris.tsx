@@ -6,6 +6,7 @@ import { CarteOffre } from '../../components/CarteOffre';
 import { fetchFavorites, toggleFavorite } from '../../redux/slices/favorisSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppDispatch } from '../../redux/store';
+import { useAppSelector } from '../../redux/hooks';
 
 type FavorisProps = {
   navigation: StackNavigationProp<any>;
@@ -16,11 +17,19 @@ export const Favoris: React.FC<FavorisProps> = ({ navigation }) => {
   const dispatch = useDispatch<AppDispatch>();
   // const { favoris, loading, error } = useSelector((state: any) => state.favoris);
   const { favoris = [], loading = false, error = null } = useSelector((state: any) => state.favoris || {});
-  
+  const { utilisateur } = useAppSelector(state => state.auth);
   useEffect(() => {
-    dispatch(fetchFavorites());
+    if (utilisateur && utilisateur.id) {
+      dispatch(fetchFavorites(utilisateur.id));
+    }
   }, [dispatch]);
   
+  const handleToggleFavorite = (jobId: number) => {
+    // Vérifier si l'utilisateur existe et a un ID
+    if (utilisateur && utilisateur.id) {
+      dispatch(toggleFavorite({ jobId, userId: utilisateur.id }));
+    }
+  };
   if (loading) {
     return (
       <View style={[styles.container, { backgroundColor: theme.couleurs.FOND_SOMBRE }]}>
@@ -46,16 +55,17 @@ export const Favoris: React.FC<FavorisProps> = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <CarteOffre
-            titre={item.titre}
-            entreprise={item.entreprise}
-            location={item.location}
+            titre={item.title || item.titre}
+            entreprise={item.company || item.entreprise}
+            location={item.location || item.address || item.city}
             logo={item.logo}
-            timeAgo={item.createdAt}
+            timeAgo={item.created_at}
+            isUrgent={item.is_urgent || item.isUrgent}
+            isNew={item.is_new || item.isNew}
+            onPress={() => navigation.navigate('DetailEmploi', { id: item.id })}
             isFavorite={true}
-            isUrgent={item.isUrgent}
-            isNew={item.isNew}
-            onPress={() => navigation.navigate('DetailEmploi', { jobId: item.id })}
-            onFavoriteToggle={() => dispatch(toggleFavorite(item.id))}
+            onFavoriteToggle={() => handleToggleFavorite(item.id)}
+            // onFavoriteToggle={() => dispatch(toggleFavorite(item.id))}
           />
         )}
         ListEmptyComponent={

@@ -386,6 +386,17 @@ const jobsApi = {
       throw error;
     }
   },
+  deleteJob: async (id: number, userId?: number): Promise<void> => {
+    try {
+      // Ajouter le userId comme paramètre de requête si fourni
+      const params = userId ? { user_id: userId } : {};
+      console.log(params)
+      await apiClient.delete<ApiResponse<null>>(`/jobs/${id}/`, { params });
+    } catch (error) {
+      console.error(`Erreur lors de la suppression de l'emploi ${id} :`, error);
+      throw error;
+    }
+  },
   
   /**
    * Obtenir les statistiques d'une offre d'emploi (employeur uniquement)
@@ -442,9 +453,9 @@ const jobsApi = {
   /**
    * Supprimer une offre d'emploi (alternative à supprimerEmploi pour compatibilité)
    */
-  deleteJob: async (id: number): Promise<void> => {
-    return jobsApi.supprimerEmploi(id);
-  },
+  // deleteJob: async (id: number): Promise<void> => {
+  //   return jobsApi.supprimerEmploi(id);
+  // },
   
   /**
    * Consulter une offre d'emploi (incrémenter le compteur de vues)

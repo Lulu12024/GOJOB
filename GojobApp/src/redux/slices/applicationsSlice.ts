@@ -15,22 +15,34 @@ const initialState: ApplicationState = {
 };
 
 // Thunks
-export const fetchApplications = createAsyncThunk
-  <Candidature[],
-  void,
-  { rejectValue: string }
->(
+export const fetchApplications = createAsyncThunk(
   'applications/fetchApplications',
-  async (_, { rejectWithValue }) => {
+  async ({employerId}: {employerId: number}, { dispatch, rejectWithValue }) => {
     try {
-      // Corriger l'appel API - getCandidatures au lieu de getApplications
-      const response = await applicationsApi.getCandidatures();
+      const response = await applicationsApi.getCandidatures(employerId);
+      // Recharger les offres après suppression
       return response; // Votre API renvoie déjà les données, pas response.data.data
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la récupération des candidatures');
     }
   }
 );
+// export const fetchApplications = createAsyncThunk
+//   <Candidature[],
+//   void,
+//   { rejectValue: string }
+// >(
+//   'applications/fetchApplications',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       // Corriger l'appel API - getCandidatures au lieu de getApplications
+//       const response = await applicationsApi.getCandidatures();
+//       return response; // Votre API renvoie déjà les données, pas response.data.data
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message || 'Erreur lors de la récupération des candidatures');
+//     }
+//   }
+// );
 
 export const createApplication = createAsyncThunk
   <boolean, // Votre API renvoie un boolean, pas une Candidature
@@ -78,10 +90,10 @@ const applicationsSlice = createSlice({
         state.loading = false;
         state.applications = action.payload;
       })
-      .addCase(fetchApplications.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload ?? 'Une erreur est survenue';
-      })
+      // .addCase(fetchApplications.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload ?? 'Une erreur est survenue';
+      // })
       // Les cas createApplication et updateApplicationStatus doivent être modifiés
       // car ils retournent un boolean, pas une Candidature
       .addCase(createApplication.pending, (state) => {

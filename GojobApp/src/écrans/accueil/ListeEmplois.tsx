@@ -17,7 +17,7 @@ import { AccueilNavigatorParamList } from '../../types/navigation';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useTheme } from '../../hooks/useTheme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { fetchFavorites, toggleFavorite } from '../../redux/slices/favorisSlice';
 // Components
 import BarreRecherche from '../../components/communs/BarreRecherche';
 import CarteEmploi from '../../components/emplois/CarteEmploi';
@@ -120,7 +120,11 @@ const ListeEmplois: React.FC = () => {
       }
       
       // API call
-      await jobsApi.toggleFavori(id);
+      // await jobsApi.toggleFavori(id);
+      if (utilisateur ){
+        dispatch(toggleFavorite({ jobId: id, userId: utilisateur.id }));
+      }
+      
     } catch (error) {
       console.error('Erreur lors de la gestion des favoris :', error);
       

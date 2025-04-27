@@ -6,7 +6,7 @@ import { CarteCandidature } from '../../components/CarteCandidature';
 import { fetchApplications, updateApplicationStatus } from '../../redux/slices/applicationsSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AppDispatch } from '../../redux/store';
-
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 // Définir des types pour les statuts
 type ApplicationStatus = 'pending' | 'accepted' | 'rejected' | 'interview';
 type UITabStatus = 'new' | 'accepted' | 'rejected' | 'pending';
@@ -41,13 +41,17 @@ export const Candidatures: React.FC<CandidaturesProps> = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
   const { applications = [], loading = false, error = null } = useSelector((state: any) => state.applications || {});
-  
+  const { utilisateur } = useAppSelector(state => state.auth);
   // const { applications, loading, error } = useSelector((state: any) => state.applications);
   const [activeTab, setActiveTab] = useState<UITabStatus>('new');
 
   useEffect(() => {
-    dispatch(fetchApplications());
-  }, [dispatch]);
+    // Vérifier si l'utilisateur existe et a un ID avant d'appeler fetchApplications
+    if (utilisateur && utilisateur.id) {
+      // Passer un objet avec la propriété employerId à fetchApplications
+      dispatch(fetchApplications({ employerId: utilisateur.id }));
+    }
+  }, [dispatch, utilisateur]);
 
   const filteredApplications = applications ? applications.filter((app: any) => {
     if (!app || !app.status) return false;

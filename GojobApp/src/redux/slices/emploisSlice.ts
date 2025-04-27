@@ -43,9 +43,9 @@ const initialState: EtatEmplois = {
 // Action asynchrone pour récupérer les offres d'emploi de l'employeur
 export const fetchEmployerJobs = createAsyncThunk(
   'emplois/fetchEmployerJobs',
-  async (_, { rejectWithValue }) => {
+  async (userId: number, { rejectWithValue }) => {
     try {
-      const jobs = await jobsApi.getEmployerJobs(utilisateur.id);
+      const jobs = await jobsApi.getEmployerJobs(userId);
       return jobs;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Impossible de charger vos offres');
@@ -56,11 +56,11 @@ export const fetchEmployerJobs = createAsyncThunk(
 // Action asynchrone pour supprimer une offre d'emploi
 export const deleteJob = createAsyncThunk(
   'emplois/deleteJob',
-  async (jobId: number, { dispatch, rejectWithValue }) => {
+  async ({jobId, userId}: {jobId: number, userId: number}, { dispatch, rejectWithValue }) => {
     try {
-      await jobsApi.deleteJob(jobId);
+      await jobsApi.deleteJob(jobId, userId);
       // Recharger les offres après suppression
-      dispatch(fetchEmployerJobs());
+      dispatch(fetchEmployerJobs(userId));
       return jobId;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Impossible de supprimer l\'offre');
