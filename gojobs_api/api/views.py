@@ -286,7 +286,29 @@ class JobViewSet(viewsets.ModelViewSet):
         try:
             instance = self.get_object()
             
-            # Vérifier que l'utilisateur est bien le propriétaire de l'offre
+            # Récupérer l'ID utilisateur depuis les paramètres de requête
+            user_id = request.query_params.get('user_id')
+            
+            if user_id:
+                # Si un user_id est fourni, vérifier qu'il correspond au propriétaire
+                if str(instance.employer.id) == user_id:
+                    # Supprimer d'abord les photos associées
+                    JobPhoto.objects.filter(job=instance).delete()
+                    
+                    # Supprimer l'offre
+                    self.perform_destroy(instance)
+                    
+                    return Response(
+                        {"status": "success", "message": "Offre supprimée avec succès"},
+                        status=status.HTTP_200_OK
+                    )
+                else:
+                    return Response(
+                        {"detail": "L'utilisateur spécifié n'est pas le propriétaire de cette offre."},
+                        status=status.HTTP_403_FORBIDDEN
+                    )
+            
+            # Comportement standard si aucun user_id n'est fourni
             if instance.employer != request.user and not request.user.is_staff:
                 return Response(
                     {"detail": "Vous n'êtes pas autorisé à supprimer cette offre."},
@@ -306,9 +328,7 @@ class JobViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response(
                 {"status": "error", "message": f"Erreur lors de la suppression: {str(e)}"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-    
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     @action(detail=False, methods=['get'])
     def recommended(self, request):
         # Implémentez la logique pour récupérer les emplois recommandés
@@ -532,14 +552,14 @@ class JobViewSet(viewsets.ModelViewSet):
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     
-    def get_permissions(self):
-        if self.action == 'create':
-            self.permission_classes = [permissions.IsAuthenticated, IsCandidate]
-        elif self.action == 'update_status':
-            self.permission_classes = [permissions.IsAuthenticated, IsEmployer]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.action == 'create':
+    #         self.permission_classes = [permissions.IsAuthenticated, IsCandidate]
+    #     elif self.action == 'update_status':
+    #         self.permission_classes = [permissions.IsAuthenticated, IsEmployer]
+    #     return super().get_permissions()
     
     def get_queryset(self):
         user = self.request.user
@@ -559,24 +579,50 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         job_id = request.data.get('job_id') or request.data.get('jobId')
         job = get_object_or_404(Job, id=job_id)
         
-        # Gérer le fichier CV et la lettre de motivation comme FormData
+        # Allow passing user_id explicitly to support mobile application
+        user_id = request.data.get('user_id')
+        print(user_id)
+        if user_id:
+            try:
+                candidate = User.objects.get(id=user_id)
+            except User.DoesNotExist:
+                return Response({"detail": "Utilisateur non trouvé"}, 
+                            status=status.HTTP_404_NOT_FOUND)
+        else:
+            # Use the authenticated user if no user_id is provided
+            candidate = request.user
+            if candidate.is_anonymous:
+                return Response({"detail": "Vous devez être connecté pour postuler"},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        
+        # Verify the user is a candidate
+        if candidate.role != 'candidate':
+            return Response({"detail": "Seuls les candidats peuvent postuler"}, 
+                        status=status.HTTP_403_FORBIDDEN)
+        
+        # Verify if the user has already applied
+        if Application.objects.filter(job=job, candidate=candidate).exists():
+            return Response({"detail": "Vous avez déjà postulé à cette offre"}, 
+                        status=status.HTTP_400_BAD_REQUEST)
+        
+        # Handle file uploads for CV and motivation letter
         cv_file = request.FILES.get('cv')
         lettre_file = request.FILES.get('lettre')
         
-        # Créer l'objet Application avec les données de base
+        # Create the application object with basic data
         application_data = {
             'job': job,
-            'candidate': request.user,
+            'candidate': candidate,
             'status': 'pending'
         }
         
-        # Ajouter le CV et la lettre si présents
+        # Add the CV and motivation letter if provided
         if cv_file:
             application_data['cv_url'] = cv_file
         if lettre_file:
             application_data['motivation_letter_url'] = lettre_file
         
-        # Ajouter les réponses aux questions si présentes
+        # Add custom answers if present
         custom_answers = {}
         for key, value in request.data.items():
             if key.startswith('question_'):
@@ -585,11 +631,19 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         if custom_answers:
             application_data['custom_answers'] = custom_answers
         
-        # Créer l'application
+        # Create the application
         application = Application.objects.create(**application_data)
+        
+        # Create a notification for the employer
+        from .services import notify_new_application
+        notify_new_application(application)
+        
         serializer = self.get_serializer(application)
         
-        return api_response(serializer.data, "Candidature envoyée avec succès", status_code=201)
+        return Response(
+            {"detail": "Candidature envoyée avec succès", "data": serializer.data}, 
+            status=status.HTTP_201_CREATED
+        )
     
     @action(detail=True, methods=['put'], url_path='status')
     def update_status(self, request, pk=None):
@@ -608,6 +662,62 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         
         return api_response(serializer.data, "Statut de la candidature mis à jour")
 
+    @action(detail=False, methods=['get'], url_path='user')
+    def user_applications(self, request):
+        """Récupérer les candidatures de l'utilisateur connecté"""
+        applications = Application.objects.filter(candidate=request.user)
+        serializer = self.get_serializer(applications, many=True)
+        return api_response(serializer.data)
+
+    # @action(detail=False, methods=['get'], url_path='employer')
+    @action(detail=False, methods=['get'], url_path='employer/(?P<employer_id>[^/.]+)')
+    def employer_applications(self, request, employer_id=None):
+        try:
+            employer_id = int(employer_id)
+            """Récupérer toutes les candidatures pour les offres d'un employeur"""
+            # if request.user.role != 'employer':
+            #     return api_response(None, "Accès limité aux employeurs", status_code=403)
+            
+            applications = Application.objects.filter(job__employer_id=employer_id)
+            serializer = self.get_serializer(applications, many=True)
+            return api_response(serializer.data)
+        except ValueError:
+            return api_response(None, "ID d'employeur invalide", status_code=400)
+        except Exception as e:
+            return api_response(None, f"Erreur lors de la récupération des candidatures: {str(e)}", status_code=500)
+
+
+    @action(detail=False, methods=['get'], url_path='candidate/(?P<candidate_id>[^/.]+)')
+    def candidate_applications(self, request, candidate_id=None):
+        """Récupérer les candidatures d'un candidat spécifique"""
+        if request.user.role != 'employer':
+            return api_response(None, "Accès limité aux employeurs", status_code=403)
+        
+        # Vérifier que l'employeur a accès à ces candidatures
+        # (c'est-à-dire, que le candidat a postulé à une offre de cet employeur)
+        applications = Application.objects.filter(
+            candidate_id=candidate_id,
+            job__employer=request.user
+        )
+        
+        if not applications.exists():
+            return api_response([], "Aucune candidature trouvée pour ce candidat")
+        
+        serializer = self.get_serializer(applications, many=True)
+        return api_response(serializer.data)
+    
+    @action(detail=True, methods=['get'], url_path='applications')
+    def job_applications(self, request, pk=None):
+        """Récupérer les candidatures pour une offre d'emploi spécifique"""
+        job = self.get_object()
+        
+        # Vérifier que l'utilisateur est l'employeur de cette offre
+        if request.user != job.employer:
+            return api_response(None, "Vous n'êtes pas autorisé à voir ces candidatures", status_code=403)
+        
+        applications = Application.objects.filter(job=job)
+        serializer = ApplicationSerializer(applications, many=True, context={'request': request})
+        return api_response(serializer.data)
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
@@ -1249,7 +1359,7 @@ class FlashJobViewSet(viewsets.ModelViewSet):
     
 class FavoriteViewSet(viewsets.ModelViewSet):
     serializer_class = FavoriteSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     
     def get_queryset(self):
         return Favorite.objects.filter(user=self.request.user)
@@ -1261,20 +1371,52 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         jobs = [item['job'] for item in serializer.data]
         return api_response(jobs)
     
-    @action(detail=False, methods=['post'], url_path='toggle/(?P<job_id>[^/.]+)')
-    def toggle(self, request, job_id=None):
-        job = get_object_or_404(Job, id=job_id)
+    @action(detail=False, methods=['get'], url_path='user/(?P<user_id>[^/.]+)')
+    def user_favorites(self, request, user_id=None):
+        """
+        Récupérer les favoris d'un utilisateur spécifié par son ID
+        """
         try:
-            favorite = Favorite.objects.get(user=request.user, job=job)
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return api_response(None, "Utilisateur non trouvé", status_code=404)
+        
+        # Vérifier les permissions si nécessaire
+        
+        favorites = Favorite.objects.filter(user=user)
+        jobs = [fav.job for fav in favorites]
+        
+        serializer = JobSerializer(jobs, many=True)
+        return api_response(serializer.data)
+    
+    @action(detail=False, methods=['post'], url_path='toggle/(?P<job_id>[^/.]+)/(?P<user_id>[^/.]+)')
+    def toggle(self, request, job_id=None, user_id=None):
+        """
+        Toggle un emploi comme favori pour un utilisateur spécifié par son ID
+        """
+        job = get_object_or_404(Job, id=job_id)
+        
+        # Récupérer l'utilisateur par son ID
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return api_response(None, "Utilisateur non trouvé", status_code=404)
+        
+        # Vérifier les permissions si nécessaire
+        # Si vous voulez restreindre cette action, vous pouvez ajouter une vérification ici
+        # Par exemple, vérifier que l'utilisateur actuel est un admin ou est le même que l'utilisateur spécifié
+        
+        try:
+            favorite = Favorite.objects.get(user=user, job=job)
             # Si le favori existait déjà, on le supprime
             favorite.delete()
             return api_response({"isFavorite": False}, "Offre retirée des favoris")
         except Favorite.DoesNotExist:
             # Sinon, on le crée
-            favorite = Favorite.objects.create(user=request.user, job=job)
+            favorite = Favorite.objects.create(user=user, job=job)
             serializer = self.get_serializer(favorite)
             return api_response({"isFavorite": True}, "Offre ajoutée aux favoris", status_code=201)
-        
+            
 
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer

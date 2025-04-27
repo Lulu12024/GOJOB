@@ -381,7 +381,7 @@ class UserConnectionSerializer(serializers.ModelSerializer):
 
 class FavoriteSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    job = JobSerializer(read_only=True)
+    job = JobSerializer()
     
     class Meta:
         model = Favorite
