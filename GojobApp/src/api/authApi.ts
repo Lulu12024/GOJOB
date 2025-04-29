@@ -92,7 +92,53 @@ const authApi = {
       return response.data.data;
     } catch (error: any) {
       console.error('Erreur lors de l\'inscription:', error);
-      throw error.response?.data?.message || 'Erreur lors de l\'inscription';
+      
+      // Extraction du message d'erreur spécifique
+      if (error.response) {
+        // Vérifier le format d'erreur spécifique de votre API
+        if (error.response.data && error.response.data.status === 'error') {
+          const errorMessage = error.response.data.message;
+          
+          // Si le message est un objet avec des champs d'erreur (comme {email: ["message"]})
+          if (typeof errorMessage === 'object' && errorMessage !== null) {
+            const formattedErrors: string[] = [];
+            
+            // Parcourir chaque champ d'erreur
+            Object.entries(errorMessage).forEach(([field, errors]) => {
+              if (Array.isArray(errors)) {
+                // Pour chaque message d'erreur du champ
+                errors.forEach((errorText: string) => {
+                  formattedErrors.push(`${field}: ${errorText}`);
+                });
+              } else if (typeof errors === 'string') {
+                formattedErrors.push(`${field}: ${errors}`);
+              }
+            });
+            
+            // Joindre tous les messages d'erreur
+            if (formattedErrors.length > 0) {
+              throw formattedErrors.join('. ');
+            }
+          }
+          
+          // Si message est une chaîne directement
+          if (typeof errorMessage === 'string') {
+            throw errorMessage;
+          }
+        }
+        
+        // Fallbacks pour d'autres formats d'erreur
+        if (error.response.data && error.response.data.detail) {
+          throw error.response.data.detail;
+        }
+        
+        if (typeof error.response.data === 'string') {
+          throw error.response.data;
+        }
+      }
+      
+      // Erreur réseau ou autre
+      throw error.message || 'Erreur de connexion. Veuillez vérifier votre connexion internet.';
     }
   },
   

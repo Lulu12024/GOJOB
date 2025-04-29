@@ -55,39 +55,6 @@ const Inscription: React.FC<InscriptionProps> = ({ navigation }) => {
     return true;
   };
   
-  // const handleInscription = async () => {
-  //   if (!validateForm()) return;
-    
-  //   setChargement(true);
-    
-  //   try {
-  //     // Appel à l'action d'inscription à décommenter quand vous l'aurez créée
-  //     /* 
-  //     await dispatch(inscription({
-  //       nom,
-  //       prenom,
-  //       email,
-  //       telephone,
-  //       password,
-  //       password_confirmation: passwordConfirm,
-  //       role
-  //     })).unwrap();
-  //     */
-      
-  //     // Pour le moment, simulons une réussite après 1 seconde
-  //     setTimeout(() => {
-  //       setChargement(false);
-  //       Alert.alert(
-  //         'Compte créé',
-  //         'Votre compte a été créé avec succès !',
-  //         [{ text: 'OK', onPress: () => navigation.navigate('Connexion') }]
-  //       );
-  //     }, 1000);
-  //   } catch (error: any) {
-  //     setChargement(false);
-  //     Alert.alert('Erreur', error.message || 'Impossible de créer le compte');
-  //   }
-  // };
   const handleInscription = async () => {
     if (!validateForm()) return;
     setChargement(true);

@@ -25,7 +25,6 @@ from django.db.models import Q, Count
 from django.contrib.auth import authenticate
 
 User = get_user_model()
-
 def api_response(data, message=None, status_code=200):
     """
     Formate la réponse API selon le format attendu par le frontend React Native.
@@ -35,10 +34,41 @@ def api_response(data, message=None, status_code=200):
         "data": data
     }
     
+    # Traitement du message d'erreur
     if message:
-        response["message"] = message
+        # Si le message est un dictionnaire d'erreurs de validation
+        if isinstance(message, dict):
+            # Transformer le dictionnaire d'erreurs en une chaîne lisible
+            error_messages = []
+            for field, errors in message.items():
+                if isinstance(errors, list):
+                    # Jointure des erreurs pour ce champ
+                    field_errors = ', '.join(errors)
+                    error_messages.append(f"{field}: {field_errors}")
+                else:
+                    # Si c'est une erreur simple pour ce champ
+                    error_messages.append(f"{field}: {errors}")
+            
+            # Joindre toutes les erreurs en une seule chaîne
+            response["message"] = '. '.join(error_messages)
+        else:
+            # Message simple
+            response["message"] = message
     
     return Response(response, status=status_code)
+# def api_response(data, message=None, status_code=200):
+#     """
+#     Formate la réponse API selon le format attendu par le frontend React Native.
+#     """
+#     response = {
+#         "status": "success" if status_code < 400 else "error",
+#         "data": data
+#     }
+    
+#     if message:
+#         response["message"] = message
+    
+#     return Response(response, status=status_code)
 
 
 class UsersListView(ListAPIView):

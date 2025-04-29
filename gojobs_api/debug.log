@@ -6299,3 +6299,673 @@ WARNING 2025-04-26 09:50:55,553 log Not Found: /
 INFO 2025-04-26 09:50:55,555 basehttp - Broken pipe from ('127.0.0.1', 58594)
 WARNING 2025-04-26 09:50:55,571 log Not Found: /cgi-bin/
 INFO 2025-04-26 09:50:55,572 basehttp - Broken pipe from ('127.0.0.1', 58596)
+INFO 2025-04-26 17:59:14,768 autoreload Watching for file changes with StatReloader
+INFO 2025-04-26 18:01:55,858 basehttp "GET /api/messages/user/10/conversations/ HTTP/1.1" 200 2
+WARNING 2025-04-26 18:01:57,583 log Not Found: /api/applications
+WARNING 2025-04-26 18:01:57,584 basehttp "GET /api/applications HTTP/1.1" 404 63746
+INFO 2025-04-26 18:02:00,224 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 5222
+WARNING 2025-04-26 18:02:00,664 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+WARNING 2025-04-26 18:02:07,426 log Not Found: /api/jobs/1
+WARNING 2025-04-26 18:02:07,428 basehttp "DELETE /api/jobs/1 HTTP/1.1" 404 63731
+WARNING 2025-04-26 18:02:40,381 log Not Found: /api/jobs/1
+WARNING 2025-04-26 18:02:40,382 basehttp "DELETE /api/jobs/1 HTTP/1.1" 404 63732
+WARNING 2025-04-26 18:05:56,882 log Forbidden: /api/jobs/1/
+WARNING 2025-04-26 18:05:56,883 basehttp "DELETE /api/jobs/1/ HTTP/1.1" 403 65
+WARNING 2025-04-26 18:06:49,863 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-26 18:06:49,864 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 63770
+WARNING 2025-04-26 18:06:49,905 log Unauthorized: /api/users/profile
+WARNING 2025-04-26 18:06:49,905 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-26 18:06:50,159 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+INFO 2025-04-26 18:16:31,250 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-26 18:16:34,158 autoreload Watching for file changes with StatReloader
+INFO 2025-04-26 18:16:38,778 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-26 18:16:39,750 autoreload Watching for file changes with StatReloader
+INFO 2025-04-26 18:18:37,555 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-26 18:18:40,306 autoreload Watching for file changes with StatReloader
+INFO 2025-04-26 19:02:41,649 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-26 19:07:26,612 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-26 19:07:26,613 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 63770
+WARNING 2025-04-26 19:07:26,778 log Unauthorized: /api/users/profile
+WARNING 2025-04-26 19:07:26,779 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+WARNING 2025-04-26 19:07:26,910 log Unauthorized: /api/auth/refresh/
+WARNING 2025-04-26 19:07:26,911 basehttp "POST /api/auth/refresh/ HTTP/1.1" 401 54
+WARNING 2025-04-26 19:07:26,958 log Unauthorized: /api/auth/logout/
+WARNING 2025-04-26 19:07:26,960 basehttp "POST /api/auth/logout/ HTTP/1.1" 401 58
+INFO 2025-04-26 19:08:23,375 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 5222
+WARNING 2025-04-26 19:08:23,740 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+WARNING 2025-04-26 19:08:26,332 log Forbidden: /api/jobs/1/
+WARNING 2025-04-26 19:08:26,332 basehttp "DELETE /api/jobs/1/ HTTP/1.1" 403 65
+INFO 2025-04-26 19:10:47,681 basehttp "POST /api/auth/login HTTP/1.1" 200 1088
+WARNING 2025-04-26 19:10:48,099 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-26 19:10:48,102 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 63770
+INFO 2025-04-26 19:10:51,803 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 5222
+WARNING 2025-04-26 19:10:52,162 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+WARNING 2025-04-26 19:10:54,630 log Forbidden: /api/jobs/1/
+WARNING 2025-04-26 19:10:54,630 basehttp "DELETE /api/jobs/1/ HTTP/1.1" 403 65
+WARNING 2025-04-27 02:02:49,549 log Not Found: /
+WARNING 2025-04-27 02:02:49,561 log Not Found: /
+WARNING 2025-04-27 02:02:49,581 log Not Found: /
+WARNING 2025-04-27 02:02:49,583 log Not Found: /struts2-showcase/struts/utils.js
+INFO 2025-04-27 02:02:49,586 basehttp - Broken pipe from ('127.0.0.1', 55232)
+WARNING 2025-04-27 02:02:49,595 log Not Found: /
+INFO 2025-04-27 02:02:49,597 basehttp - Broken pipe from ('127.0.0.1', 55230)
+INFO 2025-04-27 02:02:49,599 basehttp - Broken pipe from ('127.0.0.1', 55229)
+INFO 2025-04-27 02:02:49,600 basehttp - Broken pipe from ('127.0.0.1', 55231)
+INFO 2025-04-27 02:02:49,602 basehttp - Broken pipe from ('127.0.0.1', 55228)
+WARNING 2025-04-27 02:02:50,705 log Not Found: /js/
+WARNING 2025-04-27 02:02:50,707 basehttp "GET /js/?${jndi:dns://MDEDiscoverye37a1cd565SeenInTheWildGet-8000} HTTP/1.1" 404 3080
+INFO 2025-04-27 02:02:50,715 basehttp - Broken pipe from ('127.0.0.1', 55251)
+WARNING 2025-04-27 02:02:51,554 log Not Found: /:undefined
+INFO 2025-04-27 02:02:51,558 basehttp - Broken pipe from ('127.0.0.1', 55270)
+WARNING 2025-04-27 02:02:51,581 log Not Found: /:undefined
+WARNING 2025-04-27 02:02:51,591 log Not Found: /:undefined
+WARNING 2025-04-27 02:02:51,613 log Not Found: /:undefined
+INFO 2025-04-27 02:02:51,614 basehttp - Broken pipe from ('127.0.0.1', 55271)
+INFO 2025-04-27 02:02:51,618 basehttp - Broken pipe from ('127.0.0.1', 55273)
+INFO 2025-04-27 02:02:51,619 basehttp - Broken pipe from ('127.0.0.1', 55272)
+WARNING 2025-04-27 02:02:51,627 log Not Found: /struts2-showcase/struts/tooltip.gif
+WARNING 2025-04-27 02:02:51,648 log Not Found: /
+INFO 2025-04-27 02:02:51,649 basehttp - Broken pipe from ('127.0.0.1', 55274)
+INFO 2025-04-27 02:02:51,652 basehttp - Broken pipe from ('127.0.0.1', 55281)
+WARNING 2025-04-27 02:02:51,669 log Not Found: /struts2-showcase/struts/domtt.css
+INFO 2025-04-27 02:02:51,672 basehttp - Broken pipe from ('127.0.0.1', 55280)
+WARNING 2025-04-27 02:02:51,687 log Not Found: /
+WARNING 2025-04-27 02:02:51,703 log Not Found: /
+WARNING 2025-04-27 02:02:51,714 log Not Found: /
+INFO 2025-04-27 02:02:51,717 basehttp - Broken pipe from ('127.0.0.1', 55283)
+INFO 2025-04-27 02:02:51,719 basehttp - Broken pipe from ('127.0.0.1', 55284)
+INFO 2025-04-27 02:02:51,719 basehttp - Broken pipe from ('127.0.0.1', 55282)
+WARNING 2025-04-27 02:02:51,732 log Not Found: /:undefined
+INFO 2025-04-27 02:02:51,736 basehttp - Broken pipe from ('127.0.0.1', 55290)
+WARNING 2025-04-27 02:02:51,749 log Not Found: /:undefined
+INFO 2025-04-27 02:02:51,754 basehttp - Broken pipe from ('127.0.0.1', 55291)
+WARNING 2025-04-27 02:02:51,764 log Not Found: /struts2-showcase/struts/domTT.js
+INFO 2025-04-27 02:02:51,769 basehttp - Broken pipe from ('127.0.0.1', 55292)
+WARNING 2025-04-27 02:02:51,778 log Not Found: /:undefined
+WARNING 2025-04-27 02:02:51,791 log Not Found: /:undefined
+WARNING 2025-04-27 02:02:51,809 log Not Found: /
+INFO 2025-04-27 02:02:51,812 basehttp - Broken pipe from ('127.0.0.1', 55293)
+INFO 2025-04-27 02:02:51,812 basehttp - Broken pipe from ('127.0.0.1', 55294)
+WARNING 2025-04-27 02:02:51,824 log Not Found: /
+INFO 2025-04-27 02:02:51,831 basehttp - Broken pipe from ('127.0.0.1', 55300)
+INFO 2025-04-27 02:02:51,835 basehttp - Broken pipe from ('127.0.0.1', 55301)
+WARNING 2025-04-27 02:02:51,847 log Not Found: /
+INFO 2025-04-27 02:02:51,853 basehttp - Broken pipe from ('127.0.0.1', 55302)
+WARNING 2025-04-27 02:02:51,862 log Not Found: /:undefined
+WARNING 2025-04-27 02:02:51,874 log Not Found: /:undefined
+INFO 2025-04-27 02:02:51,875 basehttp - Broken pipe from ('127.0.0.1', 55308)
+INFO 2025-04-27 02:02:51,878 basehttp - Broken pipe from ('127.0.0.1', 55309)
+WARNING 2025-04-27 02:02:52,412 log Not Found: /api/v2/${jndi:dns://MDEDiscoverye37a1cd565SeenInTheWildGet-8000}
+INFO 2025-04-27 02:02:52,416 basehttp - Broken pipe from ('127.0.0.1', 55401)
+WARNING 2025-04-27 02:02:52,523 log Not Found: /index.html
+INFO 2025-04-27 02:02:52,525 basehttp - Broken pipe from ('127.0.0.1', 55409)
+INFO 2025-04-27 02:02:52,529 basehttp - Broken pipe from ('127.0.0.1', 55418)
+WARNING 2025-04-27 02:02:52,540 log Not Found: /login
+WARNING 2025-04-27 02:02:52,553 log Not Found: /
+INFO 2025-04-27 02:02:52,554 basehttp - Broken pipe from ('127.0.0.1', 55432)
+WARNING 2025-04-27 02:02:52,569 log Not Found: /:undefined
+INFO 2025-04-27 02:02:52,570 basehttp - Broken pipe from ('127.0.0.1', 55441)
+WARNING 2025-04-27 02:02:52,582 log Not Found: /
+INFO 2025-04-27 02:02:52,583 basehttp - Broken pipe from ('127.0.0.1', 55449)
+INFO 2025-04-27 02:02:52,586 basehttp - Broken pipe from ('127.0.0.1', 55461)
+WARNING 2025-04-27 02:02:52,604 log Not Found: /:undefined
+INFO 2025-04-27 02:02:52,606 basehttp - Broken pipe from ('127.0.0.1', 55473)
+WARNING 2025-04-27 02:02:52,633 log Not Found: /login
+INFO 2025-04-27 02:02:52,635 basehttp - Broken pipe from ('127.0.0.1', 55480)
+WARNING 2025-04-27 02:02:52,664 log Not Found: /
+INFO 2025-04-27 02:02:52,666 basehttp - Broken pipe from ('127.0.0.1', 55492)
+WARNING 2025-04-27 02:02:52,701 log Not Found: /:undefined
+INFO 2025-04-27 02:02:52,703 basehttp - Broken pipe from ('127.0.0.1', 55503)
+WARNING 2025-04-27 02:02:52,730 log Not Found: /
+INFO 2025-04-27 02:02:52,733 basehttp - Broken pipe from ('127.0.0.1', 55507)
+WARNING 2025-04-27 02:02:52,754 log Not Found: /:undefined
+INFO 2025-04-27 02:02:52,756 basehttp - Broken pipe from ('127.0.0.1', 55511)
+WARNING 2025-04-27 02:02:52,785 log Not Found: /
+INFO 2025-04-27 02:02:52,787 basehttp - Broken pipe from ('127.0.0.1', 55513)
+WARNING 2025-04-27 02:02:52,817 log Not Found: /:undefined
+INFO 2025-04-27 02:02:52,818 basehttp - Broken pipe from ('127.0.0.1', 55515)
+WARNING 2025-04-27 02:02:52,847 log Not Found: /
+INFO 2025-04-27 02:02:52,850 basehttp - Broken pipe from ('127.0.0.1', 55517)
+WARNING 2025-04-27 02:02:52,884 log Not Found: /cgi-bin/
+INFO 2025-04-27 02:02:52,885 basehttp - Broken pipe from ('127.0.0.1', 55519)
+WARNING 2025-04-27 02:02:52,913 log Not Found: /
+INFO 2025-04-27 02:02:52,915 basehttp - Broken pipe from ('127.0.0.1', 55521)
+WARNING 2025-04-27 02:02:52,946 log Not Found: /:undefined
+INFO 2025-04-27 02:02:52,947 basehttp - Broken pipe from ('127.0.0.1', 55523)
+WARNING 2025-04-27 02:02:52,978 log Not Found: /
+INFO 2025-04-27 02:02:52,980 basehttp - Broken pipe from ('127.0.0.1', 55525)
+WARNING 2025-04-27 02:02:53,010 log Not Found: /:undefined
+INFO 2025-04-27 02:02:53,012 basehttp - Broken pipe from ('127.0.0.1', 55528)
+WARNING 2025-04-27 02:02:53,042 log Not Found: /
+INFO 2025-04-27 02:02:53,044 basehttp - Broken pipe from ('127.0.0.1', 55532)
+WARNING 2025-04-27 02:02:53,073 log Not Found: /:undefined
+INFO 2025-04-27 02:02:53,077 basehttp - Broken pipe from ('127.0.0.1', 55535)
+WARNING 2025-04-27 02:02:53,121 log Not Found: /
+INFO 2025-04-27 02:02:53,125 basehttp - Broken pipe from ('127.0.0.1', 55539)
+WARNING 2025-04-27 02:02:53,139 log Not Found: /:undefined
+INFO 2025-04-27 02:02:53,141 basehttp - Broken pipe from ('127.0.0.1', 55541)
+WARNING 2025-04-27 02:02:53,165 log Not Found: /
+INFO 2025-04-27 02:02:53,167 basehttp - Broken pipe from ('127.0.0.1', 55543)
+WARNING 2025-04-27 02:02:53,195 log Not Found: /:undefined
+INFO 2025-04-27 02:02:53,198 basehttp - Broken pipe from ('127.0.0.1', 55545)
+WARNING 2025-04-27 02:02:53,231 log Not Found: /
+INFO 2025-04-27 02:02:53,233 basehttp - Broken pipe from ('127.0.0.1', 55547)
+WARNING 2025-04-27 02:02:53,255 log Not Found: /:undefined
+INFO 2025-04-27 02:02:53,257 basehttp - Broken pipe from ('127.0.0.1', 55549)
+WARNING 2025-04-27 02:02:53,288 log Not Found: /
+INFO 2025-04-27 02:02:53,290 basehttp - Broken pipe from ('127.0.0.1', 55551)
+WARNING 2025-04-27 02:02:53,317 log Not Found: /:undefined
+INFO 2025-04-27 02:02:53,319 basehttp - Broken pipe from ('127.0.0.1', 55553)
+WARNING 2025-04-27 02:02:53,348 log Not Found: /
+INFO 2025-04-27 02:02:53,350 basehttp - Broken pipe from ('127.0.0.1', 55555)
+WARNING 2025-04-27 02:02:53,383 log Not Found: /cgi-bin/
+INFO 2025-04-27 02:02:53,385 basehttp - Broken pipe from ('127.0.0.1', 55557)
+WARNING 2025-04-27 11:25:05,127 log Forbidden: /api/jobs/1/
+WARNING 2025-04-27 11:25:05,130 basehttp "DELETE /api/jobs/1/ HTTP/1.1" 403 65
+WARNING 2025-04-27 11:25:35,987 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-27 11:25:35,992 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 11:25:35,996 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 63770
+WARNING 2025-04-27 11:25:35,999 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 11:25:36,391 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+WARNING 2025-04-27 13:21:41,435 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-27 13:21:41,441 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 63770
+WARNING 2025-04-27 13:21:41,756 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 13:21:41,757 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 13:21:41,896 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+INFO 2025-04-27 13:22:53,292 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 5222
+WARNING 2025-04-27 13:22:53,741 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+INFO 2025-04-27 13:22:56,928 basehttp "DELETE /api/jobs/1/?user_id=10 HTTP/1.1" 200 62
+INFO 2025-04-27 13:22:57,161 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 1811
+WARNING 2025-04-27 13:23:08,327 log Not Found: /api/applications
+WARNING 2025-04-27 13:23:08,328 basehttp "GET /api/applications HTTP/1.1" 404 63746
+WARNING 2025-04-27 13:23:52,581 log Not Found: /accueil
+WARNING 2025-04-27 13:23:52,582 basehttp "GET /accueil HTTP/1.1" 404 3030
+WARNING 2025-04-27 13:23:52,677 log Not Found: /favicon.ico
+WARNING 2025-04-27 13:23:52,678 basehttp "GET /favicon.ico HTTP/1.1" 404 3042
+WARNING 2025-04-27 13:23:56,100 log Not Found: /api/applications
+WARNING 2025-04-27 13:23:56,101 basehttp "GET //api/applications HTTP/1.1" 404 63747
+WARNING 2025-04-27 13:23:59,486 log Not Found: /api/applications
+WARNING 2025-04-27 13:23:59,487 basehttp "GET /api/applications HTTP/1.1" 404 63747
+WARNING 2025-04-27 13:24:08,486 log Unauthorized: /api/applications/
+WARNING 2025-04-27 13:24:08,487 basehttp "GET /api/applications/ HTTP/1.1" 401 5230
+INFO 2025-04-27 13:24:08,679 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2025-04-27 13:24:08,683 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2025-04-27 13:24:08,687 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2025-04-27 13:24:08,699 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2025-04-27 13:24:08,707 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2025-04-27 13:24:08,715 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2025-04-27 13:24:08,730 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2025-04-27 13:24:08,733 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2025-04-27 13:24:08,741 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2025-04-27 13:24:08,752 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-04-27 13:24:08,758 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2025-04-27 13:24:08,767 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-04-27 13:26:20,813 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:26:23,623 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:51:15,975 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:51:18,741 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:52:08,836 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:52:09,793 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:52:11,451 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:52:12,528 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:52:36,918 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:52:37,952 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:52:47,867 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:52:48,839 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:52:56,518 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:52:57,704 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:53:03,434 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:53:04,400 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:53:12,171 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:53:13,175 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:53:17,668 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:53:18,813 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 13:54:55,845 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 13:54:57,048 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:05:37,684 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:05:40,322 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:05:44,292 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:05:45,248 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:08:29,747 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:08:30,751 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:08:34,530 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:08:35,480 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:08:51,467 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:08:52,485 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:08:55,218 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:08:56,188 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:09:09,951 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:09:11,054 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:09:15,584 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:09:16,651 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:16:40,795 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 14:16:43,546 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 14:49:22,392 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-27 14:50:22,257 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-27 14:50:22,259 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 67184
+WARNING 2025-04-27 14:50:22,537 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 14:50:22,537 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 14:50:22,836 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+INFO 2025-04-27 14:50:39,326 basehttp "GET /api/applications/employer/10/ HTTP/1.1" 200 30
+WARNING 2025-04-27 14:54:51,543 log Not Found: /api/auth/logout
+WARNING 2025-04-27 14:54:51,544 basehttp "POST /api/auth/logout HTTP/1.1" 404 67158
+INFO 2025-04-27 15:00:11,233 basehttp "POST /api/auth/login HTTP/1.1" 200 1082
+INFO 2025-04-27 15:00:12,097 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 15:00:19,888 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+ERROR 2025-04-27 15:00:22,807 log Internal Server Error: /api/applications/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 609, in create
+    application = Application.objects.create(**application_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 545, in __init__
+    _setattr(self, field.name, rel_obj)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 288, in __set__
+    raise ValueError(
+    ...<7 lines>...
+    )
+ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0x0000020CE1B411D0>": "Application.candidate" must be a "User" instance.
+ERROR 2025-04-27 15:00:22,812 basehttp "POST /api/applications/ HTTP/1.1" 500 21650
+WARNING 2025-04-27 15:01:03,865 log Not Found: /api/favorites
+WARNING 2025-04-27 15:01:03,866 basehttp "GET /api/favorites HTTP/1.1" 404 67151
+INFO 2025-04-27 15:01:08,736 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+WARNING 2025-04-27 15:01:12,017 log Not Found: /api/favorites/toggle/2
+WARNING 2025-04-27 15:01:12,017 basehttp "POST /api/favorites/toggle/2 HTTP/1.1" 404 67179
+INFO 2025-04-27 15:01:12,270 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 15:01:12,475 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 15:03:03,380 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:03:06,569 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:07:11,722 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:07:13,234 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:07:25,020 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:07:25,984 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:07:39,895 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:07:40,930 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:07:47,743 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:07:48,780 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:07:51,255 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:07:52,175 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:24:12,440 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:24:40,005 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:24:41,005 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:24:47,611 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:24:48,575 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:38:01,162 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+WARNING 2025-04-27 15:38:01,496 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 15:38:01,497 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 15:38:01,971 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+WARNING 2025-04-27 15:38:21,976 log Unauthorized: /api/favorites/toggle/2/9/
+WARNING 2025-04-27 15:38:21,977 basehttp "POST /api/favorites/toggle/2/9/ HTTP/1.1" 401 58
+INFO 2025-04-27 15:38:22,156 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 15:39:05,297 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 15:39:07,989 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 15:39:11,574 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 15:39:13,561 basehttp "POST /api/favorites/toggle/2/9/ HTTP/1.1" 201 86
+INFO 2025-04-27 15:39:13,796 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 15:39:26,421 basehttp "POST /api/favorites/toggle/2/9/ HTTP/1.1" 200 87
+INFO 2025-04-27 15:39:31,151 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 30
+INFO 2025-04-27 15:39:39,902 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 15:39:47,908 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+WARNING 2025-04-27 15:40:00,481 log Unauthorized: /api/auth/logout/
+WARNING 2025-04-27 15:40:00,484 basehttp "POST /api/auth/logout/ HTTP/1.1" 401 58
+INFO 2025-04-27 15:40:00,657 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 15:46:12,259 basehttp "POST /api/auth/login HTTP/1.1" 200 1082
+INFO 2025-04-27 15:46:14,609 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 15:48:38,694 basehttp "POST /api/favorites/toggle/2/9/ HTTP/1.1" 201 86
+INFO 2025-04-27 15:55:23,799 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 15:57:58,963 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 10520
+INFO 2025-04-27 15:57:59,369 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2025-04-27 15:57:59,394 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2025-04-27 15:57:59,408 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2025-04-27 15:57:59,422 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2025-04-27 15:57:59,430 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2025-04-27 15:57:59,456 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2025-04-27 15:57:59,469 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2025-04-27 15:57:59,510 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2025-04-27 15:57:59,512 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2025-04-27 15:57:59,533 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-04-27 15:57:59,568 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-04-27 15:57:59,709 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2025-04-27 15:59:16,245 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 15:59:20,038 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 15:59:26,010 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 15:59:36,496 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 15:59:42,143 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 15:59:46,560 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 15:59:53,887 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 16:00:01,706 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 16:00:14,934 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 16:00:19,545 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 16:00:24,269 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 16:00:32,569 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 1819
+INFO 2025-04-27 16:10:47,640 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 16:12:27,185 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 25203
+INFO 2025-04-27 16:17:38,614 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-04-27 16:17:43,687 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 16:18:01,493 basehttp "GET /api/favorites/user/9/ HTTP/1.1" 200 10520
+INFO 2025-04-27 16:19:08,652 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+ERROR 2025-04-27 16:19:12,987 log Internal Server Error: /api/applications/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 609, in create
+    application = Application.objects.create(**application_data)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\base.py", line 545, in __init__
+    _setattr(self, field.name, rel_obj)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 288, in __set__
+    raise ValueError(
+    ...<7 lines>...
+    )
+ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0x0000022768362F90>": "Application.candidate" must be a "User" instance.
+ERROR 2025-04-27 16:19:13,009 basehttp "POST /api/applications/ HTTP/1.1" 500 21650
+INFO 2025-04-27 17:14:27,465 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 17:14:30,160 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 17:14:39,807 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 17:14:40,678 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 18:05:42,469 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 18:05:45,438 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 18:05:53,088 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 18:05:54,234 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-27 20:38:09,063 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 20:38:09,066 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 20:38:09,323 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 20:49:11,494 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 20:49:12,173 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 20:51:41,681 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+WARNING 2025-04-27 20:51:42,490 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 20:51:42,491 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 20:51:42,685 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 20:51:50,744 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 20:51:56,396 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 20:56:59,416 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 20:58:14,921 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 21:07:57,960 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:25:53,604 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+WARNING 2025-04-27 21:26:38,211 log Unauthorized: /api/applications/
+WARNING 2025-04-27 21:26:38,213 basehttp "POST /api/applications/ HTTP/1.1" 401 53
+INFO 2025-04-27 21:26:38,428 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 21:28:48,931 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-27 21:28:54,446 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-27 21:29:06,367 log Unauthorized: /api/applications/
+WARNING 2025-04-27 21:29:06,386 basehttp "POST /api/applications/ HTTP/1.1" 401 53
+INFO 2025-04-27 21:29:06,631 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 21:32:10,687 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 21:32:22,427 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 21:33:59,901 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+WARNING 2025-04-27 21:34:01,141 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 21:34:01,142 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 21:34:01,738 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 21:34:12,580 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:34:36,496 basehttp "POST /api/applications/ HTTP/1.1" 201 2964
+INFO 2025-04-27 21:36:55,323 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:37:01,230 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 21:38:39,624 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+WARNING 2025-04-27 21:38:40,599 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 21:38:40,600 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 21:38:40,933 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 21:39:02,470 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:39:12,158 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:39:42,965 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 21:41:06,571 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:42:39,012 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:42:39,044 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:42:56,420 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:42:56,431 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:42:59,308 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:42:59,356 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:43:07,291 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:43:07,352 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:44:18,190 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:44:18,360 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:44:38,336 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 21:48:08,528 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+WARNING 2025-04-27 21:48:09,366 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 21:48:09,367 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 21:48:09,816 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 21:48:12,275 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:48:16,609 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 21:50:01,916 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:05,852 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:09,066 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:13,876 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:14,433 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:20,421 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:22,639 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:28,490 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:50:34,957 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 21:53:22,171 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:56:08,988 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:56:09,018 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:56:09,057 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:57:24,654 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+WARNING 2025-04-27 21:57:25,708 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 21:57:25,709 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 21:57:25,934 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 21:57:30,937 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 21:57:35,770 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 22:05:13,176 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:06:19,179 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:07:44,935 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:07:52,297 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:08:11,467 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:08:15,146 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:08:39,176 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:08:51,438 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:09:00,200 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:09:05,655 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:10:33,690 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+WARNING 2025-04-27 22:10:35,164 log Unauthorized: /api/users/profile
+WARNING 2025-04-27 22:10:35,166 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-04-27 22:10:35,461 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 22:10:43,453 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:13:46,150 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:13:49,686 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:14:00,117 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:14:07,612 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 22:14:10,939 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-04-27 22:14:16,588 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 22:14:54,202 basehttp "GET /api/messages/user/9/conversations/ HTTP/1.1" 200 2
+WARNING 2025-04-27 22:15:10,313 log Unauthorized: /api/auth/logout/
+WARNING 2025-04-27 22:15:10,316 basehttp "POST /api/auth/logout/ HTTP/1.1" 401 58
+INFO 2025-04-27 22:15:10,567 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-04-27 22:20:30,142 basehttp "POST /api/auth/login HTTP/1.1" 200 1082
+INFO 2025-04-27 22:20:32,591 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 22:26:00,808 basehttp "POST /api/auth/login HTTP/1.1" 200 1082
+INFO 2025-04-27 22:26:02,679 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 1912
+INFO 2025-04-27 22:29:42,941 basehttp "POST /api/auth/login HTTP/1.1" 200 1088
+WARNING 2025-04-27 22:29:44,533 log Not Found: /api/statistics/dashboard
+WARNING 2025-04-27 22:29:44,535 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+INFO 2025-04-27 22:29:50,244 basehttp "GET /api/applications/employer/10/ HTTP/1.1" 200 2940
+WARNING 2025-04-27 22:30:18,706 log Not Found: /api/applications/1/status
+WARNING 2025-04-27 22:30:18,708 basehttp "PUT /api/applications/1/status HTTP/1.1" 404 68073
+WARNING 2025-04-27 22:30:20,755 log Not Found: /api/applications/1/status
+WARNING 2025-04-27 22:30:20,756 basehttp "PUT /api/applications/1/status HTTP/1.1" 404 68073
+WARNING 2025-04-27 22:30:45,788 log Not Found: /api/applications/1/status
+WARNING 2025-04-27 22:30:45,789 basehttp "PUT /api/applications/1/status HTTP/1.1" 404 68073
+INFO 2025-04-27 23:02:20,672 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-27 23:02:23,594 autoreload Watching for file changes with StatReloader
+INFO 2025-04-27 23:02:25,260 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-04-27 23:02:26,298 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-29 07:45:48,950 log Not Found: /
+WARNING 2025-04-29 07:45:48,952 log Not Found: /struts2-showcase/struts/utils.js
+WARNING 2025-04-29 07:45:48,965 log Not Found: /
+WARNING 2025-04-29 07:45:48,976 log Not Found: /
+INFO 2025-04-29 07:45:48,978 basehttp - Broken pipe from ('127.0.0.1', 55474)
+WARNING 2025-04-29 07:45:48,984 log Not Found: /
+INFO 2025-04-29 07:45:48,994 basehttp - Broken pipe from ('127.0.0.1', 55473)
+INFO 2025-04-29 07:45:49,006 basehttp - Broken pipe from ('127.0.0.1', 55472)
+INFO 2025-04-29 07:45:49,016 basehttp - Broken pipe from ('127.0.0.1', 55477)
+INFO 2025-04-29 07:45:49,023 basehttp - Broken pipe from ('127.0.0.1', 55475)
+WARNING 2025-04-29 07:45:50,050 log Not Found: /js/
+INFO 2025-04-29 07:45:50,091 basehttp - Broken pipe from ('127.0.0.1', 55500)
+WARNING 2025-04-29 07:45:51,134 log Not Found: /:undefined
+WARNING 2025-04-29 07:45:51,136 basehttp "GET /:undefined HTTP/1.1" 404 3039
+INFO 2025-04-29 07:45:51,141 basehttp - Broken pipe from ('127.0.0.1', 55522)
+WARNING 2025-04-29 07:45:51,157 log Not Found: /
+INFO 2025-04-29 07:45:51,160 basehttp - Broken pipe from ('127.0.0.1', 55523)
+WARNING 2025-04-29 07:45:51,170 log Not Found: /:undefined
+WARNING 2025-04-29 07:45:51,172 basehttp "GET /:undefined HTTP/1.1" 404 3039
+INFO 2025-04-29 07:45:51,173 basehttp - Broken pipe from ('127.0.0.1', 55524)
+WARNING 2025-04-29 07:45:51,180 log Not Found: /:undefined
+INFO 2025-04-29 07:45:51,182 basehttp - Broken pipe from ('127.0.0.1', 55525)
+WARNING 2025-04-29 07:45:51,191 log Not Found: /
+INFO 2025-04-29 07:45:51,193 basehttp - Broken pipe from ('127.0.0.1', 55526)
+WARNING 2025-04-29 07:45:51,204 log Not Found: /
+INFO 2025-04-29 07:45:51,206 basehttp - Broken pipe from ('127.0.0.1', 55527)
+WARNING 2025-04-29 07:45:51,214 log Not Found: /:undefined
+WARNING 2025-04-29 07:45:51,222 log Not Found: /:undefined
+INFO 2025-04-29 07:45:51,224 basehttp - Broken pipe from ('127.0.0.1', 55528)
+INFO 2025-04-29 07:45:51,224 basehttp - Broken pipe from ('127.0.0.1', 55529)
+WARNING 2025-04-29 07:45:51,235 log Not Found: /
+INFO 2025-04-29 07:45:51,238 basehttp - Broken pipe from ('127.0.0.1', 55530)
+WARNING 2025-04-29 07:45:51,251 log Not Found: /struts2-showcase/struts/tooltip.gif
+WARNING 2025-04-29 07:45:51,258 log Not Found: /
+INFO 2025-04-29 07:45:51,259 basehttp - Broken pipe from ('127.0.0.1', 55532)
+WARNING 2025-04-29 07:45:51,268 log Not Found: /:undefined
+INFO 2025-04-29 07:45:51,269 basehttp - Broken pipe from ('127.0.0.1', 55531)
+WARNING 2025-04-29 07:45:51,276 log Not Found: /
+INFO 2025-04-29 07:45:51,277 basehttp - Broken pipe from ('127.0.0.1', 55533)
+WARNING 2025-04-29 07:45:51,288 log Not Found: /:undefined
+INFO 2025-04-29 07:45:51,289 basehttp - Broken pipe from ('127.0.0.1', 55534)
+WARNING 2025-04-29 07:45:51,298 log Not Found: /:undefined
+INFO 2025-04-29 07:45:51,300 basehttp - Broken pipe from ('127.0.0.1', 55536)
+WARNING 2025-04-29 07:45:51,308 log Not Found: /struts2-showcase/struts/domtt.css
+INFO 2025-04-29 07:45:51,310 basehttp - Broken pipe from ('127.0.0.1', 55535)
+WARNING 2025-04-29 07:45:51,317 log Not Found: /struts2-showcase/struts/domTT.js
+INFO 2025-04-29 07:45:51,318 basehttp - Broken pipe from ('127.0.0.1', 55537)
+WARNING 2025-04-29 07:45:51,325 log Not Found: /
+INFO 2025-04-29 07:45:51,327 basehttp - Broken pipe from ('127.0.0.1', 55538)
+WARNING 2025-04-29 07:45:51,337 log Not Found: /:undefined
+INFO 2025-04-29 07:45:51,339 basehttp - Broken pipe from ('127.0.0.1', 55539)
+WARNING 2025-04-29 07:45:51,344 log Not Found: /:undefined
+WARNING 2025-04-29 07:45:51,353 log Not Found: /
+INFO 2025-04-29 07:45:51,356 basehttp - Broken pipe from ('127.0.0.1', 55542)
+INFO 2025-04-29 07:45:51,358 basehttp - Broken pipe from ('127.0.0.1', 55541)
+WARNING 2025-04-29 07:45:51,365 log Not Found: /
+INFO 2025-04-29 07:45:51,367 basehttp - Broken pipe from ('127.0.0.1', 55540)
+WARNING 2025-04-29 07:45:51,374 log Not Found: /
+INFO 2025-04-29 07:45:51,377 basehttp - Broken pipe from ('127.0.0.1', 55543)
+WARNING 2025-04-29 07:45:51,385 log Not Found: /:undefined
+INFO 2025-04-29 07:45:51,386 basehttp - Broken pipe from ('127.0.0.1', 55544)
+INFO 2025-04-29 07:45:51,388 basehttp - Broken pipe from ('127.0.0.1', 55545)
+WARNING 2025-04-29 07:45:51,393 log Not Found: /struts2-showcase/struts/inputtransfersselect.js
+INFO 2025-04-29 07:45:51,395 basehttp - Broken pipe from ('127.0.0.1', 55546)
+WARNING 2025-04-29 07:45:52,130 log Not Found: /api/v2/${jndi:dns://MDEDiscoverye37a1cd565SeenInTheWildGet-8000}
+INFO 2025-04-29 07:45:52,131 basehttp - Broken pipe from ('127.0.0.1', 55558)
+INFO 2025-04-29 07:45:52,166 basehttp - Broken pipe from ('127.0.0.1', 55559)
+WARNING 2025-04-29 07:45:52,171 log Not Found: /index.html
+WARNING 2025-04-29 07:45:52,174 log Not Found: /login
+INFO 2025-04-29 07:45:52,176 basehttp - Broken pipe from ('127.0.0.1', 55561)
+INFO 2025-04-29 07:45:52,176 basehttp - Broken pipe from ('127.0.0.1', 55560)
+WARNING 2025-04-29 07:45:52,180 log Not Found: /
+INFO 2025-04-29 07:45:52,182 basehttp - Broken pipe from ('127.0.0.1', 55562)
+WARNING 2025-04-29 07:45:52,187 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,189 basehttp - Broken pipe from ('127.0.0.1', 55563)
+WARNING 2025-04-29 07:45:52,193 log Not Found: /
+INFO 2025-04-29 07:45:52,193 basehttp - Broken pipe from ('127.0.0.1', 55564)
+WARNING 2025-04-29 07:45:52,199 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,200 basehttp - Broken pipe from ('127.0.0.1', 55565)
+WARNING 2025-04-29 07:45:52,205 log Not Found: /login
+INFO 2025-04-29 07:45:52,207 basehttp - Broken pipe from ('127.0.0.1', 55566)
+WARNING 2025-04-29 07:45:52,213 log Not Found: /
+INFO 2025-04-29 07:45:52,215 basehttp - Broken pipe from ('127.0.0.1', 55567)
+WARNING 2025-04-29 07:45:52,221 log Not Found: /:undefined
+WARNING 2025-04-29 07:45:52,226 log Not Found: /
+INFO 2025-04-29 07:45:52,227 basehttp - Broken pipe from ('127.0.0.1', 55568)
+INFO 2025-04-29 07:45:52,227 basehttp - Broken pipe from ('127.0.0.1', 55569)
+WARNING 2025-04-29 07:45:52,236 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,268 basehttp - Broken pipe from ('127.0.0.1', 55570)
+WARNING 2025-04-29 07:45:52,320 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,322 basehttp - Broken pipe from ('127.0.0.1', 55572)
+WARNING 2025-04-29 07:45:52,333 log Not Found: /
+WARNING 2025-04-29 07:45:52,345 log Not Found: /
+INFO 2025-04-29 07:45:52,347 basehttp - Broken pipe from ('127.0.0.1', 55571)
+INFO 2025-04-29 07:45:52,347 basehttp - Broken pipe from ('127.0.0.1', 55573)
+WARNING 2025-04-29 07:45:52,364 log Not Found: /cgi-bin/
+INFO 2025-04-29 07:45:52,366 basehttp - Broken pipe from ('127.0.0.1', 55574)
+WARNING 2025-04-29 07:45:52,374 log Not Found: /
+INFO 2025-04-29 07:45:52,378 basehttp - Broken pipe from ('127.0.0.1', 55575)
+WARNING 2025-04-29 07:45:52,391 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,393 basehttp - Broken pipe from ('127.0.0.1', 55576)
+WARNING 2025-04-29 07:45:52,402 log Not Found: /
+INFO 2025-04-29 07:45:52,405 basehttp - Broken pipe from ('127.0.0.1', 55577)
+WARNING 2025-04-29 07:45:52,421 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,423 basehttp - Broken pipe from ('127.0.0.1', 55578)
+WARNING 2025-04-29 07:45:52,440 log Not Found: /
+INFO 2025-04-29 07:45:52,442 basehttp - Broken pipe from ('127.0.0.1', 55579)
+WARNING 2025-04-29 07:45:52,453 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,454 basehttp - Broken pipe from ('127.0.0.1', 55580)
+WARNING 2025-04-29 07:45:52,464 log Not Found: /
+INFO 2025-04-29 07:45:52,466 basehttp - Broken pipe from ('127.0.0.1', 55581)
+WARNING 2025-04-29 07:45:52,475 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,477 basehttp - Broken pipe from ('127.0.0.1', 55582)
+WARNING 2025-04-29 07:45:52,488 log Not Found: /
+INFO 2025-04-29 07:45:52,489 basehttp - Broken pipe from ('127.0.0.1', 55583)
+WARNING 2025-04-29 07:45:52,499 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,500 basehttp - Broken pipe from ('127.0.0.1', 55584)
+WARNING 2025-04-29 07:45:52,509 log Not Found: /
+INFO 2025-04-29 07:45:52,510 basehttp - Broken pipe from ('127.0.0.1', 55585)
+WARNING 2025-04-29 07:45:52,521 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,523 basehttp - Broken pipe from ('127.0.0.1', 55587)
+WARNING 2025-04-29 07:45:52,538 log Not Found: /
+WARNING 2025-04-29 07:45:52,545 log Not Found: /:undefined
+INFO 2025-04-29 07:45:52,546 basehttp - Broken pipe from ('127.0.0.1', 55588)
+INFO 2025-04-29 07:45:52,547 basehttp - Broken pipe from ('127.0.0.1', 55589)
+WARNING 2025-04-29 07:45:52,555 log Not Found: /
+INFO 2025-04-29 07:45:52,557 basehttp - Broken pipe from ('127.0.0.1', 55590)
+WARNING 2025-04-29 07:45:52,571 log Not Found: /cgi-bin/
+INFO 2025-04-29 07:45:52,575 basehttp - Broken pipe from ('127.0.0.1', 55591)
+INFO 2025-04-29 19:09:07,865 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-29 19:38:36,387 log Bad Request: /api/auth/register
+WARNING 2025-04-29 19:38:36,393 basehttp "POST /api/auth/register HTTP/1.1" 400 118
+WARNING 2025-04-29 19:41:15,790 log Bad Request: /api/auth/register
+WARNING 2025-04-29 19:41:15,791 basehttp "POST /api/auth/register HTTP/1.1" 400 118
+INFO 2025-04-29 19:44:03,758 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-04-29 19:44:08,486 autoreload Watching for file changes with StatReloader
+INFO 2025-04-29 19:48:52,743 autoreload Watching for file changes with StatReloader
+WARNING 2025-04-29 19:50:45,223 log Bad Request: /api/auth/register
+WARNING 2025-04-29 19:50:45,227 basehttp "POST /api/auth/register HTTP/1.1" 400 113
