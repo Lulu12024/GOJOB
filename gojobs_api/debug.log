@@ -6969,3 +6969,226 @@ INFO 2025-04-29 19:44:08,486 autoreload Watching for file changes with StatReloa
 INFO 2025-04-29 19:48:52,743 autoreload Watching for file changes with StatReloader
 WARNING 2025-04-29 19:50:45,223 log Bad Request: /api/auth/register
 WARNING 2025-04-29 19:50:45,227 basehttp "POST /api/auth/register HTTP/1.1" 400 113
+INFO 2025-05-05 09:52:19,739 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 10:20:02,941 basehttp "POST /api/auth/login HTTP/1.1" 200 1084
+INFO 2025-05-05 10:20:07,193 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 3640
+INFO 2025-05-05 10:20:18,614 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1792
+WARNING 2025-05-05 10:20:22,107 log Not Found: /api/favorites/toggle/2
+WARNING 2025-05-05 10:20:22,108 basehttp "POST /api/favorites/toggle/2 HTTP/1.1" 404 68065
+INFO 2025-05-05 10:20:24,937 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1792
+INFO 2025-05-05 10:20:25,150 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1792
+INFO 2025-05-05 10:25:01,625 basehttp "POST /api/applications/ HTTP/1.1" 201 2938
+INFO 2025-05-05 10:25:12,807 basehttp "GET /api/messages/user/5/conversations/ HTTP/1.1" 200 2
+INFO 2025-05-05 10:25:21,572 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1792
+INFO 2025-05-05 10:25:27,329 basehttp "GET /api/jobs/?page=1&per_page=10 HTTP/1.1" 200 3640
+WARNING 2025-05-05 10:32:41,785 log Unauthorized: /api/auth/login
+WARNING 2025-05-05 10:32:41,786 basehttp "POST /api/auth/login HTTP/1.1" 401 65
+INFO 2025-05-05 10:34:02,136 basehttp "POST /api/auth/login HTTP/1.1" 200 1085
+WARNING 2025-05-05 10:34:02,642 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 10:34:02,643 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+INFO 2025-05-05 10:34:11,311 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 3539
+WARNING 2025-05-05 10:34:11,514 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+INFO 2025-05-05 10:34:13,846 basehttp "GET /api/applications/employer/4/ HTTP/1.1" 200 2914
+WARNING 2025-05-05 10:34:43,289 log Not Found: /api/applications/1/status
+WARNING 2025-05-05 10:34:43,290 basehttp "PUT /api/applications/1/status HTTP/1.1" 404 68073
+WARNING 2025-05-05 10:36:06,886 log Unauthorized: /api/auth/logout/
+WARNING 2025-05-05 10:36:06,887 basehttp "POST /api/auth/logout/ HTTP/1.1" 401 58
+INFO 2025-05-05 10:36:08,828 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 241
+INFO 2025-05-05 10:58:57,971 basehttp "POST /api/auth/login HTTP/1.1" 200 1085
+WARNING 2025-05-05 10:58:58,304 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 10:58:58,305 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+WARNING 2025-05-05 10:59:04,475 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+INFO 2025-05-05 10:59:07,896 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 3539
+INFO 2025-05-05 10:59:28,898 basehttp "GET /api/jobs/3/ HTTP/1.1" 200 1800
+WARNING 2025-05-05 10:59:30,572 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+INFO 2025-05-05 10:59:34,435 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1792
+WARNING 2025-05-05 10:59:36,257 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+WARNING 2025-05-05 11:00:43,151 log Not Found: /
+WARNING 2025-05-05 11:00:43,152 basehttp "GET / HTTP/1.1" 404 2991
+WARNING 2025-05-05 11:00:43,254 log Not Found: /favicon.ico
+WARNING 2025-05-05 11:00:43,255 basehttp "GET /favicon.ico HTTP/1.1" 404 3042
+INFO 2025-05-05 11:00:56,346 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 22626
+INFO 2025-05-05 11:00:56,549 basehttp "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2025-05-05 11:00:56,550 basehttp "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2025-05-05 11:00:56,555 basehttp "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2025-05-05 11:00:56,563 basehttp "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2025-05-05 11:00:56,590 basehttp "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2025-05-05 11:00:56,610 basehttp "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2025-05-05 11:00:56,617 basehttp "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2025-05-05 11:00:56,619 basehttp "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2025-05-05 11:00:56,626 basehttp "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2025-05-05 11:00:56,631 basehttp "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2025-05-05 11:00:56,646 basehttp "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2025-05-05 11:00:56,650 basehttp "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+INFO 2025-05-05 11:00:56,666 basehttp "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2025-05-05 11:02:59,384 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-05-05 11:03:03,318 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:04:39,771 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:04:43,341 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:06:03,643 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:06:04,757 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:06:20,929 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:06:21,914 autoreload Watching for file changes with StatReloader
+ERROR 2025-05-05 11:06:40,618 log Internal Server Error: /api/jobs/employer/
+ERROR 2025-05-05 11:06:40,619 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 500 6625
+INFO 2025-05-05 11:07:06,233 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:07:07,249 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:07:13,093 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:07:14,062 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:07:23,953 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 22330
+INFO 2025-05-05 11:07:38,290 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:07:39,452 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:12:50,929 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:12:51,999 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:13:00,909 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:13:01,887 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:13:05,543 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:13:06,719 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:13:08,189 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:13:09,136 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:13:18,963 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:13:19,932 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:13:28,056 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 22626
+INFO 2025-05-05 11:13:40,810 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:13:41,967 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:13:54,358 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 22626
+INFO 2025-05-05 11:15:27,778 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:15:28,959 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:15:30,629 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:15:31,802 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:15:35,709 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:15:36,855 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:15:38,391 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:15:39,386 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:15:40,928 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\serializers.py changed, reloading.
+INFO 2025-05-05 11:15:42,094 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:15:50,043 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 22626
+INFO 2025-05-05 11:16:42,044 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-05-05 11:16:43,077 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:16:47,693 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-05-05 11:16:48,668 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 11:16:50,152 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-05-05 11:16:51,232 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-05 11:17:00,679 log Unauthorized: /api/auth/logout/
+WARNING 2025-05-05 11:17:00,681 basehttp "POST /api/auth/logout/ HTTP/1.1" 401 58
+ERROR 2025-05-05 11:17:01,173 log Internal Server Error: /api/auth/refresh/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework_simplejwt\views.py", line 44, in post
+    serializer.is_valid(raise_exception=True)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 225, in is_valid
+    self._validated_data = self.run_validation(self.initial_data)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\serializers.py", line 447, in run_validation
+    value = self.validate(value)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework_simplejwt\serializers.py", line 116, in validate
+    user := get_user_model().objects.get(
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        **{api_settings.USER_ID_FIELD: user_id}
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 633, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+api.models.User.DoesNotExist: User matching query does not exist.
+ERROR 2025-05-05 11:17:01,182 basehttp "POST /api/auth/refresh/ HTTP/1.1" 500 122275
+WARNING 2025-05-05 11:17:01,242 log Unauthorized: /api/auth/logout/
+WARNING 2025-05-05 11:17:01,243 basehttp "POST /api/auth/logout/ HTTP/1.1" 401 58
+INFO 2025-05-05 11:17:32,574 basehttp "POST /api/auth/login HTTP/1.1" 200 1088
+WARNING 2025-05-05 11:17:33,032 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 11:17:33,033 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+WARNING 2025-05-05 11:17:38,102 basehttp "GET /static/images/company-default.png HTTP/1.1" 404 2004
+INFO 2025-05-05 11:17:38,118 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 1811
+INFO 2025-05-05 11:17:38,425 basehttp "GET /media/job_photos/1000000033.jpg HTTP/1.1" 200 2007572
+INFO 2025-05-05 11:17:54,836 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 11:18:04,623 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 11:18:25,275 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 25051
+INFO 2025-05-05 11:18:58,994 basehttp "GET /api/jobs/employer/?employer_id=4 HTTP/1.1" 200 14798
+INFO 2025-05-05 11:19:17,270 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 18817
+WARNING 2025-05-05 14:32:59,502 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 14:32:59,515 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+WARNING 2025-05-05 14:32:59,696 log Unauthorized: /api/users/profile
+WARNING 2025-05-05 14:32:59,699 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-05-05 14:32:59,908 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+INFO 2025-05-05 14:36:04,341 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 1811
+INFO 2025-05-05 14:36:06,936 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:36:12,866 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:36:32,972 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:36:39,985 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:36:54,755 basehttp "GET /api/applications/employer/10/ HTTP/1.1" 200 2940
+WARNING 2025-05-05 14:37:18,496 log Not Found: /api/applications/1/status
+WARNING 2025-05-05 14:37:18,498 basehttp "PUT /api/applications/1/status HTTP/1.1" 404 68073
+WARNING 2025-05-05 14:38:44,291 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 14:38:44,292 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+WARNING 2025-05-05 14:38:44,551 log Unauthorized: /api/users/profile
+WARNING 2025-05-05 14:38:44,552 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-05-05 14:38:44,700 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+INFO 2025-05-05 14:41:00,034 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 1811
+INFO 2025-05-05 14:41:01,652 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:45:52,840 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:45:55,981 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:45:58,343 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:46:00,593 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:46:07,243 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:46:16,464 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:46:26,962 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+WARNING 2025-05-05 14:46:59,625 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 14:46:59,626 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+WARNING 2025-05-05 14:47:00,117 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 14:47:00,119 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+WARNING 2025-05-05 14:47:00,265 log Unauthorized: /api/users/profile
+WARNING 2025-05-05 14:47:00,266 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-05-05 14:47:00,372 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+INFO 2025-05-05 14:47:11,636 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 1811
+INFO 2025-05-05 14:47:12,541 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 14:47:21,099 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+INFO 2025-05-05 15:00:42,138 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+WARNING 2025-05-05 15:00:42,217 log Not Found: /api/jobs/2/view
+WARNING 2025-05-05 15:00:42,218 basehttp "POST /api/jobs/2/view HTTP/1.1" 404 68044
+INFO 2025-05-05 15:00:59,814 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-05 15:01:20,174 log Not Found: /api/statistics/dashboard
+WARNING 2025-05-05 15:01:20,175 basehttp "GET /api/statistics/dashboard HTTP/1.1" 404 68070
+WARNING 2025-05-05 15:01:20,349 log Unauthorized: /api/users/profile
+WARNING 2025-05-05 15:01:20,350 basehttp "GET /api/users/profile HTTP/1.1" 401 58
+INFO 2025-05-05 15:01:20,523 basehttp "POST /api/auth/refresh/ HTTP/1.1" 200 242
+INFO 2025-05-05 15:01:25,075 basehttp "GET /api/jobs/employer/?employer_id=10 HTTP/1.1" 200 1811
+INFO 2025-05-05 15:01:25,991 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1837
+WARNING 2025-05-05 15:01:26,049 log Not Found: /api/jobs/2/view/
+WARNING 2025-05-05 15:01:26,050 basehttp "POST /api/jobs/2/view/ HTTP/1.1" 404 68047
+INFO 2025-05-05 15:08:40,380 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-05-05 15:08:43,252 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 15:08:47,753 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-05-05 15:08:48,766 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 15:08:52,341 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-05-05 15:08:53,306 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 15:09:36,507 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-05-05 15:09:37,716 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 15:09:40,375 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-05-05 15:09:41,421 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 15:09:48,090 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py changed, reloading.
+INFO 2025-05-05 15:09:49,156 autoreload Watching for file changes with StatReloader
+INFO 2025-05-05 15:09:56,995 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\urls.py changed, reloading.
+INFO 2025-05-05 15:09:57,961 autoreload Watching for file changes with StatReloader

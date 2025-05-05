@@ -136,9 +136,11 @@ export const DetailEmploi: React.FC<DetailEmploiProps> = ({ route, navigation })
       </View>
       
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.photosContainer}>
-        {jobDetails.photos.map((photo: string, index: number) => (
-          <Image key={index} source={{ uri: photo }} style={styles.photo} />
-        ))}
+        {/* <Image key={index} source={{ uri: logo }} style={styles.photo} /> */}
+        {/* {jobDetails.photos.map((logo: string, index: number) => (
+          
+        ))} */}
+        <Image  source={{ uri: jobDetails.logo }} style={styles.photo} />
       </ScrollView>
       
       <View style={styles.infoContainer}>

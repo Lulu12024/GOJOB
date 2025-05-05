@@ -85,16 +85,16 @@ WSGI_APPLICATION = 'gojobs_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gojob_db',
-        'USER': 'gojob_user',
-        'PASSWORD': 'wNS0xNfSpZaJSlP7FqJxLZYYlvNBcS9l',
-        'HOST': 'dpg-d034vc6uk2gs73f26cf0-a.oregon-postgres.render.com',
-        'PORT': '5432',
-        # 'NAME': 'gojobs_api',
-        # 'USER': 'postgres',
-        # 'PASSWORD': '#!@dm1n!#',
-        # 'HOST': 'localhost',
+        # 'NAME': 'gojob_db',
+        # 'USER': 'gojob_user',
+        # 'PASSWORD': 'wNS0xNfSpZaJSlP7FqJxLZYYlvNBcS9l',
+        # 'HOST': 'dpg-d034vc6uk2gs73f26cf0-a.oregon-postgres.render.com',
         # 'PORT': '5432',
+        'NAME': 'gojobs_api',
+        'USER': 'postgres',
+        'PASSWORD': '#!@dm1n!#',
+        'HOST': 'localhost',
+        'PORT': '5432',
 
     }
 }

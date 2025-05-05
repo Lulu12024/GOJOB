@@ -126,8 +126,10 @@ class JobSerializer(serializers.ModelSerializer):
         return 'horaire' if obj.salary_type == 'hourly' else 'mensuel'
     
     def get_logo(self, obj):
-
+        print(obj)
+        print(JobPhoto.objects.all())
         photos = JobPhoto.objects.filter(job=obj).order_by('order').first()
+        print(photos)
         if photos and photos.photo:
             # Récupérer le domaine du site à partir de la requête
             request = self.context.get('request')
@@ -135,6 +137,7 @@ class JobSerializer(serializers.ModelSerializer):
                 base_url = request.build_absolute_uri('/').rstrip('/')
                 # Construire l'URL absolue
                 if photos.photo.url.startswith('/'):
+                    print()
                     return f"{base_url}{photos.photo.url}"
                 else:
                     return f"{base_url}/{photos.photo.url}"

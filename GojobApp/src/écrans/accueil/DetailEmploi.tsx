@@ -73,10 +73,17 @@ const DetailEmploi: React.FC = () => {
         // Si l'emploi est déjà fourni dans les paramètres, l'utiliser
         if (emploiParam) {
           setEmploi(emploiParam);
+          if (emploiParam.id) {
+            await jobsApi.viewJob(emploiParam.id);
+          }
+
         } else if (id) {
           // Sinon, charger depuis l'API
           const emploiData = await jobsApi.getEmploi(id);
           setEmploi(emploiData);
+
+          // Enregistrer une vue pour cette offre d'emploi
+          await jobsApi.viewJob(id);
         }
         
         // Vérifier si l'emploi est dans les favoris
@@ -297,7 +304,8 @@ const DetailEmploi: React.FC = () => {
   
   // Afficher les photos de l'offre d'emploi
   const renderPhotos = () => {
-    if (!emploi || !emploi.photos || emploi.photos.length === 0) {
+    if (!emploi || !emploi.logo ) {
+      
       // Image par défaut si aucune photo n'est disponible
       return (
         <Image
@@ -321,6 +329,11 @@ const DetailEmploi: React.FC = () => {
           }}
           scrollEventThrottle={16}
         >
+          <Image
+              source={{ uri: emploi.logo }}
+              style={styles.photoEmploi}
+              resizeMode="cover"
+            />
           {emploi.photos.map((photo, index) => (
             <Image
               key={index}

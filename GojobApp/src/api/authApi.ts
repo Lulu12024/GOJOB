@@ -221,9 +221,9 @@ const authApi = {
     try {
       const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
       
-      // if (refreshToken) {
-      //   await apiClient.post('auth/logout/', { refresh: refreshToken });
-      // }
+      if (refreshToken) {
+        await apiClient.post('auth/logout/', { refresh: refreshToken });
+      }
     } catch (error) {
       console.error('Erreur lors de la déconnexion:', error);
     } finally {

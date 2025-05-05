@@ -462,7 +462,7 @@ const jobsApi = {
    */
   viewJob: async (id: number): Promise<void> => {
     try {
-      await apiClient.post<ApiResponse<null>>(`/jobs/${id}/view`);
+      await apiClient.post<ApiResponse<null>>(`/jobs/${id}/view/`);
     } catch (error) {
       console.error(`Erreur lors de l'enregistrement de la vue pour l'emploi ${id} :`, error);
       // On n'arrête pas l'exécution pour une simple vue non enregistrée

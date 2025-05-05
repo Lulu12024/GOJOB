@@ -472,6 +472,7 @@ class JobViewSet(viewsets.ModelViewSet):
         similar_jobs = get_similar_jobs(pk)
         serializer = self.get_serializer(similar_jobs, many=True)
         return Response(serializer.data)
+    
     def get_queryset(self):
         queryset = Job.objects.filter(status='active')
         
@@ -579,6 +580,33 @@ class JobViewSet(viewsets.ModelViewSet):
             )
         
         return queryset
+    
+    @action(detail=True, methods=['post'], url_path='view')
+    def record_view(self, request, pk=None):
+        """
+        Enregistre une vue pour une offre d'emploi spécifique.
+        """
+        job = self.get_object()
+        
+        # Incrémenter le compteur de vues
+        job.views_count += 1
+        job.save(update_fields=['views_count'])
+        
+        # Créer ou mettre à jour les statistiques journalières
+        today = timezone.now().date()
+        stat, created = Statistic.objects.get_or_create(
+            job=job,
+            date=today,
+            defaults={'views': 1}
+        )
+        
+        # Si les statistiques existaient déjà, incrémenter les vues
+        if not created:
+            stat.views += 1
+            stat.save(update_fields=['views'])
+        
+        return Response({"status": "success", "message": "Vue enregistrée avec succès"})
+    
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
