@@ -10421,3 +10421,132 @@ INFO 2025-05-06 10:50:23,624 basehttp "POST /api/jobs/2/view/ HTTP/1.1" 200 62
 INFO 2025-05-06 10:50:28,004 basehttp "GET /api/messages/conversation/10/9/ HTTP/1.1" 200 4861
 INFO 2025-05-06 10:50:39,399 basehttp "GET /api/jobs/2/ HTTP/1.1" 200 1838
 INFO 2025-05-06 10:50:39,498 basehttp "POST /api/jobs/2/view/ HTTP/1.1" 200 62
+INFO 2025-05-06 10:52:04,845 autoreload Watching for file changes with StatReloader
+INFO 2025-05-06 11:35:30,624 autoreload Watching for file changes with StatReloader
+ERROR 2025-05-06 11:36:38,745 log Internal Server Error: /api/messages/user/10/conversations/
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\fields\__init__.py", line 2128, in get_prep_value
+    return int(value)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\contrib\auth\models.py", line 549, in __int__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Cannot cast AnonymousUser to int. Are you trying to use it in place of User?
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\response.py", line 74, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\renderers.py", line 731, in render
+    context = self.get_context(data, accepted_media_type, renderer_context)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\renderers.py", line 709, in get_context
+    'filter_form': self.get_filter_form(data, view, request),
+                   ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\rest_framework\renderers.py", line 637, in get_filter_form
+    queryset = view.get_queryset()
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\api\views.py", line 790, in get_queryset
+    return Message.objects.filter(sender=user) | Message.objects.filter(receiver=user)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 1481, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 1499, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\query.py", line 1506, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\sql\query.py", line 1643, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\sql\query.py", line 1675, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ~~~~~~~~~~~~~~~~~^
+        child,
+        ^^^^^^
+    ...<7 lines>...
+        update_join_types=update_join_types,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\sql\query.py", line 1585, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\sql\query.py", line 1412, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\lookups.py", line 38, in __init__
+    self.rhs = self.get_prep_lookup()
+               ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\fields\related_lookups.py", line 112, in get_prep_lookup
+    self.rhs = target_field.get_prep_value(self.rhs)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\env\Lib\site-packages\django\db\models\fields\__init__.py", line 2130, in get_prep_value
+    raise e.__class__(
+        "Field '%s' expected a number but got %r." % (self.name, value),
+    ) from e
+TypeError: Field 'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0x00000260715F8F50>.
+ERROR 2025-05-06 11:36:38,778 basehttp "GET /api/messages/user/10/conversations/ HTTP/1.1" 500 173488
+WARNING 2025-05-06 11:36:44,506 log Not Found: /favicon.ico
+WARNING 2025-05-06 11:36:44,508 basehttp "GET /favicon.ico HTTP/1.1" 404 3042
+WARNING 2025-05-06 17:55:19,497 log Not Found: /
+WARNING 2025-05-06 17:55:19,504 log Not Found: /
+WARNING 2025-05-06 17:55:19,516 basehttp "GET / HTTP/1.1" 404 2991
+WARNING 2025-05-06 17:55:19,517 basehttp "GET / HTTP/1.1" 404 2991
+WARNING 2025-05-06 17:55:19,594 log Not Found: /
+WARNING 2025-05-06 17:55:19,603 log Not Found: /
+WARNING 2025-05-06 17:55:19,603 basehttp "GET / HTTP/1.1" 404 2991
+WARNING 2025-05-06 17:55:19,604 basehttp "GET / HTTP/1.1" 404 2991
+WARNING 2025-05-06 17:55:19,762 log Not Found: /struts2-showcase/struts/utils.js
+WARNING 2025-05-06 17:55:19,763 basehttp "GET /struts2-showcase/struts/utils.js HTTP/1.1" 404 3105
+INFO 2025-05-06 17:55:19,881 basehttp - Broken pipe from ('127.0.0.1', 57682)
+INFO 2025-05-06 17:55:19,888 basehttp - Broken pipe from ('127.0.0.1', 57683)
+INFO 2025-05-06 17:55:19,920 basehttp - Broken pipe from ('127.0.0.1', 57686)
+INFO 2025-05-06 17:55:19,922 basehttp - Broken pipe from ('127.0.0.1', 57685)
+INFO 2025-05-06 17:55:19,922 basehttp - Broken pipe from ('127.0.0.1', 57687)
+WARNING 2025-05-06 17:55:20,482 log Not Found: /js/
+INFO 2025-05-06 17:55:20,501 basehttp - Broken pipe from ('127.0.0.1', 57699)
+WARNING 2025-05-06 17:55:22,064 log Not Found: /:undefined
+INFO 2025-05-06 17:55:22,075 basehttp - Broken pipe from ('127.0.0.1', 57726)
+WARNING 2025-05-06 17:55:22,343 log Not Found: /:undefined
+WARNING 2025-05-06 17:55:22,465 log Not Found: /
+WARNING 2025-05-06 17:55:22,467 log Not Found: /api/v2/${jndi:dns://MDEDiscoverye37a1cd565SeenInTheWildGet-8000}
+INFO 2025-05-06 17:55:22,484 basehttp - Broken pipe from ('127.0.0.1', 57731)
+INFO 2025-05-06 17:55:22,513 basehttp - Broken pipe from ('127.0.0.1', 57737)
+INFO 2025-05-06 17:55:22,513 basehttp - Broken pipe from ('127.0.0.1', 57738)
+WARNING 2025-05-06 17:55:22,523 log Not Found: /
+INFO 2025-05-06 17:55:22,563 basehttp - Broken pipe from ('127.0.0.1', 57732)
+WARNING 2025-05-06 17:55:22,649 log Not Found: /:undefined
+WARNING 2025-05-06 17:55:22,661 log Not Found: /:undefined
+INFO 2025-05-06 17:55:22,661 basehttp - Broken pipe from ('127.0.0.1', 57741)
+INFO 2025-05-06 17:55:22,664 basehttp - Broken pipe from ('127.0.0.1', 57744)
+WARNING 2025-05-06 17:55:22,676 log Not Found: /
+INFO 2025-05-06 17:55:22,678 basehttp - Broken pipe from ('127.0.0.1', 57749)
+WARNING 2025-05-06 17:55:22,722 log Not Found: /struts2-showcase/struts/tooltip.gif
+INFO 2025-05-06 17:55:22,725 basehttp - Broken pipe from ('127.0.0.1', 57742)
+WARNING 2025-05-06 17:55:22,787 log Not Found: /:undefined
+INFO 2025-05-06 17:55:22,907 basehttp - Broken pipe from ('127.0.0.1', 57753)
+WARNING 2025-05-06 17:55:22,914 log Not Found: /:undefined
+INFO 2025-05-06 17:55:22,915 basehttp - Broken pipe from ('127.0.0.1', 57751)
+INFO 2025-05-06 17:55:22,926 basehttp - Broken pipe from ('127.0.0.1', 57752)
+WARNING 2025-05-06 17:55:23,034 log Not Found: /
+INFO 2025-05-06 17:55:23,038 basehttp - Broken pipe from ('127.0.0.1', 57755)
+WARNING 2025-05-06 17:55:23,208 log Not Found: /:undefined
+INFO 2025-05-06 17:55:23,211 basehttp - Broken pipe from ('127.0.0.1', 57757)
+WARNING 2025-05-06 17:55:23,218 log Not Found: /
+INFO 2025-05-06 17:55:23,227 basehttp - Broken pipe from ('127.0.0.1', 57761)
+WARNING 2025-05-06 17:55:23,292 log Not Found: /:undefined
+INFO 2025-05-06 17:55:23,304 basehttp - Broken pipe from ('127.0.0.1', 57759)
+INFO 2025-05-06 18:22:09,907 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-05-06 18:22:13,322 autoreload Watching for file changes with StatReloader
+INFO 2025-05-06 18:22:14,943 autoreload C:\Users\AGL\Documents\SOURCE\GOJOB\gojobs_api\gojobs_api\settings.py changed, reloading.
+INFO 2025-05-06 18:22:15,949 autoreload Watching for file changes with StatReloader
