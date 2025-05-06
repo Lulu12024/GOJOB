@@ -223,9 +223,27 @@ class ApplicationSerializer(serializers.ModelSerializer):
         }
     
     def get_cv(self, obj):
+        request = self.context.get('request')
+        if request is not None and isinstance(request, Request) and obj.cv_url:
+            base_url = request.build_absolute_uri('/').rstrip('/')
+            # Construire l'URL absolue
+            if obj.cv_url.url.startswith('/'):
+                print()
+                return f"{base_url}{obj.cv_url.url}"
+            else:
+                return f"{base_url}/{obj.cv_url.url}"
         return obj.cv_url.url if obj.cv_url else None
     
     def get_resume(self, obj):
+        request = self.context.get('request')
+        if request is not None and isinstance(request, Request) and obj.motivation_letter_url:
+            base_url = request.build_absolute_uri('/').rstrip('/')
+            # Construire l'URL absolue
+            if obj.motivation_letter_url.url.startswith('/'):
+                print()
+                return f"{base_url}{obj.motivation_letter_url.url}"
+            else:
+                return f"{base_url}/{obj.motivation_letter_url.url}"
         return obj.motivation_letter_url.url if obj.motivation_letter_url else None
     
     def validate(self, data):

@@ -36,6 +36,7 @@ urlpatterns = [
     path('users/profile/details', views.UserViewSet.as_view({'put': 'update_profile'}), name='user-profile-details'),
 
     path('messages/user/<int:user_id>/conversations/', views.MessageViewSet.as_view({'get': 'user_conversations'})),
-    path('messages/conversation/<int:conversation_id>/', views.MessageViewSet.as_view({'get': 'conversation_messages'})),
-    path('messages/send/', views.MessageViewSet.as_view({'post': 'send_message'})),
+    path('messages/conversation/<int:conversation_id>/<int:user_id>/', views.MessageViewSet.as_view({'get': 'conversation_messages'})),
+    # path('messages/send/', views.MessageViewSet.as_view({'post': 'send_message'})),
+    path('send-message/', views.MessageViewSet.as_view({'post': 'send_message'}))
 ]

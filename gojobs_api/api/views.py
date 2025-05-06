@@ -620,7 +620,10 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     #     return super().get_permissions()
     
     def get_queryset(self):
-        user = self.request.user
+        user_id = self.request.query_params.get('user_id')
+
+        # user = self.request.user
+        user= User.objects.get(id=user_id)
         if user.is_employer:
             # Les employeurs voient les candidatures pour leurs offres
             return Application.objects.filter(job__employer=user)
@@ -776,6 +779,7 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         applications = Application.objects.filter(job=job)
         serializer = ApplicationSerializer(applications, many=True, context={'request': request})
         return api_response(serializer.data)
+    
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
@@ -817,17 +821,17 @@ class MessageViewSet(viewsets.ModelViewSet):
             
             # Trier les conversations par date du dernier message
             conversations.sort(key=lambda x: x['last_message']['created_at'], reverse=True)
-            
+            print(conversations)
             return Response(conversations)
         except User.DoesNotExist:
             return Response({"error": "Utilisateur non trouvé"}, status=status.HTTP_404_NOT_FOUND)
     
     # Méthode pour obtenir les messages d'une conversation spécifique
-    @action(detail=False, methods=['get'], url_path='conversation/(?P<conversation_id>[^/.]+)')
-    def conversation_messages(self, request, conversation_id=None):
+    @action(detail=False, methods=['get'], url_path='conversation/(?P<conversation_id>[^/.]+)/(?P<user_id>[^/.]+)')
+    def conversation_messages(self, request, conversation_id=None , user_id= None):
         try:
             # Ici, conversation_id est en fait l'ID de l'autre utilisateur
-            user = request.user
+            user = User.objects.get(id=user_id)
             other_user = User.objects.get(id=conversation_id)
             
             # Obtenir tous les messages entre ces deux utilisateurs
@@ -858,7 +862,8 @@ class MessageViewSet(viewsets.ModelViewSet):
     # Méthode pour envoyer un message
     @action(detail=False, methods=['post'])
     def send_message(self, request):
-        sender = request.user
+        sender_id = request.data.get('sender_id')
+        sender = User.objects.get(id=sender_id)
         receiver_id = request.data.get('receiver_id')
         text = request.data.get('text')
         job_id = request.data.get('job_id', None)
